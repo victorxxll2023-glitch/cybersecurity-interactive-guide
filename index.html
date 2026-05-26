@@ -394,6 +394,31 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Hacker ético que invade com autorização para encontrar e corrigir falhas.</div>
       <div class="line"><b>Por que aprender:</b> É o caminho legal e bem pago da carreira.</div>
       <a href="https://tryhackme.com/r/path/outline/introtocyber" target="_blank">TryHackMe — Intro to Cyber Security ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>White Hat</b> ("chapéu branco") é o <b>hacker ético</b>: usa exatamente as mesmas técnicas de um criminoso, mas <b>com autorização por escrito</b> e o objetivo de <em>encontrar e corrigir</em> falhas antes que os bandidos as explorem. A metáfora dos "chapéus" vem dos faroestes antigos, onde o mocinho usava chapéu branco e o bandido, preto.</p>
+
+          <h4>Os três chapéus — a diferença é a AUTORIZAÇÃO</h4>
+          <table class="cmp">
+            <tr><th>Tipo</th><th>Tem permissão?</th><th>Intenção</th><th>É crime?</th></tr>
+            <tr><td>⚪ <b>White Hat</b></td><td>Sim, contratado</td><td>Proteger / corrigir</td><td>Não</td></tr>
+            <tr><td>🟡 <b>Gray Hat</b></td><td>Não, mas avisa depois</td><td>Geralmente boa</td><td>Sim (mesmo "ajudando")</td></tr>
+            <tr><td>🔴 <b>Black Hat</b></td><td>Não</td><td>Roubar / destruir / lucrar</td><td>Sim</td></tr>
+          </table>
+          <div class="callout danger"><b>O detalhe que define tudo:</b> a técnica é idêntica. O que separa um profissional valorizado de um criminoso é <b>uma autorização assinada</b> (escopo do pentest). Sem ela, "foi só um teste" não te salva da lei.</div>
+
+          <h4>Como começar nessa carreira</h4>
+          <ul class="bullets">
+            <li>Fundamentos de <b>redes</b> (TCP/IP, HTTP, DNS) e <b>Linux</b>.</li>
+            <li>Plataformas práticas: <b>TryHackMe</b> e <b>Hack The Box</b> (laboratórios legais e autorizados).</li>
+            <li>Certificações que abrem portas: CompTIA Security+, depois eJPT/OSCP.</li>
+            <li>Programas de <b>Bug Bounty</b> para ganhar (legalmente) achando falhas reais.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -436,6 +461,33 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Conjunto de práticas para proteger redes, dispositivos e dados.</div>
       <div class="line"><b>Por que aprender:</b> É a área que mais cresce em TI. Mercado aquecido em 2026.</div>
       <a href="https://www.cisa.gov/topics/cybersecurity-best-practices" target="_blank">CISA — Cybersecurity Best Practices ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Cibersegurança</b> é o conjunto de práticas, tecnologias e processos para proteger sistemas, redes, dispositivos e <b>dados</b> contra acesso, uso ou dano não autorizado. Toda a área gira em torno de proteger três pilares — a famosa <b>tríade CIA</b>:</p>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 420 200" role="img" aria-label="Tríade CIA da segurança da informação">
+              <g font-family="Inter, sans-serif" text-anchor="middle">
+                <polygon points="210,20 380,170 40,170" fill="none" stroke="#00d9ff" stroke-width="2"/>
+                <circle cx="210" cy="20" r="6" fill="#00d9ff"/><circle cx="40" cy="170" r="6" fill="#74ff00"/><circle cx="380" cy="170" r="6" fill="#ffd60a"/>
+                <text x="210" y="100" font-size="13" fill="#a259ff" font-weight="bold">SEGURANÇA</text>
+                <text x="210" y="14" font-size="13" fill="#00d9ff" font-weight="bold">🔒 Confidencialidade</text>
+                <text x="40" y="190" font-size="13" fill="#74ff00" font-weight="bold">✔️ Integridade</text>
+                <text x="380" y="190" font-size="13" fill="#ffd60a" font-weight="bold">⏱️ Disponibilidade</text>
+              </g>
+            </svg>
+            <figcaption>Todo ataque viola pelo menos um destes pilares. Toda defesa protege pelo menos um.</figcaption>
+          </figure>
+          <ul class="bullets">
+            <li><b>Confidencialidade:</b> só quem tem permissão vê o dado (criptografia, controle de acesso). Um vazamento quebra isso.</li>
+            <li><b>Integridade:</b> o dado não foi alterado indevidamente (hash, assinaturas). Um ataque que adultera dados quebra isso.</li>
+            <li><b>Disponibilidade:</b> o sistema está acessível quando precisamos. Um DDoS quebra isso.</li>
+          </ul>
+          <p>A cibersegurança se divide em times: <b>Blue Team</b> (defesa), <b>Red Team</b> (ataque simulado) e <b>Purple Team</b> (os dois colaborando).</p>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -457,6 +509,23 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Fraqueza em sistema, software ou processo que pode ser explorada.</div>
       <div class="line"><b>Por que aprender:</b> Tudo em pentest gira em torno de achar e corrigir vulns.</div>
       <a href="https://owasp.org/Top10/" target="_blank">OWASP Top 10 ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Vulnerabilidade</b> é uma <b>fraqueza</b> em um sistema, software, configuração ou processo que pode ser explorada para causar dano. É importante não confundir três termos que andam juntos:</p>
+          <table class="cmp">
+            <tr><th>Termo</th><th>O que é</th><th>Analogia</th></tr>
+            <tr><td><b>Vulnerabilidade</b></td><td>A fraqueza em si</td><td>Uma janela sem tranca</td></tr>
+            <tr><td><b>Ameaça</b></td><td>Quem/o que pode explorar</td><td>O ladrão do bairro</td></tr>
+            <tr><td><b>Exploit</b></td><td>A técnica/código que explora</td><td>O ato de entrar pela janela</td></tr>
+            <tr><td><b>Risco</b></td><td>Chance × impacto</td><td>"Quão provável e quão grave?"</td></tr>
+          </table>
+          <p>Exemplos comuns: software desatualizado, senha padrão (<code>admin/admin</code>), configuração errada de servidor, ou um campo de formulário que aceita SQL. Toda vuln conhecida ganha um identificador <b>CVE</b> e uma nota de gravidade <b>CVSS</b> (veja no Nível 6).</p>
+          <div class="callout tip"><b>Mentalidade do pentester:</b> achar a vulnerabilidade é metade; a outra metade — a que paga melhor — é <em>documentar e ensinar a corrigir</em>.</div>
+        </div>
+      </details>
     </div>
 
   </div>
@@ -478,6 +547,22 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Open Source Intelligence — coleta de dados públicos para gerar inteligência.</div>
       <div class="line"><b>Por que aprender:</b> 80% de qualquer ataque começa aqui. Sem invadir nada.</div>
       <a href="https://osintframework.com/" target="_blank">OSINT Framework ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>OSINT</b> = <em>Open Source Intelligence</em> (Inteligência de Fontes Abertas). É a arte de coletar e cruzar <b>informações públicas</b> — redes sociais, sites, registros de domínio, vazamentos, fotos com metadados, Google — para montar um perfil do alvo. Tudo é <b>legal e sem invadir nada</b>; o "ataque" está em <em>juntar</em> peças que, isoladas, parecem inofensivas.</p>
+          <h4>Passivo × Ativo</h4>
+          <table class="cmp">
+            <tr><th>Reconhecimento passivo</th><th>Reconhecimento ativo</th></tr>
+            <tr><td>Não toca no alvo (Google, redes sociais, WHOIS)</td><td>Interage com o alvo (escanear portas, acessar o site)</td></tr>
+            <tr><td>Indetectável</td><td>Pode deixar rastros/logs</td></tr>
+          </table>
+          <div class="callout tip"><b>Use a seu favor:</b> faça OSINT de <em>você mesmo</em>. Pesquise seu nome, e-mail e fotos. O que um estranho consegue descobrir? Isso é a sua <b>superfície de exposição</b> — e o primeiro passo para reduzi-la.</div>
+          <p>Ferramentas clássicas: <b>Google Dorks</b>, <b>Shodan</b>, <b>WHOIS</b>, <b>haveibeenpwned</b>, <b>theHarvester</b> e <b>Maltego</b>.</p>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -499,6 +584,28 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Operadores avançados do Google (site:, inurl:, filetype:) que expõem dados.</div>
       <div class="line"><b>Por que aprender:</b> Hackear com Google é real e gratuito.</div>
       <a href="https://www.exploit-db.com/google-hacking-database" target="_blank">Exploit-DB — GHDB ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Google Dorks</b> (ou Google Hacking) é o uso de <b>operadores de busca avançados</b> para encontrar exatamente o que está exposto na internet — inclusive coisas que <em>não deviam</em> estar públicas: painéis de login, arquivos de senha, câmeras, documentos internos. Não é invasão: o Google já indexou; você só sabe perguntar direito.</p>
+          <h4>Operadores essenciais (teste agora, sem medo)</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">barra de busca do Google</span></div>
+              <pre><span class="c">site:</span>gov.br          <span class="m"># só resultados desse domínio</span>
+<span class="c">filetype:</span>pdf relatório <span class="m"># só arquivos de um tipo</span>
+<span class="c">inurl:</span>admin          <span class="m"># "admin" na URL (painéis)</span>
+<span class="c">intitle:</span>"index of"   <span class="m"># pastas de arquivos abertas</span>
+<span class="c">cache:</span>site.com       <span class="m"># versão em cache do Google</span>
+<span class="w">"senha" </span><span class="c">filetype:</span><span class="w">xls </span><span class="c">site:</span><span class="w">empresa.com</span></pre>
+            </div>
+            <figcaption>Combinando operadores você filtra a web inteira. A última linha procura planilhas com "senha" num domínio — daí o perigo.</figcaption>
+          </figure>
+          <div class="callout tip"><b>Uso defensivo:</b> rode dorks contra o <em>seu próprio</em> site/empresa para descobrir o que vazou antes que um atacante descubra. A base <b>GHDB</b> (Exploit-DB) lista milhares de dorks prontos.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -506,6 +613,25 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> "Google dos hackers" — busca dispositivos expostos na internet.</div>
       <div class="line"><b>Por que aprender:</b> Encontra câmeras, servidores e IoT vulneráveis em segundos.</div>
       <a href="https://www.shodan.io/" target="_blank">shodan.io ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Se o Google indexa <em>páginas</em>, o <b>Shodan</b> indexa <b>dispositivos conectados</b>: servidores, roteadores, câmeras de segurança, semáforos, sistemas industriais (SCADA), geladeiras smart. Ele varre a internet inteira registrando portas abertas e "banners" de serviços. É chamado de "o Google dos hackers" porque revela o que está <b>exposto</b> — muitas vezes com senha padrão ou sem senha alguma.</p>
+          <h4>Buscas típicas</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">busca no shodan.io</span></div>
+              <pre><span class="c">webcam</span>                       <span class="m"># câmeras expostas</span>
+<span class="c">port:</span>3389 <span class="c">country:</span>BR        <span class="m"># RDP aberto no Brasil</span>
+<span class="c">product:</span>"Apache" <span class="c">version:</span>2.4  <span class="m"># versão específica</span>
+<span class="c">"default password"</span>            <span class="m"># banners com senha padrão</span></pre>
+            </div>
+          </figure>
+          <div class="callout danger"><b>Por que importa:</b> milhões de dispositivos estão na internet com senha de fábrica. Foi assim que a botnet Mirai recrutou câmeras para o maior DDoS da história. <b>Lição:</b> troque a senha padrão de TODO equipamento (roteador, câmera, DVR).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -527,6 +653,29 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Manipulação psicológica para extrair informação ou acesso.</div>
       <div class="line"><b>Por que aprender:</b> A maioria dos golpes no Brasil é isso, não "hack" técnico.</div>
       <a href="https://www.social-engineer.org/framework/general-discussion/" target="_blank">Social-Engineer Framework ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Engenharia social</b> é "hackear pessoas" em vez de máquinas: manipular alguém psicologicamente para que <b>entregue informação ou faça uma ação</b> que não deveria. É o vetor mais usado no Brasil — golpe do falso funcionário do banco, do falso parente no WhatsApp, do falso suporte técnico. Por que investir em quebrar um firewall se você pode simplesmente <em>pedir a senha</em> de um jeito convincente?</p>
+          <h4>Os gatilhos psicológicos explorados</h4>
+          <ul class="bullets">
+            <li><b>Autoridade:</b> "Aqui é o gerente do TI, preciso da sua senha."</li>
+            <li><b>Urgência/medo:</b> "Sua conta será bloqueada agora!"</li>
+            <li><b>Prova social:</b> "Todo mundo do setor já fez isso."</li>
+            <li><b>Reciprocidade:</b> dar um "favor" para criar dívida.</li>
+            <li><b>Curiosidade/ganância:</b> "Você ganhou um prêmio", pendrive "perdido" no estacionamento.</li>
+          </ul>
+          <div class="callout danger"><b>Exemplo brasileiro clássico:</b> o golpe do WhatsApp em que o criminoso clona a foto de perfil e finge ser um parente pedindo dinheiro "porque mudei de número". Pura engenharia social — nenhum código envolvido.</div>
+          <h4>Como se defender</h4>
+          <ul class="bullets">
+            <li><b>Desconfie e verifique</b> por outro canal (ligue para o número conhecido).</li>
+            <li>Empresa nenhuma pede senha/código por telefone ou mensagem.</li>
+            <li>Quanto mais pressa o golpista impõe, mais você deve <b>desacelerar</b>.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -576,6 +725,41 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Scanner de rede que descobre hosts, portas e serviços abertos.</div>
       <div class="line"><b>Por que aprender:</b> É O primeiro comando de qualquer pentest.</div>
       <a href="https://nmap.org/book/man.html" target="_blank">Nmap — Reference Guide ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Nmap</b> (Network Mapper) é o scanner de rede mais usado do mundo. Ele responde às perguntas iniciais de qualquer ataque ou auditoria: <b>quais máquinas estão vivas, quais portas estão abertas, quais serviços e versões rodam nelas?</b> Saber isso é descobrir a "superfície de ataque" — as portas de entrada possíveis.</p>
+          <h4>Como é na vida real (saída de um scan)</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">kali@kali: ~</span></div>
+              <pre><span class="g">$</span> nmap -sV scanme.nmap.org
+
+Starting Nmap ( https://nmap.org )
+Nmap scan report for scanme.nmap.org
+Host is up (0.045s latency).
+
+<span class="c">PORT     STATE  SERVICE   VERSION</span>
+<span class="g">22/tcp   open   ssh</span>       OpenSSH 6.6.1
+<span class="g">80/tcp   open   http</span>      Apache httpd 2.4.7
+<span class="y">443/tcp  open   https</span>     Apache httpd 2.4.7
+<span class="m">9929/tcp closed nping-echo</span>
+
+Service detection performed. Nmap done.</pre>
+            </div>
+            <figcaption>Cada porta <b>open</b> é uma possível porta de entrada. A coluna VERSION revela software desatualizado (alvo de exploits).</figcaption>
+          </figure>
+          <h4>Flags que você vai usar sempre</h4>
+          <ul class="bullets">
+            <li><code>-sV</code> detecta a versão dos serviços. <code>-O</code> tenta adivinhar o sistema operacional.</li>
+            <li><code>-p-</code> escaneia todas as 65535 portas. <code>-sC</code> roda scripts padrão.</li>
+            <li><code>-T4</code> acelera o scan. <code>-sS</code> faz um scan "stealth" (SYN).</li>
+          </ul>
+          <div class="callout danger"><b>Importante:</b> escanear redes/sistemas <b>sem autorização</b> pode ser crime. Treine no próprio <code>scanme.nmap.org</code> (liberado pelos autores) ou em laboratórios como TryHackMe/HTB.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -583,6 +767,23 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Framework open-source para desenvolver e executar exploits.</div>
       <div class="line"><b>Por que aprender:</b> Padrão da indústria em pentest ofensivo.</div>
       <a href="https://docs.metasploit.com/" target="_blank">Docs Metasploit ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Metasploit</b> é um <b>framework</b> que organiza milhares de exploits, payloads e ferramentas auxiliares num só lugar, com um fluxo padronizado. Em vez de escrever um exploit do zero, você seleciona um módulo pronto, configura o alvo e dispara. É a "caixa de ferramentas" oficial do pentest ofensivo.</p>
+          <h4>O fluxo básico (msfconsole)</h4>
+          <ol class="steps">
+            <li><b>search</b> — procura um módulo para a vulnerabilidade encontrada.</li>
+            <li><b>use</b> — seleciona o exploit.</li>
+            <li><b>set RHOSTS / set PAYLOAD</b> — define alvo e o que executar (ex: <code>meterpreter</code>).</li>
+            <li><b>exploit</b> — dispara. Se der certo, você ganha uma sessão de controle.</li>
+          </ol>
+          <p>O payload mais famoso é o <b>Meterpreter</b>: um shell avançado que vive na memória e permite navegar arquivos, capturar tela, escalar privilégios e mais.</p>
+          <div class="callout tip"><b>Para treinar:</b> a máquina virtual <b>Metasploitable</b> é propositalmente vulnerável e feita para você praticar de forma legal e segura no seu próprio laboratório.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -597,6 +798,21 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Analisador de pacotes — vê tudo que passa na rede.</div>
       <div class="line"><b>Por que aprender:</b> Base para sniffing, forense e troubleshooting.</div>
       <a href="https://www.wireshark.org/docs/" target="_blank">Wireshark — Docs ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Wireshark</b> é um <b>analisador de pacotes</b>: ele captura e mostra, em detalhe, <em>tudo</em> que trafega pela rede — cada pacote, seus cabeçalhos e seu conteúdo. É como um raio-X da comunicação. Serve tanto para o atacante (capturar dados sensíveis em rede aberta — <b>sniffing</b>) quanto para o defensor (investigar incidentes, achar tráfego malicioso, fazer perícia).</p>
+          <h4>O que você consegue ver</h4>
+          <ul class="bullets">
+            <li>Conversas completas (com <b>"Follow TCP Stream"</b> você remonta a sessão inteira).</li>
+            <li>Em <b>HTTP</b> (sem TLS): senhas e dados em <b>texto claro</b> — o motivo de o HTTPS existir.</li>
+            <li><b>Filtros</b> poderosos: <code>http</code>, <code>ip.addr == 10.0.0.5</code>, <code>tcp.port == 443</code>.</li>
+          </ul>
+          <div class="callout danger"><b>A grande lição:</b> ao abrir o Wireshark numa rede e ver senhas de sites HTTP voando em texto puro, você entende <em>visceralmente</em> por que nunca se deve logar em sites sem cadeado, ainda mais em Wi-Fi público.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -604,6 +820,21 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Distro Linux com 600+ ferramentas de pentest pré-instaladas.</div>
       <div class="line"><b>Por que aprender:</b> Ambiente padrão de quem trabalha com ofensiva.</div>
       <a href="https://www.kali.org/docs/" target="_blank">Kali — Docs Oficial ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Kali Linux</b> é uma distribuição Linux (baseada em Debian) mantida pela <b>Offensive Security</b>, já vinda com <b>600+ ferramentas</b> de pentest pré-instaladas e configuradas: Nmap, Metasploit, Burp, Wireshark, Hydra, John, aircrack-ng e muito mais. Em vez de instalar tudo manualmente, você liga o Kali e já tem o arsenal pronto.</p>
+          <h4>Como usar com segurança</h4>
+          <ul class="bullets">
+            <li>Rode em <b>máquina virtual</b> (VirtualBox/VMware) — isola do seu sistema principal.</li>
+            <li>Pratique <b>só</b> contra alvos seus ou laboratórios autorizados (TryHackMe, HTB, máquinas vulneráveis locais).</li>
+            <li>Alternativa para Blue Team: <b>Parrot OS</b> e, para forense, distribuições específicas.</li>
+          </ul>
+          <div class="callout tip"><b>Mito comum:</b> "instalei Kali, agora sou hacker". Não. Kali é só a caixa de ferramentas — o valor está em <em>entender</em> redes, sistemas e o que cada ferramenta faz. Ferramenta na mão de quem não estuda é script kiddie.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -611,6 +842,22 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Proxy de interceptação para testes em aplicações web.</div>
       <div class="line"><b>Por que aprender:</b> Indispensável para achar XSS, SQLi, IDOR.</div>
       <a href="https://portswigger.net/burp/documentation" target="_blank">PortSwigger — Burp Docs ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Burp Suite</b> é um <b>proxy de interceptação</b>: ele se coloca entre o seu navegador e o site, deixando você <b>ver, pausar e modificar</b> cada requisição HTTP antes de ela chegar ao servidor. É a ferramenta nº 1 para testar segurança de aplicações web, porque expõe e permite manipular tudo que o site envia/recebe "por baixo dos panos".</p>
+          <h4>Os módulos que importam</h4>
+          <ul class="bullets">
+            <li><b>Proxy:</b> intercepta o tráfego. O coração da ferramenta.</li>
+            <li><b>Repeater:</b> reenvia uma requisição modificada quantas vezes quiser (testar SQLi, IDOR manualmente).</li>
+            <li><b>Intruder:</b> automatiza ataques (fuzzing, brute force em parâmetros).</li>
+            <li><b>Scanner</b> (versão Pro): procura vulnerabilidades automaticamente.</li>
+          </ul>
+          <div class="callout tip"><b>Por que é tão poderoso:</b> o site confia que você só usa os botões dele. Com o Burp, você troca <code>preco=100</code> por <code>preco=1</code>, ou <code>id=123</code> por <code>id=124</code> (IDOR), e descobre se o servidor valida de verdade. A <b>PortSwigger Web Security Academy</b> é grátis e excelente para treinar.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
