@@ -568,9 +568,9 @@ code.cmd.copied::after { content:'✅'; }
     </div>
   </div>
   <div style="margin-top:22px; background:rgba(162,89,255,.10); border:1px solid rgba(162,89,255,.4); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:#e9deff;">
-    <b style="color:var(--purple)">✨ Novidade:</b> os conceitos mais importantes agora têm o botão
+    <b style="color:var(--purple)">✨ Novidade:</b> <b>todos</b> os conceitos agora têm o botão
     <b style="color:var(--purple)">📖 Aprender a fundo</b> — clique para abrir a explicação completa,
-    com diagramas, mockups (e-mail de phishing, tela de ransomware, terminal), casos reais e como se defender.
+    com diagramas, mockups, comandos clicáveis, casos reais e como se defender.
   </div>
   <div style="margin-top:24px;">
     <b style="color:var(--green); letter-spacing:1px; font-size:13px;">📖 FONTES ESTUDADAS</b>
@@ -3075,6 +3075,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Relatório técnico e executivo entregue ao cliente.</div>
       <div class="line"><b>Por que aprender:</b> Saber escrever vale mais que saber atacar.</div>
       <a href="https://github.com/juliocesarfort/public-pentesting-reports" target="_blank">GitHub — Sample Pentest Reports ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>relatório de pentest</b> é a entrega final — e o que o cliente realmente paga. Documenta as falhas, o risco de cada uma, como foram exploradas (com evidências) e, principalmente, <b>como corrigir</b>.</p>
+          <h4>Estrutura típica</h4>
+          <ul class="bullets">
+            <li><b>Sumário executivo:</b> para a gestão, em linguagem de negócio/risco.</li>
+            <li><b>Parte técnica:</b> cada achado com descrição, impacto, prova (PoC), severidade (CVSS) e recomendação.</li>
+          </ul>
+          <div class="callout tip">Saber escrever vale mais que saber atacar: um pentest sem relatório claro é inútil para o cliente.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3082,6 +3096,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Equipe ofensiva que simula ataques reais contra uma empresa.</div>
       <div class="line"><b>Por que aprender:</b> Próximo nível depois de pentester.</div>
       <a href="https://tryhackme.com/r/path/outline/redteaming" target="_blank">TryHackMe — Red Team Path ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>Red Team</b> simula um <b>ataque real e completo</b> contra a empresa, geralmente <b>sem avisar</b> o time de defesa (Blue Team), para testar não só a tecnologia, mas a <b>capacidade de detectar e responder</b>. Tem um objetivo (ex.: "chegar ao servidor X") e usa qualquer vetor: técnico, físico ou social.</p>
+          <h4>Os times</h4>
+          <ul class="bullets">
+            <li>🔴 <b>Red:</b> ataca (furtivo, com evasão).</li>
+            <li>🔵 <b>Blue:</b> defende, detecta e responde.</li>
+            <li>🟣 <b>Purple:</b> os dois colaborando para melhorar a defesa.</li>
+          </ul>
+          <div class="callout tip">É o "próximo nível" depois de pentester — exige furtividade, persistência e simular adversários reais (TTPs do MITRE ATT&amp;CK).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3089,6 +3118,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Mover-se entre máquinas após o acesso inicial.</div>
       <div class="line"><b>Por que aprender:</b> Maior parte do dano acontece DEPOIS da invasão.</div>
       <a href="https://attack.mitre.org/tactics/TA0008/" target="_blank">MITRE — Lateral Movement ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Movimento lateral</b> é como o atacante se desloca <b>de uma máquina para outra</b> dentro da rede após o acesso inicial, caçando alvos mais valiosos (servidores, o controlador de domínio).</p>
+          <h4>Técnicas comuns</h4>
+          <ul class="bullets">
+            <li><b>Pass-the-hash</b> e reutilização de credenciais.</li>
+            <li>RDP, SSH e SMB internos.</li>
+            <li>Abuso de contas de serviço e do Active Directory.</li>
+          </ul>
+          <div class="callout danger">A maior parte do dano acontece <b>depois</b> da invasão inicial. Defesa: segmentação de rede, menor privilégio e monitorar autenticações internas anômalas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3131,6 +3175,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Analisar binário sem código-fonte para entender lógica.</div>
       <div class="line"><b>Por que aprender:</b> Análise de malware e descoberta de 0-days.</div>
       <a href="https://ghidra-sre.org/" target="_blank">Ghidra (NSA) ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Engenharia reversa</b> é analisar um programa <b>sem o código-fonte</b> (só o binário) para entender como ele funciona por dentro — desmontando-o em assembly e reconstruindo a lógica.</p>
+          <h4>Para que serve</h4>
+          <ul class="bullets">
+            <li><b>Análise de malware:</b> descobrir o que um vírus faz.</li>
+            <li>Achar <b>vulnerabilidades</b> (0-days) em software fechado.</li>
+            <li>Estudar protocolos e formatos proprietários.</li>
+          </ul>
+          <div class="callout tip">Ferramentas: <b>Ghidra</b> (grátis, da NSA), IDA, x64dbg, radare2. Exige base de assembly e de como o SO carrega programas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3201,6 +3260,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Máquina pertencente a uma botnet, sem o dono saber.</div>
       <div class="line"><b>Por que aprender:</b> Seu PC pode estar nessa hora mesmo.</div>
       <a href="https://www.kaspersky.com/resource-center/threats/botnet-attacks" target="_blank">Kaspersky — Botnet/Zombie ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Um <b>zumbi</b> (zombie) é uma máquina infectada que faz parte de uma <b>botnet</b> e obedece ao atacante <b>sem o dono saber</b>. Seu PC, celular ou até a câmera/roteador podem ser um zumbi agora mesmo.</p>
+          <h4>Para que são usados</h4>
+          <ul class="bullets">
+            <li><b>DDoS</b> em massa, envio de spam, mineração de cripto.</li>
+            <li>Servir de <b>proxy</b> para esconder a origem de crimes.</li>
+          </ul>
+          <div class="callout tip">Sinais: lentidão, aquecimento e tráfego de rede inexplicável. Defesa: antivírus, atualizações e trocar a senha padrão de todo IoT.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3208,6 +3281,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Envia dados aleatórios/inválidos para encontrar bugs.</div>
       <div class="line"><b>Por que aprender:</b> Como muitos 0-days nascem.</div>
       <a href="https://github.com/google/AFL" target="_blank">AFL — Fuzzer do Google ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Fuzzing</b> é bombardear um programa com <b>dados aleatórios, malformados ou inesperados</b> para ver se ele quebra. Cada crash é um bug em potencial — às vezes um 0-day explorável.</p>
+          <h4>Como funciona</h4>
+          <ul class="bullets">
+            <li>O <b>fuzzer</b> gera milhões de entradas automaticamente e monitora travamentos.</li>
+            <li>Ferramentas: <b>AFL</b>, libFuzzer, Boofuzz.</li>
+          </ul>
+          <div class="callout tip">É assim que muitos bugs críticos nascem — e como as empresas os encontram antes dos criminosos.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3215,6 +3302,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Mapeia portas abertas em um host.</div>
       <div class="line"><b>Por que aprender:</b> Primeiro passo prático em qualquer ataque.</div>
       <a href="https://nmap.org/book/man-port-scanning-techniques.html" target="_blank">Nmap — Port Scanning ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Port scanning</b> é descobrir quais <b>portas estão abertas</b> em um host e quais serviços rodam nelas — o primeiro passo prático de quase todo ataque ou auditoria.</p>
+          <h4>Técnicas</h4>
+          <ul class="bullets">
+            <li><b>TCP connect:</b> completa a conexão (mais "barulhento").</li>
+            <li><b>SYN scan (stealth):</b> não completa a conexão — mais discreto.</li>
+            <li><b>UDP scan:</b> para serviços que não usam TCP (DNS, SNMP).</li>
+          </ul>
+          <div class="callout tip">Cada porta aberta é uma possível entrada. Defesa: feche o que não usa e proteja com firewall. (Veja o card do <b>Nmap</b>, com comandos clicáveis.)</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3222,6 +3324,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Capturar pacotes trafegando na rede.</div>
       <div class="line"><b>Por que aprender:</b> Wireshark + rede aberta = senhas em texto claro.</div>
       <a href="https://www.wireshark.org/" target="_blank">Wireshark ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Sniffing</b> é <b>capturar os pacotes</b> que trafegam na rede. Em rede aberta e sem HTTPS, dá para ver senhas e dados em <b>texto claro</b>. A ferramenta clássica é o Wireshark.</p>
+          <h4>Passivo × Ativo</h4>
+          <ul class="bullets">
+            <li><b>Passivo:</b> só "escuta" o tráfego que passa.</li>
+            <li><b>Ativo:</b> usa truques (ex.: ARP spoofing) para <b>desviar</b> o tráfego dos outros até você.</li>
+          </ul>
+          <div class="callout danger">Por isso existem HTTPS e VPN. Em Wi-Fi público sem VPN, assuma que alguém pode estar ouvindo.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3229,6 +3345,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Esconder lógica de malware para escapar de antivírus.</div>
       <div class="line"><b>Por que aprender:</b> Análise reversa e evasão de defesa.</div>
       <a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE — Obfuscated Files ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Ofuscação</b> é <b>embaralhar/esconder</b> o código (de malware ou de software) para dificultar a análise e <b>escapar do antivírus</b>. O programa faz a mesma coisa, mas fica ilegível para quem analisa.</p>
+          <h4>Técnicas</h4>
+          <ul class="bullets">
+            <li><b>Packers</b> (empacotadores) e criptografia do payload.</li>
+            <li>Nomes sem sentido, código morto, fluxo confuso.</li>
+            <li>Do lado bom: também se usa para proteger propriedade intelectual.</li>
+          </ul>
+          <div class="callout tip">Por isso os antivírus modernos apostam em <b>heurística/comportamento</b> — a assinatura sozinha não pega malware bem ofuscado.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3236,6 +3367,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Roubar segredos via meios cibernéticos.</div>
       <div class="line"><b>Por que aprender:</b> APTs estatais vivem disso.</div>
       <a href="https://www.fireeye.com/blog/threat-research.html" target="_blank">Mandiant — Threat Research ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Ciberespionagem</b> é roubar <b>segredos</b> (industriais, militares, políticos) por meios cibernéticos, de forma furtiva e prolongada. É o objetivo típico das <b>APTs</b> patrocinadas por estados.</p>
+          <h4>Características</h4>
+          <ul class="bullets">
+            <li>Alvos: governos, defesa, grandes empresas, infraestrutura crítica.</li>
+            <li>O objetivo é <b>coletar por meses</b> sem ser notado — silêncio é a arma.</li>
+          </ul>
+          <div class="callout tip">É a fronteira "geopolítica" da cibersegurança. Empresas como a Mandiant publicam pesquisas rastreando esses grupos.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3298,6 +3443,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Fundação que publica o Top 10 de vulns web.</div>
       <div class="line"><b>Por que aprender:</b> Bíblia da segurança em aplicações.</div>
       <a href="https://owasp.org/Top10/" target="_blank">OWASP Top 10 ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>A <b>OWASP</b> (Open Worldwide Application Security Project) é uma fundação <b>sem fins lucrativos</b> que produz materiais <b>gratuitos</b> sobre segurança de aplicações. O mais famoso é o <b>Top 10</b>: a lista dos 10 riscos web mais críticos, atualizada periodicamente.</p>
+          <h4>Recursos úteis</h4>
+          <ul class="bullets">
+            <li><b>Top 10</b> (web e também API, Mobile, LLM).</li>
+            <li><b>Web Security Testing Guide</b> e <b>Cheat Sheets</b>.</li>
+            <li><b>ZAP</b>: scanner web open source da própria OWASP.</li>
+          </ul>
+          <div class="callout tip">É a "bíblia" da segurança web. Comece por aqui se quer fazer (ou defender contra) web hacking.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3305,6 +3465,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Dispositivo final na rede (PC, celular, servidor).</div>
       <div class="line"><b>Por que aprender:</b> Alvo #1 nos ataques modernos.</div>
       <a href="https://www.crowdstrike.com/cybersecurity-101/endpoint-security/" target="_blank">CrowdStrike — Endpoint Security ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Endpoint</b> é qualquer dispositivo final na rede: PC, notebook, celular, tablet, servidor. É o <b>alvo nº 1</b> dos ataques modernos, porque é onde o usuário — e o erro humano — está.</p>
+          <h4>Por quê</h4>
+          <ul class="bullets">
+            <li>A maioria das invasões entra por um endpoint (clique em phishing, USB, app vulnerável).</li>
+            <li>Proteção: <b>antivírus/EDR</b>, atualização em dia, menor privilégio e disco criptografado.</li>
+          </ul>
+          <div class="callout tip">Por isso o <b>EDR</b> virou padrão: dá visibilidade e resposta no ponto mais atacado da empresa.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3312,6 +3486,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Bring Your Own Device — usar dispositivo pessoal no trabalho.</div>
       <div class="line"><b>Por que aprender:</b> Pesadelo de governança e isolamento.</div>
       <a href="https://www.cisa.gov/news-events/news/cyber-essentials-toolkit-chapter-1" target="_blank">CISA — BYOD ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>BYOD</b> (Bring Your Own Device) é a prática de usar o <b>dispositivo pessoal no trabalho</b>. É cômodo e barato, mas um pesadelo de segurança: a empresa não controla o aparelho, que pode estar infectado, sem patch ou compartilhado.</p>
+          <h4>Riscos e defesa</h4>
+          <ul class="bullets">
+            <li><b>Riscos:</b> dados corporativos em aparelho pessoal, perda/roubo, apps duvidosos.</li>
+            <li><b>Defesa:</b> MDM (gestão de dispositivos), containers que separam trabalho/pessoal, e políticas claras.</li>
+          </ul>
+          <div class="callout tip">O desafio é equilibrar produtividade e isolamento — controlar o dado corporativo sem invadir o aparelho pessoal.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3319,6 +3507,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Caminho pelo qual o atacante chega ao sistema.</div>
       <div class="line"><b>Por que aprender:</b> Reduzir vetores = reduzir superfície de ataque.</div>
       <a href="https://attack.mitre.org/tactics/TA0001/" target="_blank">MITRE — Initial Access ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Vetor de ataque</b> é o <b>caminho</b> pelo qual o atacante chega ao sistema: e-mail de phishing, porta aberta, pendrive, app vulnerável, credencial vazada ou um funcionário enganado. A soma de todos os vetores é a <b>superfície de ataque</b>.</p>
+          <h4>Vetores mais comuns</h4>
+          <ul class="bullets">
+            <li><b>Phishing</b> (o nº 1), credenciais vazadas, software desatualizado.</li>
+            <li>Serviços expostos, USB, e a cadeia de suprimentos (fornecedores).</li>
+          </ul>
+          <div class="callout tip">Reduzir vetores (fechar portas, treinar pessoas, remover serviços inúteis) = reduzir a superfície = menos risco.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3326,6 +3528,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Exportação massiva de dados após comprometimento.</div>
       <div class="line"><b>Por que aprender:</b> Vaza no PasteBin, no Telegram, na dark web.</div>
       <a href="https://haveibeenpwned.com/PwnedWebsites" target="_blank">HIBP — Pwned Websites ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Dump</b> é a <b>exportação em massa</b> de dados após um comprometimento — o banco de dados inteiro, credenciais, e-mails. Esses dumps vazam no Telegram, em fóruns e na dark web.</p>
+          <h4>O ciclo do vazamento</h4>
+          <ul class="bullets">
+            <li>Atacante invade → faz o <b>dump</b> do banco (ex.: hashes de senha).</li>
+            <li>Os hashes são quebrados <b>offline</b> (John/Hashcat).</li>
+            <li>As credenciais alimentam o próximo ataque (<b>credential stuffing</b>).</li>
+          </ul>
+          <div class="callout danger">Um dump é o produto final de muitos ataques — e o começo do próximo. Por isso: senha única por site + 2FA.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -3333,6 +3550,19 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Detecção por comportamento, não por assinatura.</div>
       <div class="line"><b>Por que aprender:</b> Como antivírus modernos pegam malware desconhecido.</div>
       <a href="https://www.kaspersky.com/resource-center/definitions/heuristic-analysis" target="_blank">Kaspersky — Heuristic Analysis ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Análise heurística</b> detecta malware pelo <b>comportamento</b>, não por assinatura. Em vez de perguntar "este arquivo está na lista de vírus conhecidos?", ela pergunta "este programa está <em>agindo</em> como um vírus?".</p>
+          <h4>Exemplo</h4>
+          <ul class="bullets">
+            <li>Um programa que tenta criptografar muitos arquivos rapidamente → comportamento de <b>ransomware</b> → bloqueado, mesmo sendo novo.</li>
+          </ul>
+          <div class="callout tip">É como os antivírus modernos pegam ameaças <b>novas</b> (0-day, malware ofuscado) que a assinatura sozinha não conhece. O preço: pode gerar falso positivo.</div>
+        </div>
+      </details>
     </div>
 
   </div>
