@@ -343,6 +343,11 @@ main { padding: 0 42px 70px; }
 .gen-info .flag-item { display:flex; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:12.5px; align-items:flex-start; }
 .gen-info .flag-item code { background:#06090f; border:1px solid rgba(0,217,255,.2); color:var(--cyan); padding:2px 6px; border-radius:5px; font-family:ui-monospace,monospace; white-space:nowrap; flex-shrink:0; }
 .gen-info .flag-item span { color:#cdddec; line-height:1.4; }
+.gen-params { display:none; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:12px; margin:16px 0 4px; padding:14px; background:rgba(162,89,255,.07); border:1px solid rgba(162,89,255,.25); border-radius:14px; }
+.gen-params.show { display:grid; }
+.gen-field label { display:block; font-size:11px; color:var(--cyan); font-weight:700; margin-bottom:5px; letter-spacing:.3px; }
+.gen-field input { width:100%; background:#0a0e17; border:1px solid rgba(0,217,255,.3); border-radius:9px; color:var(--text); font-size:13px; padding:9px 11px; font-family:ui-monospace,monospace; }
+.gen-field input:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 10px rgba(0,217,255,.2); }
 
 /* Quiz */
 .quiz {
@@ -2396,6 +2401,14 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
     <input id="genTarget" class="gen-input" type="text" placeholder="exemplo.com.br" value="exemplo.com" autocomplete="off" spellcheck="false">
     <div class="gen-hint">Pode colar com <code>https://</code> e caminho — eu limpo automaticamente. As buscas/comandos se atualizam enquanto você digita.</div>
 
+    <div id="genParams" class="gen-params">
+      <div class="gen-field"><label>👤 Usuário (-l)</label><input id="genUser" type="text" value="admin" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>📄 Lista de usuários (-L)</label><input id="genUsers" type="text" value="users.txt" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>🔑 Wordlist de senhas (-P)</label><input id="genPass" type="text" value="/usr/share/wordlists/rockyou.txt" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>📁 Wordlist de diretórios</label><input id="genDirlist" type="text" value="/usr/share/wordlists/dirb/common.txt" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>#️⃣ Arquivo de hashes</label><input id="genHashes" type="text" value="hashes.txt" autocomplete="off" spellcheck="false"></div>
+    </div>
+
     <div class="gen-tabs">
       <button type="button" class="gen-tab active" data-tab="dorks">🔎 Google Dorks</button>
       <button type="button" class="gen-tab" data-tab="cmds">🐧 Comandos (terminal)</button>
@@ -2507,10 +2520,10 @@ function answer(ok, label) {
     {t:'Nmap — todas as portas + scripts', cmd:function(d){return 'nmap -p- -sV -sC -T4 '+d;}, desc:'Varredura completa das 65535 portas.', badge:'ativo', web:null, webLabel:'',
       resumo:'Scan completo de todas as portas, detectando versões e rodando os scripts padrão de reconhecimento. Mais demorado, porém detalhado.',
       flags:[['-p-','todas as 65535 portas'],['-sV','versão dos serviços'],['-sC','roda os scripts NSE padrão'],['-T4','velocidade agressiva']]},
-    {t:'Diretórios ocultos (Gobuster)', cmd:function(d){return 'gobuster dir -u https://'+d+' -w /usr/share/wordlists/dirb/common.txt';}, desc:'Acha pastas e arquivos não listados.', badge:'ativo', web:null, webLabel:'',
+    {t:'Diretórios ocultos (Gobuster)', cmd:function(d,o){return 'gobuster dir -u https://'+d+' -w '+o.dirlist;}, desc:'Acha pastas e arquivos não listados.', badge:'ativo', web:null, webLabel:'',
       resumo:'Testa uma lista de nomes comuns de pastas/arquivos contra o site, achando áreas escondidas (/admin, /backup, /config) que não têm link público.',
       flags:[['dir','modo de busca de diretórios e arquivos'],['-u','URL alvo'],['-w','wordlist: a lista de nomes a testar']]},
-    {t:'Fuzzing web (ffuf)', cmd:function(d){return 'ffuf -u https://'+d+'/FUZZ -w /usr/share/wordlists/dirb/common.txt';}, desc:'Descoberta de conteúdo por força bruta.', badge:'ativo', web:null, webLabel:'',
+    {t:'Fuzzing web (ffuf)', cmd:function(d,o){return 'ffuf -u https://'+d+'/FUZZ -w '+o.dirlist;}, desc:'Descoberta de conteúdo por força bruta.', badge:'ativo', web:null, webLabel:'',
       resumo:'Substitui a palavra FUZZ por cada item da wordlist e dispara requisições muito rápidas — descobre rotas, parâmetros e arquivos escondidos.',
       flags:[['-u','URL com a palavra-chave FUZZ onde testar'],['FUZZ','marcador trocado por cada item da lista'],['-w','wordlist']]},
     {t:'Scan de vulns web (Nikto)', cmd:function(d){return 'nikto -h https://'+d;}, desc:'Procura falhas e configs erradas no site.', badge:'ativo', web:null, webLabel:'',
@@ -2522,16 +2535,16 @@ function answer(ok, label) {
     {t:'WordPress (WPScan)', cmd:function(d){return 'wpscan --url https://'+d+' --enumerate u';}, desc:'Enumera usuários e plugins vulneráveis.', badge:'ativo', web:null, webLabel:'',
       resumo:'Scanner especializado em WordPress: encontra a versão, plugins/temas com falhas conhecidas e nomes de usuário válidos.',
       flags:[['--url','site WordPress alvo'],['--enumerate u','enumera os usuários do site']]},
-    {t:'Brute force SSH (Hydra)', cmd:function(d){return 'hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://'+d;}, desc:'Testa senhas em massa no login SSH.', badge:'ativo', web:null, webLabel:'',
+    {t:'Brute force SSH (Hydra)', cmd:function(d,o){return 'hydra -l '+o.user+' -P '+o.pass+' ssh://'+d;}, desc:'Testa senhas em massa no login SSH.', badge:'ativo', web:null, webLabel:'',
       resumo:'O Hydra tenta senha após senha automaticamente contra um serviço de login. Aqui, contra o SSH. Mostra na prática por que senha fraca + sem bloqueio = invasão. Só com autorização.',
       flags:[['-l admin','usuário fixo a testar (use -L lista.txt para vários)'],['-P rockyou.txt','lista de senhas a tentar (use -p para uma senha única)'],['ssh://DOMÍNIO','protocolo e alvo']]},
-    {t:'Brute force login web (Hydra)', cmd:function(d){return 'hydra -L users.txt -P /usr/share/wordlists/rockyou.txt '+d+' http-post-form "/login:user=^USER^&pass=^PASS^:F=inválido"';}, desc:'Ataca um formulário de login HTTP.', badge:'ativo', web:null, webLabel:'',
+    {t:'Brute force login web (Hydra)', cmd:function(d,o){return 'hydra -L '+o.users+' -P '+o.pass+' '+d+' http-post-form "/login:user=^USER^&pass=^PASS^:F=inválido"';}, desc:'Ataca um formulário de login HTTP.', badge:'ativo', web:null, webLabel:'',
       resumo:'Hydra contra um formulário web: ele preenche usuário e senha e detecta o sucesso pela ausência da mensagem de erro. Demonstra a importância de MFA, CAPTCHA e bloqueio por tentativas.',
       flags:[['-L users.txt','lista de usuários'],['-P rockyou.txt','lista de senhas'],['http-post-form','ataca um formulário de login via POST'],['^USER^ / ^PASS^','onde o usuário e a senha são injetados'],['F=inválido','texto que indica que o login falhou']]},
-    {t:'Quebra de hash offline (John)', cmd:function(d){return 'john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt';}, desc:'Quebra hashes que você já tem, no seu PC.', badge:'local', web:null, webLabel:'',
+    {t:'Quebra de hash offline (John)', cmd:function(d,o){return 'john --wordlist='+o.pass+' '+o.hashes;}, desc:'Quebra hashes que você já tem, no seu PC.', badge:'local', web:null, webLabel:'',
       resumo:'O John the Ripper não toca em nenhum servidor: ele pega um arquivo de hashes (ex.: vazado num pentest) e tenta descobrir as senhas testando uma wordlist localmente. Mostra o valor de hash lento + salt.',
       flags:[['--wordlist=','lista de senhas candidatas'],['hashes.txt','arquivo local com os hashes a quebrar']]},
-    {t:'Quebra de hash GPU (Hashcat)', cmd:function(d){return 'hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt';}, desc:'Igual ao John, porém usando a placa de vídeo.', badge:'local', web:null, webLabel:'',
+    {t:'Quebra de hash GPU (Hashcat)', cmd:function(d,o){return 'hashcat -m 0 -a 0 '+o.hashes+' '+o.pass;}, desc:'Igual ao John, porém usando a placa de vídeo.', badge:'local', web:null, webLabel:'',
       resumo:'Hashcat usa a GPU para testar bilhões de senhas por segundo. O -m define o tipo de hash. Roda localmente sobre hashes que você já possui.',
       flags:[['-m 0','tipo de hash (0 = MD5; 1000 = NTLM; 1800 = sha512crypt...)'],['-a 0','modo de ataque (0 = wordlist)'],['hashes.txt','os hashes alvo'],['rockyou.txt','lista de senhas']]},
     {t:'Buscar exploit pronto (searchsploit)', cmd:function(d){return 'searchsploit apache 2.4';}, desc:'Procura exploits na base offline do Exploit-DB.', badge:'local', web:null, webLabel:'',
@@ -2574,8 +2587,8 @@ function answer(ok, label) {
     return row;
   }
 
-  function makeCmdRow(item, d){
-    var code = item.cmd(d);
+  function makeCmdRow(item, d, o){
+    var code = item.cmd(d, o);
     var row = document.createElement('div'); row.className = 'gen-row';
     var rl = document.createElement('div'); rl.className = 'rl'; rl.textContent = item.t;
     var b = document.createElement('span'); b.className = 'gen-badge ' + item.badge; b.textContent = item.badge; rl.appendChild(b);
@@ -2602,9 +2615,13 @@ function answer(ok, label) {
     return row;
   }
 
+  var params = document.getElementById('genParams');
+  function fval(id, def){ var el = document.getElementById(id); var v = el && el.value.trim(); return v || def; }
+
   function render(){
     var d = clean(input.value) || 'exemplo.com';
     out.innerHTML = '';
+    if(params){ params.classList.toggle('show', current === 'cmds'); }
     var note = document.createElement('p'); note.className = 'gen-note';
     if(current === 'dorks'){
       note.innerHTML = '👆 <b>Clique em qualquer item</b> (ou no botão 🔎) e a busca abre direto no Google, em uma nova aba. Nada de copiar e colar.';
@@ -2614,13 +2631,21 @@ function answer(ok, label) {
         out.appendChild(makeDorkRow(item[0], code, item[2], 'https://www.google.com/search?q=' + encodeURIComponent(code)));
       });
     } else {
-      note.innerHTML = 'Clique em <b>ℹ️ O que faz</b> para entender o comando parte por parte. <b>🌐 Abrir online</b> mostra o resultado no navegador; o resto roda no terminal (Linux/Kali). Etiquetas: <b style="color:var(--green)">passivo</b> = não toca no alvo · <b style="color:var(--pink)">ativo</b> = contata o alvo (precisa de autorização) · <b style="color:var(--cyan)">local</b> = roda só na sua máquina.';
+      note.innerHTML = '✏️ <b>Preencha os campos acima</b> (usuário, wordlists, hashes) e os comandos se completam sozinhos — é só copiar. Clique em <b>ℹ️ O que faz</b> para entender cada parte. Etiquetas: <b style="color:var(--green)">passivo</b> = não toca no alvo · <b style="color:var(--pink)">ativo</b> = contata o alvo (precisa de autorização) · <b style="color:var(--cyan)">local</b> = roda só na sua máquina.';
       out.appendChild(note);
-      cmds.forEach(function(item){ out.appendChild(makeCmdRow(item, d)); });
+      var o = {
+        user: fval('genUser', 'admin'),
+        users: fval('genUsers', 'users.txt'),
+        pass: fval('genPass', '/usr/share/wordlists/rockyou.txt'),
+        dirlist: fval('genDirlist', '/usr/share/wordlists/dirb/common.txt'),
+        hashes: fval('genHashes', 'hashes.txt')
+      };
+      cmds.forEach(function(item){ out.appendChild(makeCmdRow(item, d, o)); });
     }
   }
 
   input.addEventListener('input', render);
+  if(params){ params.addEventListener('input', render); }
   document.querySelectorAll('.gen-tab').forEach(function(t){
     t.addEventListener('click', function(){
       document.querySelectorAll('.gen-tab').forEach(function(x){ x.classList.remove('active'); });
