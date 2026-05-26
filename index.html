@@ -330,7 +330,8 @@ main { padding: 0 42px 70px; }
     <h1>Do zero ao <span>hacker ético</span></h1>
     <p class="lead">
       Trilha visual e organizada em 6 níveis, do mindset aos ataques avançados.
-      Cada conceito traz definição, motivo para estudar e link real (TryHackMe, OWASP, docs oficiais).
+      Cada conceito traz um resumo rápido + um botão <b style="color:var(--purple)">📖 Aprender a fundo</b>:
+      clique e abra a explicação completa, com diagramas, exemplos reais e como se proteger.
       Nada de PDF chato. Nada de zoom infinito.
     </p>
     <div class="actions">
@@ -349,7 +350,7 @@ main { padding: 0 42px 70px; }
   <div class="meta-grid">
     <div class="meta-item">
       <b>📅 ÚLTIMA ATUALIZAÇÃO</b>
-      <div class="big">25/05/2026</div>
+      <div class="big">26/05/2026</div>
     </div>
     <div class="meta-item">
       <b>📊 TOTAL DE CONCEITOS</b>
@@ -359,6 +360,11 @@ main { padding: 0 42px 70px; }
       <b>🎯 NÍVEIS DESBLOQUEADOS</b>
       <div class="big">6 / 6</div>
     </div>
+  </div>
+  <div style="margin-top:22px; background:rgba(162,89,255,.10); border:1px solid rgba(162,89,255,.4); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:#e9deff;">
+    <b style="color:var(--purple)">✨ Novidade:</b> os conceitos mais importantes agora têm o botão
+    <b style="color:var(--purple)">📖 Aprender a fundo</b> — clique para abrir a explicação completa,
+    com diagramas, mockups (e-mail de phishing, tela de ransomware, terminal), casos reais e como se defender.
   </div>
   <div style="margin-top:24px;">
     <b style="color:var(--green); letter-spacing:1px; font-size:13px;">📖 FONTES ESTUDADAS</b>
@@ -2010,6 +2016,23 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Penetration Test — invasão autorizada e controlada.</div>
       <div class="line"><b>Por que aprender:</b> Carreira ofensiva por excelência.</div>
       <a href="https://www.offsec.com/courses/pen-200/" target="_blank">OSCP — PEN-200 (OffSec) ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Pentest</b> (teste de invasão) é um ataque <b>simulado e autorizado</b> contra um sistema para descobrir como um criminoso real poderia invadi-lo — e, principalmente, <b>documentar</b> como corrigir. Diferente de um ataque real, tem <b>escopo</b>, <b>contrato</b> e <b>relatório</b>. É a profissão ofensiva por excelência.</p>
+          <h4>As 5 fases de um pentest</h4>
+          <ol class="steps">
+            <li><b>Reconhecimento:</b> coletar informação sobre o alvo (OSINT, footprinting).</li>
+            <li><b>Varredura (Scanning):</b> mapear hosts, portas e serviços (Nmap) e identificar vulnerabilidades.</li>
+            <li><b>Exploração:</b> usar as falhas para ganhar acesso (Metasploit, exploits).</li>
+            <li><b>Pós-exploração:</b> escalar privilégios, mover-se lateralmente, ver até onde dá para chegar.</li>
+            <li><b>Relatório:</b> documentar tudo, com evidências e plano de correção. <em>A entrega que paga.</em></li>
+          </ol>
+          <div class="callout tip"><b>Verdade da carreira:</b> saber atacar é metade. A outra metade — e a que valoriza o profissional — é <b>escrever um relatório</b> claro que o cliente consiga usar para se proteger. A certificação <b>OSCP</b> é a mais respeitada da área.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2038,6 +2061,27 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> De usuário comum para root/admin.</div>
       <div class="line"><b>Por que aprender:</b> Acesso baixo é inútil — você quer ser admin.</div>
       <a href="https://tryhackme.com/r/room/linuxprivesc" target="_blank">TryHackMe — Linux PrivEsc ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Quando um atacante invade, ele quase sempre entra como um <b>usuário comum</b>, com poderes limitados. <b>Escalada de privilégios</b> (privilege escalation) é o processo de transformar esse acesso fraco em controle total — virar <b>root</b> (Linux) ou <b>Administrator/SYSTEM</b> (Windows). É o que separa "entrei" de "dominei a máquina".</p>
+          <h4>Dois tipos</h4>
+          <table class="cmp">
+            <tr><th>Vertical</th><th>Horizontal</th></tr>
+            <tr><td>Usuário comum → admin/root (mais poder)</td><td>Usuário A → usuário B (mesmo nível, outra conta)</td></tr>
+          </table>
+          <h4>Caminhos comuns (o que se procura)</h4>
+          <ul class="bullets">
+            <li><b>Kernel/software desatualizado</b> com exploit conhecido.</li>
+            <li><b>Configurações erradas:</b> binários SUID, permissões frouxas, <code>sudo</code> mal configurado.</li>
+            <li><b>Credenciais esquecidas</b> em arquivos, scripts e variáveis de ambiente.</li>
+            <li>Tarefas agendadas (cron) executando algo que você pode editar.</li>
+          </ul>
+          <div class="callout tip"><b>Defesa:</b> princípio do <b>menor privilégio</b> (ninguém é admin sem precisar), patches em dia e revisão de configurações. Ferramentas como <code>linPEAS</code>/<code>winPEAS</code> automatizam a busca por esses caminhos (úteis para o pentester e para o defensor auditar).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2052,6 +2096,32 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Interface de comando — obter "shell" = controlar o sistema.</div>
       <div class="line"><b>Por que aprender:</b> Reverse shell é o santo graal de qualquer invasão.</div>
       <a href="https://www.revshells.com/" target="_blank">RevShells.com ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Shell</b> é a interface de linha de comando que controla um sistema. "Conseguir um shell" no alvo = poder <b>executar comandos</b> nele. O grande objetivo de muitas invasões é exatamente esse: um shell remoto.</p>
+          <h4>Bind shell × Reverse shell (por que o reverse vence)</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 130" role="img" aria-label="Reverse shell">
+              <defs><marker id="arrShell" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#74ff00"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11.5" fill="#eef6ff" text-anchor="middle">
+                <rect x="20" y="45" width="150" height="48" rx="10" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/><text x="95" y="66">👤 Atacante</text><text x="95" y="84" font-size="10" fill="#9fb5c8">fica "escutando"</text>
+                <rect x="390" y="45" width="150" height="48" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="465" y="66">🖥️ Vítima</text><text x="465" y="84" font-size="10" fill="#9fb5c8">conecta de volta</text>
+                <g stroke="#74ff00" stroke-width="2" marker-end="url(#arrShell)"><line x1="388" y1="69" x2="172" y2="69"/></g>
+                <text x="280" y="38" font-size="11" fill="#74ff00">conexão parte de DENTRO da vítima →</text>
+                <text x="280" y="115" font-size="10" fill="#9fb5c8">por isso fura firewall: saída costuma ser liberada, entrada não.</text>
+              </g>
+            </svg>
+          </figure>
+          <ul class="bullets">
+            <li><b>Bind shell:</b> a vítima abre uma porta e espera. Firewalls costumam bloquear conexões de entrada → falha fácil.</li>
+            <li><b>Reverse shell:</b> a <em>vítima</em> conecta de volta ao atacante. Como tráfego de saída quase sempre é permitido, fura o firewall. Por isso é o preferido.</li>
+          </ul>
+          <div class="callout danger"><b>Lição defensiva:</b> monitore o tráfego de <em>saída</em> também, não só o de entrada. Conexões estranhas saindo da sua rede são um forte indicador de comprometimento (IOC).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2059,6 +2129,23 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Rede de máquinas comprometidas (zumbis) controladas remotamente.</div>
       <div class="line"><b>Por que aprender:</b> Combustível dos maiores DDoS da história.</div>
       <a href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-botnet/" target="_blank">Cloudflare — Botnet ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Botnet</b> = "rede de robôs". É um exército de máquinas infectadas (os <b>zumbis</b> / bots) — computadores, celulares, câmeras, roteadores — controladas remotamente pelo atacante (o <b>botmaster</b>) através de um servidor de comando e controle (<b>C2</b>). Os donos dos aparelhos geralmente <em>não fazem ideia</em> de que participam.</p>
+          <h4>Para que serve uma botnet</h4>
+          <ul class="bullets">
+            <li><b>DDoS</b> em massa (o uso mais famoso).</li>
+            <li>Envio de <b>spam</b> e phishing em escala.</li>
+            <li><b>Cryptojacking</b> (minerar cripto com a CPU das vítimas).</li>
+            <li>Brute force / credential stuffing distribuído.</li>
+          </ul>
+          <p>Botnets são, inclusive, <b>alugadas</b> no submundo — "DDoS como serviço" por poucos dólares.</p>
+          <div class="callout tip"><b>Não seja um zumbi:</b> mantenha dispositivos atualizados, troque senhas padrão de roteador/câmera/IoT e use antivírus. Sinais de infecção: lentidão, aquecimento e tráfego de rede inexplicável.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2108,6 +2195,29 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Common Vulnerabilities and Exposures — registro público.</div>
       <div class="line"><b>Por que aprender:</b> Toda vuln conhecida tem um CVE-AAAA-NNNNN.</div>
       <a href="https://cve.mitre.org/" target="_blank">cve.mitre.org ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>CVE</b> = <em>Common Vulnerabilities and Exposures</em>. É um <b>catálogo público e padronizado</b> de vulnerabilidades conhecidas. Cada falha ganha um <b>ID único</b> para que o mundo todo se refira a ela da mesma forma — sem confusão de nomes.</p>
+          <h4>Anatomia de um ID</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">formato CVE</span></div>
+              <pre><span class="c">CVE</span>-<span class="y">2021</span>-<span class="g">44228</span>
+ │     │      └─ número sequencial
+ │     └──────── ano da divulgação
+ └────────────── prefixo fixo
+
+<span class="m"># Esse é o famoso "Log4Shell" (Log4j) —
+# uma das vulnerabilidades mais graves já registradas.</span></pre>
+            </div>
+          </figure>
+          <p>Você pesquisa um CVE em bases como <b>NVD</b> (nvd.nist.gov) e <b>cve.mitre.org</b> para saber o que é afetado, a gravidade e se já há patch.</p>
+          <div class="callout tip"><b>Na prática:</b> ao ver "produto X afetado pela CVE-AAAA-NNNNN", o defensor corre para aplicar o patch e o pentester verifica se o alvo ainda está vulnerável.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2115,6 +2225,24 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Sistema de pontuação 0-10 que classifica severidade.</div>
       <div class="line"><b>Por que aprender:</b> Prioriza o que corrigir primeiro.</div>
       <a href="https://www.first.org/cvss/" target="_blank">FIRST — CVSS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Se o CVE <b>identifica</b> a vulnerabilidade, o <b>CVSS</b> (Common Vulnerability Scoring System) diz <b>o quão grave ela é</b>, numa nota de <b>0 a 10</b>. Isso permite priorizar: com centenas de falhas, você ataca primeiro as mais críticas.</p>
+          <h4>Faixas de severidade</h4>
+          <table class="cmp">
+            <tr><th>Nota</th><th>Severidade</th><th>Ação</th></tr>
+            <tr><td>0.1 – 3.9</td><td>🟢 Baixa</td><td>Pode esperar</td></tr>
+            <tr><td>4.0 – 6.9</td><td>🟡 Média</td><td>Planejar correção</td></tr>
+            <tr><td>7.0 – 8.9</td><td>🟠 Alta</td><td>Corrigir logo</td></tr>
+            <tr><td>9.0 – 10.0</td><td>🔴 Crítica</td><td>Corrigir AGORA</td></tr>
+          </table>
+          <p>A nota é calculada por fatores como: o ataque é remoto ou local? É complexo? Precisa de privilégios? Qual o impacto na <b>tríade CIA</b>? (O Log4Shell, por exemplo, recebeu nota <b>10.0</b> — o máximo.)</p>
+          <div class="callout tip"><b>Cuidado:</b> CVSS é a gravidade "técnica" genérica. O <b>risco real</b> para você depende do contexto — uma falha crítica num sistema isolado pode ser menos urgente que uma média num servidor exposto à internet.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
