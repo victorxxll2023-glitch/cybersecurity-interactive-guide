@@ -430,6 +430,16 @@ main { padding: 0 42px 70px; }
 .dossie-saved { color:var(--green); font-size:12px; font-weight:700; align-self:center; opacity:0; transition:opacity .2s; }
 .dossie-saved.show { opacity:1; }
 
+/* Bases úteis */
+.dbgroup { margin-bottom: 24px; }
+.dbgroup > h3 { font-size: 18px; margin: 0 0 12px; color: var(--cyan); display:flex; align-items:center; gap:8px; }
+.dbgrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+.dbcard { display:block; background:var(--card); border:1px solid rgba(0,217,255,.18); border-radius:14px; padding:14px 16px; text-decoration:none; transition:transform .15s, border-color .15s, box-shadow .15s; }
+.dbcard:hover { transform:translateY(-2px); border-color:rgba(0,217,255,.5); box-shadow:0 8px 22px rgba(0,217,255,.12); }
+.dbcard .nm { font-weight:800; color:var(--text); font-size:15px; }
+.dbcard .nm .ext { color:var(--cyan); font-size:12px; font-weight:700; }
+.dbcard .ds { color:var(--muted); font-size:13px; line-height:1.5; margin-top:5px; }
+
 /* Roteiro de estudo */
 .roadmap { display:flex; flex-direction:column; gap:14px; }
 .roadstep { background:var(--card); border:1px solid rgba(0,217,255,.18); border-left:4px solid var(--cyan); border-radius:16px; padding:18px 20px; }
@@ -3657,6 +3667,71 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
   </div>
 </section>
 
+<!-- BASES ÚTEIS -->
+<section id="bases" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl3">🗄️</div>
+    <div>
+      <h2>Bases úteis</h2>
+      <div class="sub">DIRETÓRIO DE BASES DE DADOS DE SEGURANÇA (GRÁTIS)</div>
+    </div>
+  </div>
+  <p style="color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 20px; max-width:760px;">
+    Bases que todo estudante/profissional de segurança consulta. Todas <b>legítimas e gratuitas</b>. Para checar exposição, use só a SUA (HIBP) — consultar dados de terceiros é ilegal (LGPD).
+  </p>
+
+  <div class="dbgroup">
+    <h3>🐛 Vulnerabilidades &amp; exploits</h3>
+    <div class="dbgrid">
+      <a class="dbcard" href="https://nvd.nist.gov/" target="_blank" rel="noopener"><div class="nm">NVD <span class="ext">↗</span></div><div class="ds">Base oficial (NIST) de vulnerabilidades: CVE + nota CVSS + detalhes técnicos.</div></a>
+      <a class="dbcard" href="https://www.cve.org/" target="_blank" rel="noopener"><div class="nm">CVE.org <span class="ext">↗</span></div><div class="ds">Catálogo oficial dos identificadores CVE-AAAA-NNNNN.</div></a>
+      <a class="dbcard" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener"><div class="nm">CISA KEV <span class="ext">↗</span></div><div class="ds">Falhas que <b>já estão sendo exploradas</b> no mundo real — corrija essas primeiro.</div></a>
+      <a class="dbcard" href="https://cwe.mitre.org/" target="_blank" rel="noopener"><div class="nm">CWE <span class="ext">↗</span></div><div class="ds">Catálogo de <b>tipos de fraqueza</b> (a causa-raiz por trás das CVEs).</div></a>
+      <a class="dbcard" href="https://www.exploit-db.com/" target="_blank" rel="noopener"><div class="nm">Exploit-DB <span class="ext">↗</span></div><div class="ds">Exploits prontos + Google Hacking Database (GHDB).</div></a>
+    </div>
+  </div>
+
+  <div class="dbgroup">
+    <h3>🧠 Threat Intelligence / IOCs</h3>
+    <div class="dbgrid">
+      <a class="dbcard" href="https://www.virustotal.com/" target="_blank" rel="noopener"><div class="nm">VirusTotal <span class="ext">↗</span></div><div class="ds">Analisa arquivos, URLs, IPs e hashes com dezenas de antivírus de uma vez.</div></a>
+      <a class="dbcard" href="https://www.abuseipdb.com/" target="_blank" rel="noopener"><div class="nm">AbuseIPDB <span class="ext">↗</span></div><div class="ds">Reputação de um IP: quantas denúncias de abuso/ataque ele tem.</div></a>
+      <a class="dbcard" href="https://otx.alienvault.com/" target="_blank" rel="noopener"><div class="nm">AlienVault OTX <span class="ext">↗</span></div><div class="ds">Feeds comunitários de ameaças (pulsos com IOCs compartilhados).</div></a>
+      <a class="dbcard" href="https://viz.greynoise.io/" target="_blank" rel="noopener"><div class="nm">GreyNoise <span class="ext">↗</span></div><div class="ds">Diz se um IP é só "ruído" de scanners da internet ou ameaça direcionada.</div></a>
+      <a class="dbcard" href="https://abuse.ch/" target="_blank" rel="noopener"><div class="nm">abuse.ch <span class="ext">↗</span></div><div class="ds">MalwareBazaar, URLhaus, ThreatFox: amostras de malware, URLs e IOCs.</div></a>
+      <a class="dbcard" href="https://phishtank.org/" target="_blank" rel="noopener"><div class="nm">PhishTank <span class="ext">↗</span></div><div class="ds">Base colaborativa de URLs de phishing reportadas.</div></a>
+    </div>
+  </div>
+
+  <div class="dbgroup">
+    <h3>🔭 Recon / superfície exposta</h3>
+    <div class="dbgrid">
+      <a class="dbcard" href="https://www.shodan.io/" target="_blank" rel="noopener"><div class="nm">Shodan <span class="ext">↗</span></div><div class="ds">"Google" dos dispositivos conectados (servidores, câmeras, IoT).</div></a>
+      <a class="dbcard" href="https://search.censys.io/" target="_blank" rel="noopener"><div class="nm">Censys <span class="ext">↗</span></div><div class="ds">Busca hosts, serviços e certificados expostos na internet.</div></a>
+      <a class="dbcard" href="https://crt.sh/" target="_blank" rel="noopener"><div class="nm">crt.sh <span class="ext">↗</span></div><div class="ds">Acha subdomínios pelos certificados emitidos (Certificate Transparency).</div></a>
+      <a class="dbcard" href="https://dnsdumpster.com/" target="_blank" rel="noopener"><div class="nm">DNSDumpster <span class="ext">↗</span></div><div class="ds">Mapa de DNS e subdomínios de um domínio (recon passivo).</div></a>
+    </div>
+  </div>
+
+  <div class="dbgroup">
+    <h3>⚔️ Técnicas &amp; táticas</h3>
+    <div class="dbgrid">
+      <a class="dbcard" href="https://attack.mitre.org/" target="_blank" rel="noopener"><div class="nm">MITRE ATT&amp;CK <span class="ext">↗</span></div><div class="ds">Base das táticas e técnicas (TTPs) usadas por atacantes reais.</div></a>
+      <a class="dbcard" href="https://www.exploit-db.com/google-hacking-database" target="_blank" rel="noopener"><div class="nm">GHDB <span class="ext">↗</span></div><div class="ds">Milhares de Google Dorks prontos (combina com o Gerador deste site).</div></a>
+    </div>
+  </div>
+
+  <div class="dbgroup">
+    <h3>🔐 Exposição pessoal (defensivo)</h3>
+    <div class="dbgrid">
+      <a class="dbcard" href="https://haveibeenpwned.com/" target="_blank" rel="noopener"><div class="nm">Have I Been Pwned <span class="ext">↗</span></div><div class="ds">Veja se o SEU e-mail/telefone apareceu em vazamentos conhecidos.</div></a>
+      <a class="dbcard" href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener"><div class="nm">HIBP Passwords <span class="ext">↗</span></div><div class="ds">Veja se uma senha já vazou (sem enviar a senha — usa k-anonymity).</div></a>
+    </div>
+  </div>
+
+  <div class="callout danger" style="margin-top:8px;"><b>⚠️ Ética:</b> use estas bases para defender, investigar incidentes e estudar. Consultar/expor dados pessoais de terceiros viola a LGPD — para exposição, consulte apenas a sua (HIBP).</div>
+</section>
+
 <!-- Quiz -->
 <section id="quiz">
   <div class="quiz">
@@ -4068,6 +4143,7 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     { k:'nivel5',  label:'\ud83d\udee1\ufe0f Defesa',      els:[byId('nivel5')] },
     { k:'nivel6',  label:'\ud83d\udd10 Avan\u00e7ado',    els:[byId('nivel6')] },
     { k:'gerador', label:'\ud83e\uddf0 Gerador',     els:[byId('gerador')] },
+    { k:'bases',   label:'\ud83d\uddc4\ufe0f Bases',       els:[byId('bases')] },
     { k:'dossie',  label:'\ud83d\udccb Dossi\u00ea',      els:[byId('dossie')] },
     { k:'quiz',    label:'\ud83c\udfae Quiz',        els:[byId('quiz')] }
   ];
