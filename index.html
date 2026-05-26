@@ -1586,6 +1586,20 @@ Service detection performed. Nmap done.</pre>
       <div class="line"><b>O que é:</b> Phishing direcionado, personalizado para uma vítima específica.</div>
       <div class="line"><b>Por que aprender:</b> 10x mais eficaz que phishing genérico.</div>
       <a href="https://www.proofpoint.com/us/threat-reference/spear-phishing" target="_blank">Proofpoint — Spear Phishing ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Spear phishing</b> é o phishing <b>direcionado</b>: em vez de disparar para milhares, o atacante personaliza a isca para <em>uma</em> vítima usando dados reais (nome, cargo, projetos, fornecedores) coletados no recon. Por parecer legítimo, é muito mais eficaz.</p>
+          <h4>Variações</h4>
+          <ul class="bullets">
+            <li><b>Whaling:</b> mira os "peixes grandes" — CEO, diretor financeiro.</li>
+            <li><b>BEC (fraude do CEO):</b> finge ser o chefe pedindo uma transferência urgente.</li>
+          </ul>
+          <div class="callout danger">Desconfie mesmo de e-mails "que sabem coisas sobre você" — isso é o recon funcionando. Confirme pedidos sensíveis por outro canal e use 2FA.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1969,6 +1983,21 @@ foram criptografados com AES-256.</span>
       <div class="line"><b>O que é:</b> Negação de serviço de uma única origem.</div>
       <div class="line"><b>Por que aprender:</b> Versão "simples" do DDoS — base do conceito.</div>
       <a href="https://www.cisa.gov/news-events/news/understanding-denial-service-attacks" target="_blank">CISA — DoS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>DoS</b> (Denial of Service) é derrubar ou deixar lento um serviço sobrecarregando-o a partir de <b>uma única origem</b>. É a versão "simples" do <b>DDoS</b> (que vem de milhares de máquinas/botnet ao mesmo tempo).</p>
+          <h4>Como costuma ser feito</h4>
+          <ul class="bullets">
+            <li><b>Volumétrico:</b> inunda a banda com tráfego.</li>
+            <li><b>Exaustão de recursos:</b> abre conexões até esgotar memória/CPU.</li>
+            <li><b>Exploração de falha:</b> um pacote específico que trava o software.</li>
+          </ul>
+          <div class="callout tip">Defesa: rate limiting, filtragem de tráfego anômalo e serviços de mitigação (Cloudflare, AWS Shield).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2094,6 +2123,17 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Força usuário autenticado a executar ações sem consentir.</div>
       <div class="line"><b>Por que aprender:</b> Vetor sutil mas perigoso em apps web.</div>
       <a href="https://portswigger.net/web-security/csrf" target="_blank">PortSwigger — CSRF ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>CSRF</b> (Cross-Site Request Forgery) força um usuário <b>já logado</b> a executar uma ação sem querer. Enquanto você está autenticado no banco, visita um site malicioso que dispara, em segundo plano, uma requisição para o banco usando os <em>seus</em> cookies — e a ação (trocar e-mail, transferir) acontece em seu nome.</p>
+          <h4>Por que funciona</h4>
+          <p>O navegador envia automaticamente os cookies de sessão junto da requisição. Se o site não exige uma prova extra, ele "confia" que o pedido veio de você.</p>
+          <div class="callout tip">Defesa: <b>tokens anti-CSRF</b> (um valor secreto por formulário), cookies <code>SameSite</code> e reautenticação para ações críticas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2140,6 +2180,22 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Falsificação de identidade (IP, e-mail, DNS).</div>
       <div class="line"><b>Por que aprender:</b> Base de phishing e MITM.</div>
       <a href="https://www.forcepoint.com/cyber-edu/spoofing" target="_blank">Forcepoint — Spoofing ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Spoofing</b> é <b>falsificar uma identidade</b> para enganar. Existe em várias camadas e é a base do phishing e do MITM.</p>
+          <h4>Tipos comuns</h4>
+          <ul class="bullets">
+            <li><b>E-mail spoofing:</b> remetente falso (parece o banco). Combatido por SPF/DKIM/DMARC.</li>
+            <li><b>IP spoofing:</b> forja o IP de origem dos pacotes.</li>
+            <li><b>DNS spoofing:</b> respostas DNS falsas (leva ao DNS poisoning).</li>
+            <li><b>Caller ID / SMS spoofing:</b> número de telefone falsificado.</li>
+          </ul>
+          <div class="callout tip">Defesa: autenticação de origem (SPF/DKIM/DMARC no e-mail), HTTPS/cert válido e desconfiar de "remetentes conhecidos" pedindo coisas estranhas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2147,6 +2203,20 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Corrompe cache DNS para redirecionar para sites falsos.</div>
       <div class="line"><b>Por que aprender:</b> Você digita o banco certo e cai num clone.</div>
       <a href="https://www.cloudflare.com/learning/dns/dns-cache-poisoning/" target="_blank">Cloudflare — DNS Poisoning ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>DNS poisoning</b> (envenenamento de cache DNS) corrompe a "agenda de endereços" da internet: o atacante faz o resolvedor DNS guardar uma resposta falsa, de modo que <code>seubanco.com</code> passe a apontar para o <b>IP do criminoso</b>. Você digita o endereço certo e cai num <b>clone</b> — sem perceber.</p>
+          <h4>Por que é perigoso</h4>
+          <ul class="bullets">
+            <li>A URL na barra continua a correta — difícil de notar.</li>
+            <li>Atinge muitos usuários de uma vez (o cache é compartilhado).</li>
+          </ul>
+          <div class="callout tip">Defesa: <b>DNSSEC</b> (assina as respostas DNS), DNS sobre HTTPS/TLS (DoH/DoT) e sempre conferir o cadeado/certificado HTTPS.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2154,6 +2224,20 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Pichação digital — altera visualmente uma página web.</div>
       <div class="line"><b>Por que aprender:</b> Marca registrada de hacktivismo.</div>
       <a href="https://www.imperva.com/learn/application-security/website-defacement-attack/" target="_blank">Imperva — Defacement ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Defacement</b> é a "pichação digital": o atacante invade e <b>altera a aparência</b> de uma página (em geral a home), deixando uma mensagem, logo ou recado. É a marca registrada do <b>hacktivismo</b>.</p>
+          <h4>Como costuma acontecer</h4>
+          <ul class="bullets">
+            <li>Explora falha no <b>CMS</b> (WordPress desatualizado), upload inseguro ou credencial fraca.</li>
+            <li>O dano imediato é <b>reputacional</b>, mas sinaliza um comprometimento maior.</li>
+          </ul>
+          <div class="callout tip">Defesa: manter CMS/plugins atualizados, senhas fortes + 2FA no admin, e backups para restaurar rápido.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2161,6 +2245,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Estouro de buffer — escrever além do espaço alocado.</div>
       <div class="line"><b>Por que aprender:</b> Vetor clássico para RCE em software nativo.</div>
       <a href="https://owasp.org/www-community/vulnerabilities/Buffer_Overflow" target="_blank">OWASP — Buffer Overflow ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Buffer overflow</b> é quando um programa escreve <b>além do espaço reservado</b> para um dado (o buffer), invadindo a memória vizinha. Isso pode travar o programa ou, no pior caso, sobrescrever o fluxo de execução e permitir <b>rodar o código do atacante</b> (RCE). Clássico em linguagens sem checagem automática (C/C++).</p>
+          <h4>A ideia (simplificada)</h4>
+          <ul class="bullets">
+            <li>Um campo espera 8 bytes; o atacante manda 500.</li>
+            <li>O excesso sobrescreve o "endereço de retorno" na pilha.</li>
+            <li>O programa "volta" para o código do atacante (shellcode).</li>
+          </ul>
+          <div class="callout tip">Defesa: linguagens com memória segura (Rust, Go), proteções do SO (ASLR, DEP/NX, stack canaries) e validação de tamanho de entrada.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2168,6 +2267,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Usar CPU/GPU da vítima para minerar criptomoeda.</div>
       <div class="line"><b>Por que aprender:</b> Silencioso, persistente, lucrativo para o atacante.</div>
       <a href="https://www.kaspersky.com/resource-center/definitions/what-is-cryptojacking" target="_blank">Kaspersky — Cryptojacking ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Cryptojacking</b> é usar <b>secretamente</b> a CPU/GPU da vítima para <b>minerar criptomoeda</b> para o atacante. Não rouba arquivos — rouba <em>poder de processamento</em> e energia. Por isso é silencioso e lucrativo.</p>
+          <h4>Como chega e como notar</h4>
+          <ul class="bullets">
+            <li><b>Via navegador:</b> JavaScript de mineração num site/anúncio (roda enquanto a aba está aberta).</li>
+            <li><b>Via malware:</b> instala um minerador persistente na máquina.</li>
+            <li><b>Sinais:</b> lentidão, ventoinha a todo vapor, aquecimento e conta de luz alta.</li>
+          </ul>
+          <div class="callout tip">Defesa: antivírus, bloqueadores de script/anúncio e manter o sistema atualizado.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2175,6 +2289,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Código que aproveita uma vulnerabilidade específica.</div>
       <div class="line"><b>Por que aprender:</b> Sem exploit, vulnerabilidade é só teoria.</div>
       <a href="https://www.exploit-db.com/" target="_blank">Exploit-DB ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Exploit</b> é o código ou a técnica que <b>aproveita uma vulnerabilidade específica</b> para obter um efeito — acesso ao sistema, travamento, escalada de privilégios. Sem o exploit, a vulnerabilidade é só teoria; com ele, vira ação.</p>
+          <h4>Exploit × Payload</h4>
+          <ul class="bullets">
+            <li>O <b>exploit</b> é a "chave" que abre a porta (aproveita a falha).</li>
+            <li>O <b>payload</b> é o que você faz depois de entrar (reverse shell, etc.).</li>
+            <li>Um <b>0-day</b> é um exploit para uma falha que o fabricante ainda não conhece.</li>
+          </ul>
+          <div class="callout tip">Antes de escrever um exploit do zero, procure no Exploit-DB / <code>searchsploit</code> se já existe um para aquela versão.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2182,6 +2311,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> A parte do ataque que executa a ação maliciosa.</div>
       <div class="line"><b>Por que aprender:</b> Exploit é a chave, payload é o que vc faz depois.</div>
       <a href="https://www.offsec.com/metasploit-unleashed/payloads/" target="_blank">OffSec — Payloads ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Payload</b> é a parte do ataque que <b>executa a ação</b> depois que o exploit abriu a porta. É o "o que fazer agora que entrei": abrir uma shell, baixar um arquivo, adicionar um usuário, etc.</p>
+          <h4>Exemplos</h4>
+          <ul class="bullets">
+            <li><b>Reverse shell / Meterpreter:</b> dá controle remoto da máquina.</li>
+            <li><b>Bind shell:</b> abre uma porta na vítima esperando conexão.</li>
+            <li>Em <b>malware</b>, o payload é o efeito final (criptografar = ransomware, espionar = spyware).</li>
+          </ul>
+          <div class="callout tip">No Metasploit você escolhe com <code>set PAYLOAD ...</code> (veja o card do Metasploit, com comandos clicáveis).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2189,6 +2333,20 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Inclusão de arquivos locais (LFI) ou remotos (RFI) em apps web.</div>
       <div class="line"><b>Por que aprender:</b> Leitura de /etc/passwd em 1 URL é assustador.</div>
       <a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion" target="_blank">OWASP — LFI Testing ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>LFI</b> (Local File Inclusion) e <b>RFI</b> (Remote File Inclusion) acontecem quando uma aplicação inclui/abre um arquivo cujo caminho vem da entrada do usuário <b>sem validação</b>.</p>
+          <h4>A diferença</h4>
+          <ul class="bullets">
+            <li><b>LFI:</b> faz o site ler arquivos do próprio servidor. Ex.: <code>?page=../../../../etc/passwd</code> → vaza usuários do sistema.</li>
+            <li><b>RFI:</b> faz o site carregar um arquivo de um servidor <b>do atacante</b> → pode levar a execução de código (RCE).</li>
+          </ul>
+          <div class="callout tip">Defesa: nunca montar caminho com entrada do usuário; usar lista branca de arquivos permitidos e desabilitar inclusão remota.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2196,6 +2354,25 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Trocar IDs na URL (?id=123 → ?id=124) e acessar dados de outro user.</div>
       <div class="line"><b>Por que aprender:</b> Vuln mais paga em programas de Bug Bounty.</div>
       <a href="https://portswigger.net/web-security/access-control/idor" target="_blank">PortSwigger — IDOR ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>IDOR</b> (Insecure Direct Object Reference) é trocar um identificador na URL/requisição e acessar dados de <b>outra pessoa</b>, porque o servidor mostra o objeto sem checar se <em>você</em> tem permissão sobre ele.</p>
+          <h4>Exemplo clássico</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">barra de endereço</span></div>
+              <pre><span class="m"># Sua fatura:</span>
+https://site.com/fatura?id=<span class="g">1024</span>
+<span class="m"># Você troca o número...</span>
+https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatura de OUTRO cliente!</span></pre>
+            </div>
+          </figure>
+          <div class="callout tip">É das vulnerabilidades <b>mais comuns e mais pagas</b> em bug bounty. Defesa: checar autorização <b>por objeto</b> no servidor (não confiar no ID enviado) e usar IDs difíceis de adivinhar.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2227,6 +2404,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Advanced Persistent Threat — ataque longo, direcionado, patrocinado.</div>
       <div class="line"><b>Por que aprender:</b> Onde estados-nação operam (APT28, Lazarus).</div>
       <a href="https://attack.mitre.org/groups/" target="_blank">MITRE ATT&amp;CK — Groups ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>APT</b> (Advanced Persistent Threat) é um ataque <b>longo, furtivo e bem financiado</b>, normalmente de grupos sofisticados ou patrocinados por estados. O objetivo não é "bater e sair", e sim <b>permanecer meses</b> dentro do alvo coletando informação (espionagem) sem ser notado.</p>
+          <h4>Características</h4>
+          <ul class="bullets">
+            <li><b>Advanced:</b> usa técnicas avançadas e até 0-days.</li>
+            <li><b>Persistent:</b> mantém acesso por muito tempo (backdoors, persistência).</li>
+            <li><b>Threat:</b> tem recursos, paciência e um objetivo claro.</li>
+          </ul>
+          <div class="callout tip">Exemplos famosos: APT28 (Fancy Bear), Lazarus (Coreia do Norte). O <b>MITRE ATT&amp;CK</b> cataloga as táticas e técnicas usadas por esses grupos.</div>
+        </div>
+      </details>
     </div>
 
   </div>
