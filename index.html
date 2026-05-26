@@ -2651,7 +2651,7 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
   <div class="gen">
     <label class="gen-label" for="genTarget">🎯 Alvo (domínio)</label>
     <input id="genTarget" class="gen-input" type="text" placeholder="exemplo.com.br" value="exemplo.com" autocomplete="off" spellcheck="false">
-    <div class="gen-hint">Pode colar com <code>https://</code> e caminho — eu limpo automaticamente. As buscas/comandos se atualizam enquanto você digita.</div>
+    <div class="gen-hint">Pode colar com <code>https://</code> e caminho — eu limpo automaticamente. As buscas/comandos se atualizam enquanto você digita. <button type="button" id="genToDossie" class="gen-btn open" style="margin-left:6px;">📋 Salvar alvo no Dossiê</button></div>
 
     <div id="genParams" class="gen-params">
       <div class="gen-field"><label>👤 Usuário (-l)</label><input id="genUser" type="text" value="admin" autocomplete="off" spellcheck="false"></div>
@@ -3087,6 +3087,24 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       render();
     });
   });
+
+  // integração com o Dossiê: pré-preenche o alvo se já houver um salvo
+  try{
+    var dd = JSON.parse(localStorage.getItem('cyber_dossie_v1') || '{}');
+    if(dd && dd.dsAlvo && dd.dsAlvo.trim()){ input.value = clean(dd.dsAlvo) || dd.dsAlvo.trim(); }
+  }catch(e){}
+
+  // botão: salvar o alvo atual no Dossiê
+  var toDossie = document.getElementById('genToDossie');
+  if(toDossie) toDossie.addEventListener('click', function(){
+    var d = clean(input.value);
+    if(!d){ return; }
+    var el = document.getElementById('dsAlvo');
+    if(el){ el.value = d; el.dispatchEvent(new Event('input', { bubbles:true })); }
+    toDossie.textContent = '✅ Salvo no Dossiê';
+    setTimeout(function(){ toDossie.textContent = '📋 Salvar alvo no Dossiê'; }, 1800);
+  });
+
   render();
 })();
 
