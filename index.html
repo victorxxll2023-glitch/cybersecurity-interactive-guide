@@ -757,6 +757,11 @@ Service detection performed. Nmap done.</pre>
             </div>
             <figcaption>Cada porta <b>open</b> é uma possível porta de entrada. A coluna VERSION revela software desatualizado (alvo de exploits).</figcaption>
           </figure>
+          <h4>A versão gráfica: Zenmap</h4>
+          <figure class="deep-fig">
+            <img src="img/zenmap.jpg" alt="Tela do Zenmap, a interface gráfica do Nmap" loading="lazy">
+            <figcaption>Tela real do <b>Zenmap</b> (a interface gráfica oficial do Nmap), com portas, serviços e topologia. Crédito: Am088, GPL, via Wikimedia Commons.</figcaption>
+          </figure>
           <h4>Flags que você vai usar sempre</h4>
           <ul class="bullets">
             <li><code>-sV</code> detecta a versão dos serviços. <code>-O</code> tenta adivinhar o sistema operacional.</li>
@@ -787,6 +792,10 @@ Service detection performed. Nmap done.</pre>
             <li><b>exploit</b> — dispara. Se der certo, você ganha uma sessão de controle.</li>
           </ol>
           <p>O payload mais famoso é o <b>Meterpreter</b>: um shell avançado que vive na memória e permite navegar arquivos, capturar tela, escalar privilégios e mais.</p>
+          <figure class="deep-fig">
+            <img src="img/metasploit.jpg" alt="Console do Metasploit (msfconsole) rodando no Kali Linux" loading="lazy">
+            <figcaption>Tela real do <b>msfconsole</b> rodando no Kali Linux. Crédito: Arshane88, CC BY-SA 4.0, via Wikimedia Commons.</figcaption>
+          </figure>
           <div class="callout tip"><b>Para treinar:</b> a máquina virtual <b>Metasploitable</b> é propositalmente vulnerável e feita para você praticar de forma legal e segura no seu próprio laboratório.</div>
         </div>
       </details>
@@ -810,6 +819,10 @@ Service detection performed. Nmap done.</pre>
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Wireshark</b> é um <b>analisador de pacotes</b>: ele captura e mostra, em detalhe, <em>tudo</em> que trafega pela rede — cada pacote, seus cabeçalhos e seu conteúdo. É como um raio-X da comunicação. Serve tanto para o atacante (capturar dados sensíveis em rede aberta — <b>sniffing</b>) quanto para o defensor (investigar incidentes, achar tráfego malicioso, fazer perícia).</p>
+          <figure class="deep-fig">
+            <img src="img/wireshark.jpg" alt="Interface do Wireshark capturando pacotes de rede" loading="lazy">
+            <figcaption>Tela real do <b>Wireshark</b>: lista de pacotes (cima), detalhes do protocolo (meio) e os bytes brutos (baixo). Crédito: VulcanSphere / Wireshark team, GPL, via Wikimedia Commons.</figcaption>
+          </figure>
           <h4>O que você consegue ver</h4>
           <ul class="bullets">
             <li>Conversas completas (com <b>"Follow TCP Stream"</b> você remonta a sessão inteira).</li>
@@ -832,6 +845,10 @@ Service detection performed. Nmap done.</pre>
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Kali Linux</b> é uma distribuição Linux (baseada em Debian) mantida pela <b>Offensive Security</b>, já vinda com <b>600+ ferramentas</b> de pentest pré-instaladas e configuradas: Nmap, Metasploit, Burp, Wireshark, Hydra, John, aircrack-ng e muito mais. Em vez de instalar tudo manualmente, você liga o Kali e já tem o arsenal pronto.</p>
+          <figure class="deep-fig">
+            <img src="img/kali.jpg" alt="Desktop do Kali Linux com ferramentas de pentest" loading="lazy">
+            <figcaption>Desktop real do <b>Kali Linux</b> e seu menu de ferramentas por categoria. Crédito: Purpurreiher, GPL, via Wikimedia Commons.</figcaption>
+          </figure>
           <h4>Como usar com segurança</h4>
           <ul class="bullets">
             <li>Rode em <b>máquina virtual</b> (VirtualBox/VMware) — isola do seu sistema principal.</li>
@@ -1081,6 +1098,11 @@ foram criptografados com AES-256.</span>
           </figure>
 
           <div class="callout danger"><b>Caso real — WannaCry (2017):</b> explorou uma falha do Windows (EternalBlue) e infectou +200 mil computadores em 150 países em poucos dias, parando hospitais no Reino Unido e fábricas inteiras. A correção da Microsoft já existia há 2 meses — quem não atualizou, caiu.</div>
+
+          <figure class="deep-fig">
+            <img src="img/wannacry-map.png" alt="Mapa dos países afetados pelo WannaCry em maio de 2017" loading="lazy">
+            <figcaption>Imagem real: países atingidos pelo WannaCry nas primeiras horas (maio/2017). Crédito: TheAwesomeHwyh, CC BY-SA 3.0, via Wikimedia Commons.</figcaption>
+          </figure>
 
           <h4>Como se proteger</h4>
           <ul class="bullets">
@@ -2309,7 +2331,8 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
   A lei não aceita "foi só um teste, chefe" como superpoder jurídico.<br>
   <br>
   📚 Baseado em materiais da <a href="https://www.youtube.com/@TIAcademy" target="_blank">TI Academy</a> (Prof. Robson Costa) e conteúdo prévio do guia.<br>
-  ⚖️ Conforme Lei 12.737/2012 (Carolina Dieckmann) e Marco Civil da Internet.</p>
+  ⚖️ Conforme Lei 12.737/2012 (Carolina Dieckmann) e Marco Civil da Internet.<br>
+  🖼️ Imagens reais (Wireshark, Zenmap, Metasploit, Kali, mapa WannaCry) via <a href="https://commons.wikimedia.org/" target="_blank">Wikimedia Commons</a>, sob licenças GPL / CC BY-SA — créditos nas legendas. Demais ilustrações são diagramas próprios.</p>
 </div>
 
 <script>
