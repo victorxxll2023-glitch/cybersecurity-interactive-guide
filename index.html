@@ -184,6 +184,21 @@ main { padding: 0 42px 70px; }
 #toTop.show { display: block; }
 #toTop:hover { background: rgba(56,189,248,.16); transform: translateY(-2px); }
 
+/* Paginação entre seções (Anterior / Próximo) */
+.pager { display: flex; justify-content: space-between; gap: 12px; margin: 36px 0 6px; }
+.pager-btn {
+  flex: 1 1 0; min-width: 0; max-width: 49%;
+  display: flex; flex-direction: column; gap: 3px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px 18px; color: var(--text); cursor: pointer; text-align: left;
+  transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+.pager-btn:hover { border-color: var(--border-strong); transform: translateY(-2px); background: var(--panel); }
+.pager-btn.next { text-align: right; align-items: flex-end; }
+.pager-btn.ghost { visibility: hidden; }
+.pager-btn .pg-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; font-weight: 700; }
+.pager-btn .pg-name { font-size: 15px; font-weight: 700; color: var(--cyan); letter-spacing: -.2px; }
+
 /* Metadata box */
 .meta {
   background: var(--card);
@@ -4446,6 +4461,7 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     var v = views.filter(function(x){ return x.k === k; })[0] || views[0];
     v.els.forEach(function(e){ if(e) e.style.display = ''; });
     setActiveChip(k);
+    if(chips[k] && nav){ nav.scrollLeft = chips[k].offsetLeft - (nav.clientWidth / 2) + (chips[k].clientWidth / 2); }
     window.scrollTo(0, 0);
   }
 
@@ -4476,6 +4492,26 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     b.type = 'button'; b.className = 'navchip'; b.textContent = v.label;
     b.addEventListener('click', function(){ showView(v.k); });
     chips[v.k] = b; nav.appendChild(b);
+  });
+
+  // pagina\u00e7\u00e3o "Anterior / Pr\u00f3ximo" no fim de cada se\u00e7\u00e3o
+  function pagerBtn(v, dir){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'pager-btn ' + dir;
+    if(!v){ b.className += ' ghost'; b.disabled = true; return b; }
+    var l = document.createElement('span'); l.className = 'pg-lbl'; l.textContent = dir === 'prev' ? '\u2190 Anterior' : 'Pr\u00f3ximo \u2192';
+    var n = document.createElement('span'); n.className = 'pg-name'; n.textContent = v.label;
+    b.appendChild(l); b.appendChild(n);
+    b.addEventListener('click', function(){ showView(v.k); });
+    return b;
+  }
+  views.forEach(function(v, i){
+    var host = v.els[v.els.length - 1];
+    if(!host) return;
+    var pg = document.createElement('div'); pg.className = 'pager';
+    pg.appendChild(pagerBtn(views[i - 1], 'prev'));
+    pg.appendChild(pagerBtn(views[i + 1], 'next'));
+    host.appendChild(pg);
   });
 
   // links do her\u00f3i passam a trocar de aba
