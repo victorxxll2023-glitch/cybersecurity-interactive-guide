@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CyberSecurity Interactive Guide</title>
+<title>Trilha CyberSec — Do Zero ao Avançado</title>
 <style>
 :root {
   --bg: #050816;
@@ -12,6 +12,7 @@
   --green: #74ff00;
   --pink: #ff2e88;
   --yellow: #ffd60a;
+  --purple: #a259ff;
   --text: #eef6ff;
   --muted: #9fb5c8;
 }
@@ -21,17 +22,19 @@ body {
   background:
     radial-gradient(circle at 15% 10%, rgba(0,217,255,.22), transparent 30%),
     radial-gradient(circle at 85% 20%, rgba(255,46,136,.16), transparent 28%),
+    radial-gradient(circle at 50% 90%, rgba(162,89,255,.14), transparent 35%),
     linear-gradient(135deg, #030611, #07111f 55%, #030611);
   color: var(--text);
   font-family: Inter, system-ui, Segoe UI, Arial, sans-serif;
+  min-height: 100vh;
 }
 header {
-  min-height: 100vh;
   display: grid;
   grid-template-columns: 1.1fr .9fr;
   gap: 28px;
   align-items: center;
   padding: 42px;
+  min-height: 90vh;
 }
 .hero-img {
   width: 100%;
@@ -39,213 +42,1087 @@ header {
   box-shadow: 0 0 45px rgba(0,217,255,.22);
   border: 1px solid rgba(0,217,255,.35);
 }
-.kicker { color: var(--green); font-weight: 800; letter-spacing: 3px; }
+.kicker { color: var(--green); font-weight: 800; letter-spacing: 3px; font-size: 14px; }
 h1 {
-  font-size: clamp(42px, 7vw, 92px);
-  line-height: .92;
+  font-size: clamp(38px, 6vw, 80px);
+  line-height: .95;
   margin: 12px 0;
   text-transform: uppercase;
+  letter-spacing: -1px;
 }
 h1 span { color: var(--cyan); text-shadow: 0 0 22px rgba(0,217,255,.45); }
-.lead { font-size: 22px; color: #d7e8ff; line-height: 1.5; max-width: 720px; }
+.lead { font-size: 20px; color: #d7e8ff; line-height: 1.5; max-width: 720px; }
 .actions { display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
-button, .pill {
+.btn {
   border: 1px solid rgba(0,217,255,.45);
   background: rgba(0,217,255,.08);
   color: var(--text);
   padding: 13px 18px;
   border-radius: 999px;
   font-weight: 800;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 15px;
 }
-button:hover { cursor:pointer; transform: translateY(-2px); box-shadow: 0 0 20px rgba(0,217,255,.22); }
-main { padding: 20px 42px 70px; }
-.section-title {
-  display:flex; align-items:center; gap:14px; margin: 50px 0 22px;
-}
-.section-title h2 { font-size: 36px; margin:0; }
-.number {
-  width: 48px; height:48px; border-radius:16px; display:grid; place-items:center;
-  background: linear-gradient(135deg, var(--cyan), #0066ff);
-  color:#001;
-  font-weight: 1000;
-}
-.grid {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:18px;
-}
-.card {
-  background: var(--card);
-  border: 1px solid rgba(0,217,255,.25);
+.btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0,217,255,.22); }
+.btn.pink { border-color: rgba(255,46,136,.5); background: rgba(255,46,136,.08); }
+.btn.green { border-color: rgba(116,255,0,.5); background: rgba(116,255,0,.08); }
+
+main { padding: 0 42px 70px; }
+
+/* Metadata box */
+.meta {
+  background: linear-gradient(135deg, rgba(0,217,255,.10), rgba(162,89,255,.08));
+  border: 1px solid rgba(0,217,255,.3);
   border-radius: 24px;
-  padding: 22px;
-  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  padding: 28px;
+  margin: 40px 0;
 }
-.card h3 { margin: 0 0 10px; color: var(--cyan); font-size: 22px; }
-.card p, .card li { color: #c9d9e8; line-height: 1.55; }
-.bad { color: #ff5370; }
-.good { color: #74ff00; }
-.yellow { color: var(--yellow); }
-.visual {
-  width: 100%;
-  border-radius: 28px;
-  border: 1px solid rgba(0,217,255,.35);
-  margin: 18px 0;
+.meta h2 { margin: 0 0 18px; font-size: 24px; color: var(--cyan); }
+.meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 18px; }
+.meta-item { background: rgba(0,0,0,.25); border-radius: 16px; padding: 16px; border: 1px solid rgba(255,255,255,.06); }
+.meta-item b { color: var(--green); display:block; margin-bottom:6px; font-size: 14px; letter-spacing: 1px; }
+.meta-item .big { font-size: 28px; font-weight: 900; color: var(--cyan); }
+.sources-list { color: #c9d9e8; line-height: 1.7; margin: 8px 0 0; padding-left: 18px; }
+.totals { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.total-pill {
+  background: rgba(0,217,255,.10);
+  border: 1px solid rgba(0,217,255,.3);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
 }
-.flow {
+
+/* Level sections */
+.level {
+  margin: 60px 0 20px;
+  scroll-margin-top: 20px;
+}
+.level-header {
+  display:flex; align-items:center; gap:18px; margin: 0 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(0,217,255,.2);
+}
+.level-icon {
+  width: 64px; height:64px; border-radius:18px; display:grid; place-items:center;
+  font-size: 32px;
+  background: linear-gradient(135deg, var(--cyan), #0066ff);
+  box-shadow: 0 0 30px rgba(0,217,255,.3);
+}
+.level-icon.lvl2 { background: linear-gradient(135deg, var(--green), #008f00); box-shadow: 0 0 30px rgba(116,255,0,.3); }
+.level-icon.lvl3 { background: linear-gradient(135deg, var(--yellow), #ff9500); box-shadow: 0 0 30px rgba(255,214,10,.3); }
+.level-icon.lvl4 { background: linear-gradient(135deg, var(--pink), #b30055); box-shadow: 0 0 30px rgba(255,46,136,.3); }
+.level-icon.lvl5 { background: linear-gradient(135deg, var(--purple), #5b1bb3); box-shadow: 0 0 30px rgba(162,89,255,.3); }
+.level-icon.lvl6 { background: linear-gradient(135deg, #ff5370, #b30055); box-shadow: 0 0 30px rgba(255,83,112,.4); }
+.level-header h2 { margin: 0; font-size: 32px; }
+.level-header .sub { color: var(--muted); font-size: 14px; margin-top: 4px; letter-spacing: 1px; }
+
+.cards {
   display:grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap:12px;
-  margin-top:20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap:16px;
 }
-.step {
-  border:1px solid rgba(255,214,10,.35);
-  background: rgba(255,214,10,.06);
-  border-radius:18px;
-  padding:16px;
-  min-height:130px;
+.topic {
+  background: var(--card);
+  border: 1px solid rgba(0,217,255,.18);
+  border-radius: 20px;
+  padding: 20px;
+  transition: transform .15s, border-color .15s, box-shadow .15s;
 }
-.step b { color: var(--yellow); display:block; margin-bottom:8px; }
-.terms {
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:14px;
+.topic:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0,217,255,.5);
+  box-shadow: 0 10px 30px rgba(0,217,255,.15);
 }
-.term {
-  background: linear-gradient(180deg, rgba(0,217,255,.10), rgba(255,255,255,.03));
-  border: 1px solid rgba(0,217,255,.28);
-  border-radius:18px;
-  padding:16px;
+.topic h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.term strong { color: var(--green); display:block; font-size:18px; margin-bottom:6px; }
+.topic h3 .badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-left: auto;
+}
+.badge.new { background: rgba(255,46,136,.18); color: var(--pink); border: 1px solid rgba(255,46,136,.4); }
+.badge.old { background: rgba(116,255,0,.15); color: var(--green); border: 1px solid rgba(116,255,0,.4); }
+.topic .line {
+  color: #c9d9e8;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.topic .line b { color: var(--yellow); }
+.topic a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+  border-bottom: 1px dashed rgba(0,217,255,.4);
+}
+.topic a:hover { color: var(--green); border-color: var(--green); }
+
+/* Quiz */
 .quiz {
   max-width: 900px;
-  margin:auto;
-  background: rgba(0,0,0,.28);
+  margin: 60px auto 20px;
+  background: rgba(0,0,0,.32);
   border:1px solid rgba(255,46,136,.35);
   border-radius:28px;
-  padding:26px;
+  padding:28px;
 }
+.quiz h3 { color: var(--pink); margin: 0 0 16px; font-size: 22px; }
 .option {
-  display:block;
-  margin: 10px 0;
-  width:100%;
-  text-align:left;
+  display:block; margin: 10px 0; width:100%; text-align:left;
+  background: rgba(0,217,255,.06);
+  border: 1px solid rgba(0,217,255,.3);
+  color: var(--text);
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 15px;
+  cursor: pointer;
 }
-#quizResult { font-size:20px; font-weight:900; margin-top:16px; color: var(--green); }
+.option:hover { background: rgba(0,217,255,.12); }
+#quizResult { font-size:18px; font-weight:800; margin-top:16px; color: var(--green); min-height: 28px; }
+
 .footer {
   text-align:center;
   color:var(--muted);
   padding: 40px 20px 70px;
+  font-size: 13px;
+  line-height: 1.6;
 }
+.footer a { color: var(--cyan); text-decoration: none; }
+
 @media (max-width: 950px) {
-  header { grid-template-columns: 1fr; padding: 24px; }
-  main { padding: 10px 20px 60px; }
-  .grid, .terms, .flow { grid-template-columns: 1fr; }
+  header { grid-template-columns: 1fr; padding: 24px; min-height: auto; }
+  main { padding: 0 20px 60px; }
+  .meta-grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
+
 <header>
   <div>
-    <div class="kicker">CYBERSECURITY • GUIA INTERATIVO</div>
-    <h1>Aprenda Cyber <span>sem sofrer</span></h1>
+    <div class="kicker">CYBERSEC • TRILHA DE APRENDIZADO</div>
+    <h1>Do zero ao <span>hacker ético</span></h1>
     <p class="lead">
-      Um guia visual, clicável e direto para entender OSINT, phishing, malware, defesa,
-      termos reais do mercado e o fluxo de um ataque ético. Bem melhor que um PDF onde o zoom vira musculação ocular.
+      Trilha visual e organizada em 6 níveis, do mindset aos ataques avançados.
+      Cada conceito traz definição, motivo para estudar e link real (TryHackMe, OWASP, docs oficiais).
+      Nada de PDF chato. Nada de zoom infinito.
     </p>
     <div class="actions">
-      <button onclick="document.querySelector('#termos').scrollIntoView({behavior:'smooth'})">Ver termos mais usados</button>
-      <button onclick="document.querySelector('#quiz').scrollIntoView({behavior:'smooth'})">Fazer mini quiz</button>
+      <a class="btn" href="#nivel1">Começar do nível 1</a>
+      <a class="btn pink" href="#quiz">Mini quiz</a>
+      <a class="btn green" href="#meta">Ver índice</a>
     </div>
   </div>
-  <img class="hero-img" src="data:image/png;base64,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AQAAABCagAUAAABAaAIW0D3WD/Y8qwgBAIAsVPMeAAAAAHTP+rVLJl45Z6cmVwJxCFhAl5h+VRJ9C+YO3bxuYNH8vAcCALCFpt1q4leVLIjJEkIAgLJY94tbz/vcGfVPP3/m6et+cWv909f/9cv/797bH/fYzX9suO+eFY33/Y9PnfbnLz6qdvnGq5ee/qF/ql3+2KnvPvaY5zd9hN+tueXypV+84htfuuHKrx783P3q19Q+/uG412XyQwJMsH7tkqnr1YxvDHSNGVgAAGWxaeOmp81/cn9//8jISKVSefKf/emmjZvqX1181CFnfe78o45YdN6FSyfed8XK2/bda4+vX3LFox617fDw8H777Fm7fr999vz4v32u6SMMbRp6wbGvTynt/oynfeGs0/c/5Nj6NQBdM7MatX7tElOxIBQzsIBusH6wVJzKHSK7/Qc/3nevPVJKe+6x249+fHf9+jnbzN52zjZfuOBrLzzykKZ3XLHy9n322iOltP++z77ie8vmbLPN4KxZAwPVOdts85vfrpv6EX581z27PH6nbH4ggKm0M5fKPCwIRcACACiRK6/+/hGHHphSOuLQA6+8+vr69UccetB3rrr+ntU/m/enu8waGJh4xzt/svrP5j2xUqkcsN9e319xy213rHr2s56x5+673XL7D7f6CIcf8txrrrsxyx8LoIn2C5SGBXEIWAAAJXLlNd8/dNHClNIhBz3nqmWPnOXq6Bcc9lcvP+aab1/4+J0fd9Bz95t4x7Gxsbvv+dn8p/7Zgr2fdePNd6xYefv++z57v333vH75LZM9wsCsgcuXfvF7l17wxbP/5cT3fLh+Te3jOQv26sLPC5RWp9qThgVBOAcWkDnrB0vIexFCWP93/wOjo6NP3GXnlNLvf/+H2pX9/f3znzrvgMP+PKV0xKEHvvDI51117Q0T77ti5W0L9n7WNtvM/sMfHlqx8rb3vPP44aHhD53+6ckeoX7Gq7e/9Y2v/suX/uunznEOLKA7OludnA8LIjADCwCgXL579fVL3nNC4/Srhfvv/cNVP6ldvmHFLUcccmDTO65YefurX/mSVXfek1K6e/XP5j953i6P3+nnv7h3q49w1bU3LNj7WVn8LABASZiBBQBQLpd/99olJ5+w/yHH1q950QsOu/b6zeeoWv/wht/8bt3Td33KwKyBK795fu3KFTfd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" alt="Arte cyber visual">
+  <img class="hero-img" src="hero.png" alt="Arte cyber visual">
 </header>
 
 <main>
-  <section>
-    <div class="section-title"><div class="number">1</div><h2>O que é hackear?</h2></div>
-    <div class="grid">
-      <div class="card"><h3>⚪ White Hat</h3><p>Hacker ético. Testa sistemas com autorização, encontra falhas e ajuda a corrigir.</p><p class="good">Usado em pentest, bug bounty e consultoria.</p></div>
-      <div class="card"><h3>🔴 Black Hat</h3><p>Criminoso digital. Invade, rouba dados, aplica golpes ou causa prejuízo.</p><p class="bad">É crime. Brilhante descoberta da civilização.</p></div>
-      <div class="card"><h3>🟡 Gray Hat</h3><p>Zona cinzenta. Pode encontrar falhas sem permissão e avisar depois.</p><p class="yellow">Ainda pode dar problema legal.</p></div>
-    </div>
-  </section>
 
-  <section>
-    <div class="section-title"><div class="number">2</div><h2>OSINT, o mapa antes do ataque</h2></div>
-    <img class="visual" src="data:image/png;base64,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T3+s+eXnPnnmvT++pfnlK1/6wt/+9NaH77Pjjw2/uHt9623/41/OeP5fLmp8/u2rLjnztHc0Pv/Q6e886Tl/MeE93LPp5hWXnLPya+euW/XlZx19ePOSxsebXnNKJg8SYJzNaza0r1fTvjLQN2ZgAQBUxdYtW5805/GDg4MjIyO1Wu3xj3vM1i1bm99duui4sz99/qKF88678JLxt11/43cOnXvQV7+x8sEPftC2bdsOP+TgxuWHH3LwR/750xPew/DW4cUnvTKldOCTn/T5s8884riTmpcA9M30atTmNRtMxYJQzMAC+sH6wUpxKneI7Nbb7jh07kEppYMPOuD2O37QvHyP3Xd70B67f/4LX1lywnET3nD9jbceMveglNIRhz5t5eq1e+y++8wZM4aG6nvsvvuvf3Nv+3u44667933UI7J5QADtdDOXyjwsCEXAAgCokFVXfWvh8ceklBYef8yqq65rXr7w+Gd+c811d2/80ezH7DtjaGj8De/8/sbHzX50rVY78vC531p/83e+u+FpT33ywQcecPOt39vlPSw47uirr/12lg8LYALdFygNC+IQsAAAKmTV1d86ft5RKaXjnvmMNWsfOMvViYvnv/iFz7l6+YWPeuTDn3n04eNvODo6+oO7fzTnCY877OlP/fZN311/461HHPq0ww89+Lrrb57sHoZmDK245JzVl33hnE99+K3/8IHmJY2PZxw2tw+PF6isXrUnDQuCcA4sIHPWD1aQ9yKEsH77u99v37790fs+MqX0xz/e17hwcHBwzhNmHzn/+Smlhccfs+SEY9dcs278bdff+J3Dnv7U3Xff7b77/nv9jd/5h7e/btvwttPO/MRk99A849Vb3vDXL/ur5330Xz7jHFhAf/S2OjkfFkRgBhYAQLVcedV1y/7hza3Tr4464unf2/D9xufr1t+88LhjJrzh+htvfdnJz91w590ppR9s/NGcx8/e91GP+L8//uku72HNNesOe/pTs3gsAEBFmIEFAFAtK668Ztm73nzEcSc1L3n24vnXXLfjHFWb/3T/r++5d/8n7jc0Y2jVpec3Llx/wy2nnvaxG2/+7jOPOvxz512cUhodHf3lr37zh/+ZwzXhPTTv/+6NPzroKfsPDAw0lhA2Lrzhpu++9wNnZftQgUrKYtGfSViQu9ojHjLBOQ4q64CHPC6ldNcf/2/O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" alt="Arte OSINT">
-    <div class="grid">
-      <div class="card"><h3>🔍 O que é?</h3><p>Coleta de informações públicas: redes sociais, domínios, DNS, metadados, vazamentos e usernames.</p></div>
-      <div class="card"><h3>🧩 Por que importa?</h3><p>Muitas vezes não precisa invadir nada. A própria empresa já deixou rastros suficientes na internet.</p></div>
-      <div class="card"><h3>🛡️ Uso ético</h3><p>Auditoria, investigação, bug bounty, proteção de empresas e análise de superfície de ataque.</p></div>
+<section id="meta" class="meta">
+  <h2>📚 Índice e progresso</h2>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <b>📅 ÚLTIMA ATUALIZAÇÃO</b>
+      <div class="big">25/05/2026</div>
     </div>
-  </section>
+    <div class="meta-item">
+      <b>📊 TOTAL DE CONCEITOS</b>
+      <div class="big">120+</div>
+    </div>
+    <div class="meta-item">
+      <b>🎯 NÍVEIS DESBLOQUEADOS</b>
+      <div class="big">6 / 6</div>
+    </div>
+  </div>
+  <div style="margin-top:24px;">
+    <b style="color:var(--green); letter-spacing:1px; font-size:13px;">📖 FONTES ESTUDADAS</b>
+    <ul class="sources-list">
+      <li>Dicionário de Cyber Security &amp; Ethical Hacking — Prof. Robson Costa / TI Academy (100 termos)</li>
+      <li>Apostila Imersão Start Hacking — Aula 1 (TI Academy, 2026)</li>
+      <li>Conteúdo prévio do guia (white/black/gray hat, fluxo de ataque, termos base)</li>
+    </ul>
+  </div>
+  <div class="totals">
+    <span class="total-pill">🧠 Nível 1: 10 conceitos</span>
+    <span class="total-pill">🔍 Nível 2: 12 conceitos</span>
+    <span class="total-pill">🛠️ Nível 3: 8 conceitos</span>
+    <span class="total-pill">⚔️ Nível 4: 27 conceitos</span>
+    <span class="total-pill">🛡️ Nível 5: 24 conceitos</span>
+    <span class="total-pill">🔐 Nível 6: 22 conceitos</span>
+  </div>
+</section>
 
-  <section>
-    <div class="section-title"><div class="number">3</div><h2>Fluxo real de um ataque</h2></div>
-    <img class="visual" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAAOECAIAAAB2L2r1AABK1klEQVR4nO3de5xcZX348Weys0tCuBnkItJQRVEjEORuEDACEUGKIK1WW0XbWrzVtt6KUqUVbdUWLCriBaUFBSoGQUWIaOQWAoSUFA0avPxMUUEEAQlZNtns74/BcZid3czuzJnzPXPe71f+mJ2dy7NzDrOczz7PmcqOA7MSAAAAAEQ1I+8BAAAAAMBkBCwAAAAAQhOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCE7AAAAAACE3AAgAAACA0AQsAAACA0AQsAAAAAEITsAAAAAAITcACAAAAIDQBCwAAAIDQBCwAAAAAQhOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCE7AAAAAACE3AAgAAACA0AQsAAACA0AQsAAAAAEITsAAAAAAITcACAAAAIDQBCwAAAIDQqilV8h4DAAAAAEzIDCwAAAAAQhOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCE7AAAAAACE3AAgAAACA0AQsAAACA0AQsAAAAAEITsAAAAAAITcACAAAAIDQBCwAAAIDQBCwAAAAAQhOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCE7AAAAAACK2aKnkPAQAAAAAmZgYWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIRWTamS9xgAAAAAYEJmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQWjWlSt5jAAAAAIAJmYEFAAAAQGgC1hMcvt0Oh2+3Q96jYDK2UXy2UXy2UXy2UXy2UXy2UXy2UXy2UXy2UXy2UbcIWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhFatVPIeQjxek/hso/hso/hso/hso/hso/hso/hso/hso/hso/hso86ZgQUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABBaNaVK3mMIyGsSn20Un20Un20Un20Un20Un20Un20Un20Un20Un23UKTOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCE7AAAAAACE3AAgAAACA0AQsAAACA0AQsAAAAAEKr5j2AKO456BWNX+588yV5jYSJ2Ebx2Ubx2Ubx2Ubx2Ubx2Ubx2Ubx2Ubx2Ubx2UbdVdlpcOu8x5Czpl2qkd0rCNsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoC2VfQjjJXrXZ79IbtlF8tlF8tlF8tlF8tlF8tlF8tlF8tlF8tlF8tlFGSh2w2tlv7Fv5so3is43is43is43is43is43is43is43is43is42yU96A1f4eY9/Ki20Un20Un20Un20Un20Un20Un20Un20Un20Un22UqfIGLAAAAAAKoaQBa6qxUxztPdsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoPtsoayUNWAAAAAAURWWnwa3zHkMOJiqdp69d2eOR5O7cX97V+KUGDAAAQBDjD9KbjmHj0BnqMtpG1SwelAJRrAAAAIjp9Ln7PuHL8sUg6szAatfON1+SxUjyolsBQFzXnJPu/Onjl2+4PV3yrXTV2enov3nCbRqvqV0+8Lnp+MPTe89JKaWn7ZJOfV065V/S0c9PL39R2rAxDVbTpd9O31zW/CyVlLacmc6+JN2+psXzppReemj6+1elk96dHni4+XkBICcBj9B1hqyVdAbWzjdfMqV9q5/2KukKAKLbuDG99aNTvtct308nvSjN3yOtWpPe+or0Hxel/Z+TXvqC9LZ/T488mrbaMn3krem+36QVdzY/y9Ofmt7/V+m1p7d+3kPmp0u/nQ7eK115Y2c/FQB0Te3ANtShepk7Q284iXuJ3HPQK9QrAOhnn/hyeuPL0+H7pnvvT9//SXrVi9M5l6ZHHk0ppUceTedcml79khb3+ukv0pO3a/2AM4fSrKH09RvSgr2zGzUATI+D3FIp6RLCmjZ39D7Iou3/Jz1z1ZJMRwIAbNa9d39vp133bP+axsv/9uH3v+y4ow98wTEPPPCbn/7wlufMP3R4+LHat2bO3OLOVdc/7VkHNt3rqCMOf91rX/mq17xx/LMcf9yLn/603c46+zM3Xf+Nw4942cjIhvG3AYDsDM9f1OYtgxy5l6cz9F5JlxDWtDPBr+h7VTv/8YhWABDK0ODgt658/P9A3vy2U9fc9ZP277vN1lttHB3davaWDzzwm6ZvVSqVsbGxpmcZHBzcY4/dn3fgkU3Pe9rpH775lpXHHbto772ee+LLjtll550OPeTgby+9vqMfDACmqPFwdfKYFWRRYRk6Q15KHbDS5vatou9Vk/9no1sBQEwjGzYcdcxm/t9306ZNAwMDo6Oj1Wp1dOPG2pXPP3j/bbbZ5s1/c+qZH/2nk175l3f+4K595u+5/Obbat/dZ/6eq3+wZvyzvP1vT3nNq//4o2ee0/S8AwMDz3zG0w885OiU0lFHHH7MS44QsADIUf0YdpKSdc9Br8j9QL6/O0OOnAMr7XzzJeN3oJZXFsjkK4FnrlqiXgFAod22ctURCw9NKR11xGErVq5KKVWr1Y/+6/tOPe2D3156/caNo8cdu+jM//j0v3zgPdtus3VKabttt/nQP5/67x87d/xDfXvp9fvvt8/4659/8P7/e8fq2uUbl91y5IsOy+7HAYD2TX5IG+HEWH3ZGXJXTamS9xhC2Pnm/04pHbbt9iml6x66v9Avyz0H/clE39KtAKCIhgYHly75Su3ysuUr3vu+f/m7d7z/Ux//13e9/U0ppTe+9R9SSm8+5XXfWXrDT//f2pTSO//hn77+1QsXHPbS8y+45OpvXDIyMjI4NHjOuecv/W6LTxJcs+Yne+357BkzZjQuIVx+y8qhocHvXres9uWj69ffd9+vn/2sZ4wfScY/OgC0Vju8nWg21j0HvaJ2mJ+jfuoMEVR2Gtwm7zEE0rBjFdVE9Uq6AgAAoC9NlLFyb1ipLzpDEJYQ9pWW9cqCQQAAAPrYRIe9k6xPonAErP4xUb3q/UgAAACgxzSs/iZg9Qn1CgAAgJLTsPqYgNUPxv/XaNkgAAAAJdTycFjD6gNVZ8FvoVCvyT0HtqhXuYwEAAAAIpi5aknTmd3vOehPdr4lv3O6F6ozxGQGVrGpVwAAADBei3lY446gKRABq8DUKwAAAJiIhtVPBCwAAAAAQhOwisr0KwAAAJicSVh9Q8AqJPUKAAAA2qFh9QcBqx+oVwAAADARR819QMAqHqkYAAAAOuHIunAErMITkgEAAGByjp2LTsAqGJEYAAAAOuf4ulgErGKTkAEAAKAdjqALTcAqEnkYAAAAusVRdoEIWAUmHgMAAED7HEcXl4BVGMIwAAAAdJdj7aIQsIpKNgYAAICpcjRdUAIWAAAAAKEJWMVgTiMAAABkwRF3IQhYhWTGIwAAAEyPY+oiErAAAAAACE3AAgAAACC0akqVvMcQkNcEAAAAyiPrDqAzdMoMrAK458A/bvzSYl0AAADoRNORddNxNwEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAxPL6RY8sP+ueaz5071ffd9+uTx7N4ine+fKHs3jY7irEIJvUxjxv7oY3vOSRvMcCAH1FwAIACOSIfYZfcdijC9+905Hv2elT39jqc2+7P4tnecdJBWhD8Qc5fPnaL7/nvove/etL33vf8OVr0+/GvHrt4Ge+uVXeowOAvlLNewAAAPze373s4X+8YNv1I5WU0tW3zTr+4PWDA2Nzttn0mbc+sNWsTY+sn/GGj8+59zcD91509+U3zTr0uY+dedk2C+Y99vxnP3bO17c++4qtd3rSaNMtU0rz5m745Jse2Hb2pvO/tdXZV2z9j696aKuZm77xT79653lParx+x+1GP/WWB540e9NP7qked/D6nf5015TSvRfdXbtQv/ykrTad+Ybf7Lzd6NDg2D98/km33jX0ppf+9rVHrhsbS6f913bX/M/M8c+4/TabznnzA3O2Gh3ZWDn5zO1nzEjjf5xzv7HVIfMe23b2pjMu2vby5VvWB/lnH31y09M1PdrG0UrTDWpDbfn61F/n8c/YNObGW37+6q0OetZjYyn9xce2/3/3Vu+96O4rbpp1+0+Gbr1r6OrbZn3u6q1OPuqRHbfdVB/zse/fsfZaNQ11h203tXwKAGCzzMACAAhk3twNq34yVP/yTZ+cs2G08uHXP3jJ9VsecepOl1y/5b++7sGU0szBsc9etfWi03Y8+5QHzvna1otO2/HvT3w4pTT+limlNx7729P+a7sjT92pdpsPfGnbR4ZnHPv+HZuu//DrHrz0+i1fdOpOV9y85czBsYlG+C8nP3jO17d+yft2PPnM7T/55gdSSu/5k4eOPHXH1/779q86fF3LZ/zI63+z+MYtj3rvTpdcN/t9r3po/CCHqmP3Pzxw5Ht2+pN/2eHf/+o3jYMc/3RNjzb+BpO8PnXjn7FpzHVbVMdW/mjoRafu9Lmrt/rI639Tu+a/r5/9ya9vffd91cc2Vg581mO/uL/68/sH6mOu37dpqBM9BQCwWWZgAQAEMtDqz4uH7zn812fPSSl95YYtP/iaB1NKm8bSyh8NjW5KIxsrt/1oaNNYmrXFWMtbppTec/52f3zoo8ccsH7rWZsaH7bp+sP2Gj7lE3NSSlfeOmv0CTd83IxKSikdte/63Z+yoXbN7JmbBmakq26bdd7f3v/pb279+o9t3/KRF+49/MZPzEkpfXHp7MtvmnX7J3/ZNMgZlfRf356dUvrpPdVttnxCOxv/dE2PtvITv2y6weimCV+fxp+l6RknepXGUrp8+ayU0uIbt/zw6x5MKY1uSt++fWbtuxd9d/bF/3DfSR/c4XVHtTjpVdNQN42llk8BAGyWGVgAAIHc9Yvq3k97PMdUKum8v72/dqHJyMZKrTENb6hsaigz42+ZUvrSu3+dUjrn61tvGqtMcv3Q7/6yOaMyVn+cGb+7sN3sTUPVsZRSdUY67p92POq9O734tJ3++uPbj25Kf/kf2599xTZveMkjn/2b+1s+8sCMxwc2uik99OiMlj/Og+se///Spqlf45+u6dHG32CS12eSZ5zoVdq0KY1uevyaxzZUUkobN/3+MV9zxCMXfHv2sQesb/Ec437wiZ4CANgsAQsAIJBPX7n1P/3Zg1sMjqWU/uTQR4cGx1JK371j5okLHk0pnbjg0Wu/N3OSu7e85X7PGPnKDVvOHBrb4ncLA2dU0oxK8/U33Tl03EHrU0rHH7y+3lcefrQyb+6GlNIrD183NpZSSsvu3OL4g9enlF683/p3nfTQtltuuuZD9978g6HXn7X90fsPt3zGW+96/JFfd9QjH3jNg+MH2bIx1QbZ9HTjH238Ddox/hnHv0o11YF09H7rU0onHvLotXds0fitXXfYOGto7PLlW+66w+hTtx+tj7muaagTPQUAsFmWEAIABPLlG7Z8xi4bbjrznl8/PPCrB2e87dNzUkqnfmG7T7/1/r88+pF1w5U3nL39JHdvectzr9z6ux+5939/OvjQuhlbDI49tqFy4+otvnLafU3Xv+vzTzrvb+9/47G/venOLR7b+HiG+fvPPOmL7/r1fQ8N3LpmqHblO8970jlvvv+vjv7txtHKGz8556FHZ1x566zrPnrvjBnpQ5ds0/IZ33Xekz791vtPOea3Dz064y/O2n7WFmPt/Di1Qb71U3Many6l1PRoW80aa7rB9Ix/lWrXD2+onLDg0b8/8eEH1834648/YbQHPHPk3t8MvOC5jw1Wxw581mP1MZ/wgR1qN2ga6oaNlZZPAQBsVmWnoW3zHkMgh20zJ6V03cMP5D2QJ7jnwD9u/HLmqiV5jQQAKInGDx8sOS8FQL8anr+o8cudb/lyFs8SszMUkSWEAAAAAIQmYAEA0MycozovBQBEIGABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChVSuVSt5jCMdrkq/hy9fmPQQAWpt5/Ny8hwAAkIlMU4DO0Llq3gMAxQqgMJresfUsAAB6Q8AiT9IVQKHV3sZlLAAAsiZgkYPJu9XQSbv3bCQATMnIpT8ef2X9XV3JAgAgIwIWPTVRuhKtAAqh8e16fMwyIQsAgIwIWPTO+HqlWwEUV/09vKlkDV++VsMCAKC7BCx6QboC6GO1t/TGjGUqFgAA3SVgkbmmeiVdAfSllhlLwwIAoCsELLLVWK+kK4C+15SxNCwAALpiRt4DoJ+pVwDl1PieP/knzwIAQDsELLKiXgGUmYYFAEAXWUJIJurHKtIVQGk1Lie0lhAAgE6YgUX3qVcA1NV/F5iHBQDAtAlYdJl6BUATDQsAgA4JWHSTIxMAJuc3BQAA0yBg0TXO2g7ARJzTHQCATghYdJ96BcB4fjsAADBtAhbd4dRXAGyWk2EBADA9AhZd4DgEgKnyuwMAgPYJWHST6VcATM5vCgAApkHAolP+hA7A9PgNAgBAmwQsusYf1QFoh98XAABMlYAFAAAAQGgCFh3x4YMATIOPIwQAYEoELAAAAABCE7CYPn82B6BzfpsAALBZ1ZQqeY8hIK/J1Fg/CMBUDZ20+8ilP857FAAAdZmmAJ2hU2ZgAQAAABCagAUAAABAaAIWAAAAAKFV8x4ARVU/564TYAEwPfXTYA1fvnbm8XPzHk5RDc9flPcQAMpo5qoleQ8BykXAAgAoHt0KIF/192ElC3pDwAIAKBLpCiCU2tuyjAVZE7AAAIqhZbqavWZZ70cCwLo9FjR+KWNB1gQsAIACaKpXuhVAvurvw40la3j+Ig0LMuJTCAEAomusV7PXLFOvAOJoelu20BsyImABAITWVK9yHAkAE9GwIGsCFgBAXOoVQFFoWJApAQsAICj1CqBYNCzIjoAFABCRegVQRBoWZETAAgAITb0CKBbv25AFAQsAIJz6H+0dBQEUUf3d2yQs6BYBCwAAAIDQBCwAgFhMvwLoAyZhQXcJWAAAAACEVk2VvIcQkNcEAAAASiXTFKAzdMwMLACAQKwfBOgbVhFCFwlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhFb1WY6teE0AAACgVDJNATpDp8zAAgAAACA0AQsAAACA0Kp5DwAAAAB6Z93Fq8dfOfuV83o/EqB9AhYAAAD9r2W3Gv9dJQtisoQQAKAs/vxPT7jxW19eeuWXbvzWl1/9iuNrV+6z97yv/fdnr7rs/K9/+XO77rJzSumXdy2vfev+tSuvuuz8+t1r1//RMUdeddn5V112/sO/+N/ahROOW9TrnwRgKtZdvHryejXtGwM9YwYWAEApHLnwkNe+6uXHnPT6hx767bbbbv2VCz/1i1/+aul1N537sTNe/mdv/Pkv7n3ZS4/60OnvfM0b3l6/y8hjIwMDA4cuOOD6ZbfWr7ziymuuuPKalNIv71p+9Akn9/4HAZiS6dWodRevNhULQjEDCwCgFP7uza9/7z/920MP/Tal9NBDvz3tn//t7W/9i5TSDk+eM3OLLVJK37h66ac//6Wme53xkU+c9q639H60AF3RyVwq87AgFAELAKAUnvXMp6+64876l7f/753P3mP3lNL7P/Sxb11xwafO+sDzD9z3xuW3Nd3r2htuTikddsiBvRwqQFd0XqA0LIhDwAIAKKNKpTI2NpZSuvDir+576HHLbln50TNOfe873zz+liZhAUXUrfakYUEQAhYAQCn8YM2P99n7OfUv99n7OXf+8MdP3n7OwQfs8+CDD19w0WXHnvQXf/naV4y/4/XLbt20adPhLzioh4MF6Eh3q5OGBREIWAAApXDWJz9/xvvesc02W6eUtt126w/849vP/MR5Y2NjF3z2zNqHD86Zs+3//fyXLe9rEhYAkC+fQggAUArf/u6yp+6y81WLv/DYyMjQ4OCnzvvid69fnlJ6yztOv/C8s4aHHxsdHT3lbae1vO8NN63YsGHD0BZDvR0ywHRkMWHKhxJC7gQsAICy+K8vLf6vLy1uuvLqa667+prrGq95yjMPbrqQUjrm5a9vumPjdwEAMmUJIQAAAAChCVgAAAD0iexOuO5U7pAvAQsAAACA0JwDCwAAmJBZJwTkfOpQQmZgAQAAABCagAUAAABAaJYQAgAAE7JWC4AIzMACAAAAIDQBCwAAgD6R3ZxBsxEhXwIWAAAAAKEJWAAAAACEJmABAADQP7JY62f9IOSumlIl7zEE5DUBAACAUsk0BegMnTIDCwAAgL7S3QlTpl9BBAIWAAAA/aZb1Um9giAELAAAAPpQ5+1JvYI4BCwAAAD6UycFSr2CUAQsAAAA+tb0OpR6BdFU8x4AAAAAZKhWo9ZdvLr9GwPRCFgAnRqZt3B6dxxavbS7IwEAYCL1MtWyZOlWEJyABdCuaYeqqT6gsAUAkB2tCopIwAKYUNeL1fSeV88CAABKTsACeIK8otUkGockZgEAACUkYAGk1Fm3mnX3HdO74/pd95rqXerjVLIAAIDyqFYqeQ8hHq8JlMdUu9W0W1X7j9Zm1VKyAACgizJNATpD58zAAsqo/W7V3WI1jWfcbM9SsgAAgL4nYD3uF/ud0PjlLrddltdIgEy1k656H60m0TiYyWNW7UeTsQAAIAKdobsErOZdqvFKuxf0jc12q1DRaiLtxCwTsgAAIF86QxbKHrBa7lWN37VvQdFNnq4K0a1aqo988pIlYwEAQC/pDBmZkfcA8jT5XtX+bYCYRuYtnKRezbr7juLWq0aT/yCTvwhAQDNXLaldWLfHgnxHAkCH6u/k9fd2+p7OkJ3yzsBqf4/RR6FwJu9WvRxJz0w+IctsLAAAyJrOkKnyBiygL5UwXTWp/ZgyFgAA0E9KuoRwqhP2TPCD+CZZK9c3qwXbN8mPbFEhxGcVIUAfsH6wbHSGrJU0YAF9RrpqafKM1ePBAAAATJslhE9w+tqVE33rDTvs1suRAG2aJF31eCRhTbSo0IpCiGzmqiXD8xellNbtsWD2mmV5DweAqTH9iroSdobP3PezLB5WwAKKSrqaEhkLikvDAigWC8AhCwLWE5w+d9+JvpXjBwRMMioorZb1SrrarEkyloYF0dQnYSUNC6A4GuuV6VekqJ2hiGakVCnhv11u++qUXqZdbvtqrgMGnmB8vSr5ua6mquXL5axYEFDjkY+/5wPEp14VXKk6Q/H+OYk7UCQtP0FPupqelg1LxoJoNCyAolCvIFPlDVjtx9GpZlQgIyZedZ2pWFAIGhZAfOoVSWfIWHkDVmpvj7FXQRAmXmVHw4L4mhqWjAUQR9PbsnpVcjpDdkodsNLm9ht7FURg2WAPWE4I8TUdEdWOl5QsgLy0fB9Wr0g6Q2Z8CuHje88v9nvZ+CuB3ElXPdPyAwp9OiGEUjsuqn80YY2GBRCBdEUjnSELAtbjanvSC2ZvnVK6Yd1vcx4NkFJSr/Iw6+47NCwIrmXGAiAv0hUT0Rm6S8ACglKv8qJhQSHUj5eULIBc6FbQYwIWEFFTvZKuemz8ckINC8JyBAUAlEHZT+IOBKReBdH0yjunOwAAkBcBC4hFvQpFwwIAACIQsIBA1KuANCwAACB3AhYQhXoVloYFAADkS8ACQlCvgtOwAACAHAlYQP7Uq0LQsAAAgLwIWEDO1KsC0bAAAIBcCFhAntSrwtGwAACA3hOwgNyoVwWlYQEAAD0mYAH5UK8KTcMCAAB6ScACcqBe9QENCwAA6BkBC8iZelVcth0AANAbAhbQa6bq9CtbFgAAyIiABfSUxYN9xkJCAACgBwQsoHfUq76kYQEAAFkTsIB8qFf9xNYEAAAyJWABPWJiTnnY1gAAQHdVU6rkPYaAvCbQZRYP9r1Zd9+xfte96l+OzFs4tHppjuMBAIApyjQF6AydMgMLyJx6VRJOhgUAAGREwAJ6Sr3qb7YvAACQBQELyJZpOGVm6wMAAF0hYAG9Y3pOGdjKAABA1wlYQIYaJ+DoGuXRuK1NwgIAADpXdSL8Frwm0A3KBTU+kRAAgALwIYSxmYEF9ILpV2VjiwMAAF0kYAGZMP2KRvYHAACgEwIWkDmTccrJdgcAALpFwAK6z3QbxrNXAAAA0yZgAdkyDafMbH0AAKArBCygy0y0YSL2DQAAYHoELCBDJuBgHwAAADonYAHdZIoNk7OHAAAA0yBgAVkx9YYaewIAANAhAQvoGpNraIf9BAAAmCoBC8iESTc0sj8AAACdELAAAAAACE3AArqjcV2Y6TaM17hXWEUIAABMiYAFAAAAQGjVvAcA9AMTapiqkXkLh1YvzXsU0A+G5y/KewgAZTRz1ZK8hwDlImABXWb9IBOZdfcd63fdK+9RQJ/QrQDyVX8fVrKgNwQsAIAika4AQqm9LctYkDUBC+iU07fTvsZJWFYRwlS1TFez1yzr/UgAWLfHgsYvZSzImoAFAFAATfVKtwLIV/19uLFkDc9fpGFBRqopVfIeQ0BeEwAgkMZ6JV0BhFJ7W65nLA2ryDJNATpDp2bkPQCg2KwfZKoa9xOfXwntUK8A4mt8f3ayQsiCgAUAEJd6BVAUGhZkSsACAAhKvQIoFg0LsiNgAdNn/RedsxfBRNQrgCLSsCAjAhbQHU6ARfvsLTAl6hVAsXjfhiwIWAAA4dT/aO8oCKCI6u/eJmFBtwhYAAAAAIQmYAHT5NRFdIt9CZqYfgXQB0zCgu4SsIAucEojpso+AwAAtE/AAgAAACA0AQsAIBDrBwH6hlWE0EUCFgAAAAChCVjAdDjrNt1ljwIAACYhYAGdcjZupseeAwAAtEnAAgAAACA0AQsAAACA0AQsAAAAAEITsAAAAAAITcACAAAAILRq3gMAAACA3ll38erxV85+5bzejwRon4AFTNnIvIX1y7PuviPHkVB0s+6+Y/2ue9Uuj8xbOLR6ab7jAQD6WMtuNf67ShbEZAkhAEBZ/Ppnt1112flXXXb+NV+7cL999kwp/fKu5Y03qH9Zv7DP3vO+9t+fveqy87/+5c/tusvO7dzl/rUrr7rs/PE3eP2f//F1V1/ynW988bIvnfvUXXbq9g8HMKF1F6+evF5N+8ZAzwhYAABlsWFkw9EnnHz0CSe/7V3//LEPv6+du5z7sTNO+dvTjj7h5M/95yUfOv2d7dxl5LGRgYGBQxcc0Hjliw5f8EfHHHnES1/9omNfff1Nt37qrDOm8wMATN30apSGBdEIWAAApfP9O9f84W5PbeeWOzx5zswttkgpfePqpZ/+/JfafPwzPvKJ0971lsZr/vZNr/vAhz++YcPGlNJnvnDx+uHhgYGBKY4aYMo66VAaFoRSrVQqeY8hHK8JANDfXnjowf/7vR+0c8v3f+hj37rigquvue6iS7923Y23tPn4195w83ve8abDDjmwfpfnPGv3761eU7v8yCPrXvHat05j2ABT0nmBWnfxaqfEKo9MU4DO0DkncQcAKIvBocGrLju/Uqk8/NtH3vR376tf03iDprtcePFXv37Vd457yREfPePUK6685oMf/eRm71Jzxkc+8Y/vfuui419T+7Jaffx/O//mlNce8+KFO+/45H0OeWnXfjCAcbo1f0rDgiAELACAsqidA2uSa5pO0P7k7ec84+lzl996+wUXXfbNJdfeeu1XP/jRT05+l7rrl926adOmw19wUO3LH/3kZ3vO2+O227939rn/+Z8XLf7JHdd250cCaKW7q/80LIjAObAAAGhtbGzsgs+eWfvwwTlztv2/n/9ySndvPBPW5y/48j+++62Dg9WU0l+/7lWjo5u6PloAoI+ZgQUAQGv3P/Cbt7zj9AvPO2t4+LHR0dFT3nbalO5+w00rNmzYMLTFUErp4ku/9uxnPv2WpV/95b2/uujSr41u3JjNkAEyOfm6SViQu8ous3fKewyBHDJry5TSjesfzXsgT/Dz5x3X+OXMVUvyGkmj4cvX1i4MnbR7viOh90bmLaxfnnX3HTmOhD6wfte96peHVi/NcSTkYuTSH9cuzDx+br4jiWN4/qLahdlrluU7EoCCyujTA6cXsNbtsaB2IchxHI3qv3Nrnvo/X8viWWJ2hiKyhBAAAACA0AQsAAAA+kRG068yfWSgHQIWAAAAAKE5iTsAADAhs04IyPnUoYTMwAIAAAAgNAELAAAAgNAsIQQAACZkrRYAEZiBBQAAAEBoAhYAAAB9Irs5g2YjQr4ELGDKhlYvrV9ev+teOY6Eomvcfxr3KwAAgEYCFgAAAAChCVgAAAD0jyzW+lk/CLkTsAAAAAAITcACAACgr3R3wpTpVxCBgAUAAEC/6VZ1Uq8gCAELAACAPtR5e1KvIA4BC+jU+l33ynsIFJI9BwDIWicFSr2CUAQsYDqGVi/Newj0FXsUAJCR6XUo9QqiqeY9AAAAAMhQrUatu3h1+zcGohGwAAAA6H/1MtWyZOlWEFw1pUreYwjIawIAANCftComkGkK0Bk65RxYQBc4GzdTZZ8BAADaJ2AB0+Ss23SLfQkAAJicgAUAAABAaE7iDvQJS9KmZNbdd+Q9BAAAgHYJWEB3rN91r9ybyMCKxfkOoChG9z8x3wGojQAAwJRYQghMX5xTF63fdS/1qn0DKxbHSUhx9iIAACAsAQsAAACA0AQsAAAAAEITsICONK7/ymtVmvWD05DjKsLG57V+EMabuWpJ7cK6PRbkOxIAOlR/J6+/twPTJmABAAAAEJqABRSb6VfTFupU7gAAAJMQsIBORVhFSFFYPwjtsIoQoA9YPwjdJWABAAAAEJqABXRZLydhWT/YoR6vIjRBD9pnEhZAoZl+BV0nYAFdYC0YU2WfgfZpWADF4n0bsiBgAQBE1PhHe8dCAEXR+I5t+hV0kYAFdEfvT+Vu/WBX9GwVodO3wzRoWADFol5BdgQsAIC4NCyAolCvIFMzUiX59/t/NbkPo+WooFCcrrtAejAJy/4AndCwAOJTr/pBqTpDAf+ZgQV0TS/XhVk/WFzWD8I0NDUsGQsgjqa3ZfUKMlLNewBA31q/616z7r4j71GQP9OvoCtmrloyPH9R/cv6wdLsNctyGhFAqbX8W4J6BdkRsIBuGlq9dGTewqyfxfSrrhtYsXh0/xN7EBxNv4JO1I6LGjNWsqgQIAbpCrImYAEZMgkL06+g61pmLADyIl1BbwhYQJf1ZhIWRWT6FXRR/XhJyQLIhW4FPSZgAdnq+iQs6wczksUqQtOvoAccQQEAZVBt+FBH6rwm0BGTsBjP9CsAAGLLNAXoDJ2akfcAgP5nGk452e4AAEC3CFhAJjKabmP9YKYGVizOqDqZfgUAAHRCwAJ6wWScsrHFAQCALhKwgKx0fdKN6Vc9kMUkLNOvAACADglYQIYay4UpOeXRuK3VKwAAoHMCFtA7GlYZ2MoAAEDXCVhAtro1Acf6wZ7p4ipC068AAICuELCAnjI9p7/ZvgAAQBYELCBzTdNwNI5+1bRlTb8CAAC6RcACeqHDhmX9YI9NYxWhegUAAGRHwAJ6RNEoD9saAADoLgELyIeFhP3E1gQAADIlYAG9M72FhNYP5qL9VYQWDwIAAFkTsICeckL3PqNeAQAAPSBgAb02pcZh+lWOpnoqd/UKAADIiIAF5MwkrOKy7QAAgN4QsIAcWEjYByweBAAAekbAAvLRTsOyfjB3E60iVK8AAIBeErCA3JiHVVDqFQAA0GPVvAcQxc/3Obbxy6fe/o28RgKlMrR66ci8hfUv1++616y778hxPGyWegUAAO3QGbrLDKz0832ObdqrJroSyMJE87CsHwyicRWhegUAAJulM2Sh7AFr8r3HvgW9YS1hIahXAACwWTpDRkodsNrZb+xb0BsaVmTjT+WuXgEAwHg6Q3bKG7Da32PsW9AbTU3E+sGw1CsAABhPZ8hUeQMWEJAyEp9tBAAA9N6MlCol/DfV2PnzfY7NdcBQIrU+YvpVNLUtol4BANC/StUZivfPDCwAAAAAQqvmPYBYTl+7cqJv/dWcnXs5EgAAAKDoStgZPvvAPVk8rBlYQCwj8xZaPxjTwIrFI/MW5j0KAACgjMzAeoLT5+470beeevuVvRxJo9Pn5vXMAAAAwPTF7AxFVNIZWFPdS+xVAAAAwER0hqyVNGABMVk/GJxVhAAAQC7KG7Daj52yKAAAADA5nSFT5Q1Yqb09xl4FPWP6VSGYhAUAABPRGbJT6oCVNrff2KsAAACA9ukMGfEphI/vPT/f55jxVwIAAABMic6QBQHrcbU96ZCZW6SUbhx+LO/hQOlYP1ggAysWj+5/4tDqpXkPBAAA4tIZuqtaqeQ9hHi8JgBAUQzPX5T3EADKaOaqJXkPgS7LNAXoDJ0zAwsAoHh0K4B81d+HlSzojbKfxB2IwPrBwvFZhJCj4fmL1CuAOLwtQ2+YgQUAUAwtD5Bmr1nW+5EAsG6PBY1f1t6izcaC7AhYAAAF0FSvdCuAfNXfhxtL1vD8RRoWZMQSQiBn1g8WlFWE0EuN9Wr2mmXqFUAcTW/LlhNCRgQsAIDQmupVjiMBYCIaFmRNwALyZPpVoZmEBT2gXgEUhYYFmRKwAACCUq8AikXDguwIWAAAEalXAEWkYUFGBCwgN9YP9gGrCKEH1CuAYvG+DVkQsAAAwqn/0d5REEAR1d+9TcKCbhGwAAAAAAhtRkoV/xr+1eQ+jJajgr5i/WDfsIoQus70K4A+YBJWAZWqMxTvnxlYAAAAAIQmYAHQKZOwAACATAlYQA6sHwSYiPWDAH3DKkLoIgELAAAAgNAELKDXTL/qS1YRAgAA2RGwAAAAAAhNwAIAAAAgNAEL6CnrB/uYVYQAAEBGBCwAAAAAQhOwAAAAAAhNwAJ6x/rBvmcVIQAAkIVq3gMAAACA3ll38erxV85+5bzejwRon4AF9IjpVyUxsGLx6P4nDq1emvdAAACeoGW3Gv9dJQtisoQQAKAs7l+78oLPnln/8vPnfPj+tSvrX5786pN+c/ftO+6wfe3LX961vPG+nzn7Qyf+0Ytrl29eetmHP/Du2uWPnPEPJxy3qOUj/Ppnt1112flXf/U/l11z6aELDqhfU/v3N6e8NpMfEmCcdRevnrxeTfvGQM+YgQUAUBYjj43s8YynDQwMjI6OViqVp/3hH4w8NlL/7jEvfuGnPnvhi4887IKLLht/3+W3/s9+++y5+Iqrt9pq9saNGw/Yd+/a9Qfsu/e//cdnWz7ChpENR59wckrpuc/Z4wuf+vCBLzyhfg1Az0yvRq27eLWpWBCKGVhAL1g/WCpO5Q6R3f6/q/fbZ8+U0t57Pvt7q9fUr99y1szZW876whe/8pKjXtjyjstvvX3fffZMKR243/yrv33dlrNmbTE0NDhY3XLWrF/dd//kj7D6B3ft8pSdsvmBACbTyVwq87AgFAELAKBErll645ELD0kpHbnwkGuW3lC//siFL1jynRvu+tFPd/uDXYYGB8ff8c4f/ugPd9u1UqkcfMA+Ny6/7X9WfX/+Xs/Z+7nPvu32Ozb7CEe8cMF3r785yx8LoIXOC5SGBXEIWAAAJXLNd29ceNjzU0ovfMFB37nu92e5eunRL/rTk4777jcvesrOO75gwQHj7zg2Nrbmrp8+Y/c/3P95e928YtXyW28/cL/5B+y39w033TbRIwwODV512fnf/voXzz/3o29/zwfr19T+HbT/Pj34eYHS6lZ70rAgCOfAAjJn/WAJ+SxCCOs3Dz60adOmXXfZOaX0298+UrtyYGDgGbvvdvCLTkwpHbnwkJccdfh3rl02/r7Lb/2f/Z+316xZMx95ZN3yW//nPe9808YNGz/w4U9M9Aj1M1793Vv+4s9e+bJ/P/tzzoEF9EZ3q5PzYUEEZmABAJTLt5becPp73tY4/er5Bz7vju//sHZ52fLbjnzhIS3vuPzW2//sFcd//867UkprfvTTZzxtt12estP/W3v3Zh/hO9cu2/95e2XxswAAJWEGFgBAuVz1rWtPP/VtB77whPo1xx79omtvePwcVY+uH/7Vr+9/1jOfPjg0eM3XLqxdufyWlad94Mxbb1v1gucf8PkLvpxSGhsbu+fe+x7+3Ryulo9Qf/y7fvTTPec9a8aMGbUlhLUrb1mx6n0fPCvbHxUopSwW/ZmEBbmrPHXrp+Y9hkAWbDGUUlrW8HnSEdw9/yWNX85ctSSvkTQavnxt7cLQSbvnOxKCs36wzKwiZLNGLv1x7cLM4+fmO5I4hucvql2YvabFIj4ANiujs1ZNL2Ct22NB7UKQ4zga1X/n1uy66ptZPEvMzlBElhACAAAAEJqABWTI9KuSG1ixeGTewrxHAQCUSHYfGujjCCFfAhYAAAAAoVVTquQ9hoC8JgAAkJJZJ4TkfOpkI9MUoDN0ygwsICvWD5KsIgQAALpBwAIAAAAgtGreAwAAAOKyVguACMzAAjJh/SB1VhECAAAdErAAAADoE9nNGTQbEfJVdSL8FrwmAF01sGLx6P4nDq1emvdAAABgAj6EMDYzsIDus34QAACALhKwAAAA6B9ZrPWzfhByJ2ABXWb6FS05lTsAADBtAhYAAAB9pbsTpky/gggELAAAAPpNt6qTegVBCFhAN1k/yCSsIgQAeqnz9qReQRwCFgAAAP2pkwKlXkEoAhYAAAB9a3odSr2CaKp5DwDoH9YPslkDKxaP7n/i0OqleQ8EACiRWo1ad/Hq9m8MRCNgAQAA0P/qZaplydKtIDgBC+gO069ok0lYAEC+tCooIufAAgAAACA0AQsAAACA0AQsoAusH2RKBlYsHpm3MO9RAAAAheEcWMATjFz642nd78ejXR4Ife9zI9O629BJu3d5IAAAQHgCFpDS9LsV9Fp9X1WyAACgPAQsKDXdiuJSsgAAoDycAwvKS72iP9iTAQCg75mBBWU0yQF/5eR9ezkSmKqx81eOv7K2S5uKBQAA/aqaUiXvMQTkNaGftaxXuhVFUd9Xx5eskUt/rGHRB2auWjI8f1FKad0eC2avWZb3cACYvnV7LKhdmLlqSb4joT2ZpgCdoVNmYEG5jK9X0hUFVdt1mzKWhgUAAH3JObCgRNQr+s/4fdgpsQAAoP8IWFAWTUf1lZP3Va/oD+N3Zg2LoquvNKmvPQGgcKwfhO4SsKAUxtervEYCGdGwAACgjwlYUDrqFf3Kvk0/MQkLoNBMv4KuE7Cg/5mKQjnZ8+kbGhZAsXjfhiwIWNDnLB6kVCwkpJ80/tHesRBAUTS+Y5t+BV0kYEGJqFeUgf2cfqJhARSLegXZEbAAAOLSsACKQr2CTAlY0M8a10+ZlkJ5NO7tVhHSBzQsgPjUK8iagAUAEF1Tw5KxAOJoeltWryAj1bwHAADA5s1ctWR4/qL6l/WDpdlrluU0IoBSa/m3BPUKsiNgQd+yfpAyq5y879j5K2uXRy798dBJu+c7HuiK2nFRY8ZKFhUCxCBdQdYELACAImmZsQDIi3QFvSFgAQAUT/14SckCyIVuBT0mYAEAFJgjKACgDHwKIQAAAAChCVgAAAAAhCZgAQAAABCac2ABdNPY3H0nv0Fl7crejAQAAKBvCFgAndpstJroxmIWAABAOwQsgOmbUrqa6O4yFgAAwOQELIAp67BbTfRoShYAAEBLTuIOMDXdrVe9eWQAAIBCq1YqlbzHEI7XBGipncC02VlUkz+IRYUAAJCLTFOAztA5SwgB2jJ5eGo/OdVvOckDjs3dV8MCAACoE7AANm+i2NRJZpq8ZGlYAAAAdc6BBbAZLQNTZe3KbgWmiR7KKbEAAABqBCyAyUxUr7r+RBoWAADARAQsgAn1rF5N8sgaFgAAgIAF0Nr4ctTFZYMTafkUGhYAAFByAhZACy3rVc+eXcMCAABoJGABNMu3Xk30jBoWAABQWgIWAAAAAKEJWABPEGH61UTPaxIWAABQTgIWwO/FqVcTPbuGBQAAlJCABTChfOtVnDEAAADkS8ACAAAAIDQBC+BxTavz4kx9ahqJVYQAAEDZCFgAAAAAhCZgAaRUtGlNxRotAABAhwQsgBbirB+siTYeAACAXhKwAAAAAAhNwAIAAAAgNAELIO7nDzbyWYQAAEBpCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEVk2pkvcYAvKaAAAAQKlkmgJ0hk6ZgQUAAABAaAIWAAAAAKEJWAAAAACEVs17AAAATN/w/EV5DwGgjGauWpL3EKBcBCyAVFm7cmzuvvUvx+buW1m7MsfxtNQ4wpRSwBECvaRbAeSr/j6sZEFvCFgAAEUiXQGEUntblrEgawIWAEAxtExXs9cs6/1IAFi3x4LGL2UsyJqABdBCtFWETesHgRJqqle6FUC+6u/DjSVreP4iDQsyImABpDTuNFiNcoxHE0W0UHEN6IHGeiVdAYRSe1uuZywNCzIyI+8BAAAwGfUKIL7G92cnK4QsCFgAj2ua1hRn1Z7PH4QyU68AikLDgkwJWAAAQalXAMWiYUF2BCyACUWYhBVhDEAu1CuAItKwICMCFsDvjV+dl28/Gv/s1g9CCalXAMXifRuyIGABPEHkQhR5bEB31f9o7ygIoIjq794mYUG3CFgAAAAAhCZgATSLOdEp5qiALJh+BdAHTMKC7hKwAFqIVouijQcAAKCXqqmS9xAC8poAKVXWrgzyCYDqFQAAZC7TFKAzdMwMLIAJRShHEcYA9JL1gwB9wypC6CIBC2Ay+fYj9QoAACAJWAAAAAAEJ2ABAAAAEJqABQAAAEBoAhYAAAAAoVV9lmPN/+15ZOOXf/C9a/IaCQAAANBzXc4jOkN3VfMeQP6adqnGK+1eAAAAwJToDFko+xLClntVm98FAAAAaKQzZKTUM7Da2W/+b88j9VEAAIC+se7i1eOvnP3Keb0fCf1HZ8hOeQNW+9XTvgUAAFB0LbvV+O8qWUybzpCp8gYsAICy+fXPblux8o6U0uDg4Bcu/PKFF3+18cqU0pVXLz373P9s55p99p73gdP+bnBwcOPGjae87bS7f3FPSunkV5901odPe9bzjvjVfff3/qcDmMjk6arljWUsiKakAWuqi07FUQCgD2wY2XD0CSenlGZvOevLF3zy0UfXL77i6vqV4282yTXnfuyMl//ZG3/+i3tf9tKjPnT6O1/zhrenlI558Qs/9dkLX3zkYRdcdFm2PwlA26ZUrxrvpWExJTpD1sp+EncAgBJa9+j69/7zv7/pr/582o+ww5PnzNxii5TSN65e+unPfymltOWsmbO3nPWFL37lJUe9sFvjBOjQ9OpV5/cFuq6kM7AmcvralRN96y+2mdPLkQAAZOp7q3+4+9PmTvvu7//Qx751xQVXX3PdRZd+7bobb0kpHbnwBUu+c8NdP/rpbn+wy9Dg4MiGDd0bLMB0dF6gzMOicyXsDOc9/EAWD2sGFgBAGVUHqhs2bEwpDQ4NXnXZ+bV/B+2/T9M1z3zG01re5sKLv7rvocctu2XlR8849b3vfHNK6aVHv+hPTzruu9+86Ck77/iCBQfk+KMBpO7NnzIPC4IwA+sJTp+770TfynFt6ul5PTEA0L/233ev79+5JrV3xquma568/ZxnPH3u8ltvv+Ciy7655Npbr/3qv5557jN23+3gF52YUjpy4SEvOerw71y7LPsfAqC17lYn87DoRMzOUEQlnYE11b3EXgUA9JPtttvmA//492d+4rzp3X1sbOyCz5656y47p5TmzNn2/37+y+cf+Lw7vv/D2neXLb/tyBce0rWxAkAR6AxZMwMLAKAsaisBU0rVavXMj593/bJbG69MKd2yYtX7PnjWJHes3+Yt7zj9wvPOGh5+bHR09JS3nfbnf3rCtTfcXLvBo+uHf/Xr+5/1zKf/8K6fZP4jAYyTxaI/k7Agd+UNWH/wvWva/JBLWRQA6A9P3m2/dq58yjMP3uxtrr7muquvua7+5anv/0jjd1/8stdOf5QAUEw6Q6ZKuoSwpp09xl4FAAAAtENnyE6pA1ba3H5jrwIAACiQ7D400McR0iadISPlXUJYV9t7mqb52aUAAACAadAZsiBgPa62Jz2/Wkkp3bRxLO/hAABACGadEJDzqVMIOkN3lX0JIfSrkXkL8x4CBOK/CAAAKDQBCwAAAIDQLCEEAAAmZK0WABGYgQV9aGTewoEVi/MeBQQysGKxVYQAAFBcAhYAAAB9Irs5g2YjQr4ELABKwSQsAAAoLgEL+o31gwAAAPQZAQsAAID+kcVaP+sHIXfVlCp5jyEgrwlFZfoVTGJgxeLR/U8cWr0074EAABBQpilAZ+iUGVgAAAD0le5OmDL9CiIQsAAAAOg33apO6hUEUc17AEDXWD+YkcralXkPga6xihAAymP2K+etu3h1h4/QrcEAHTIDCwAAgP7USYFSryAUAQsAAIC+Nb0OpV5BNJYQQp+wfhDaZBUhAJRNrUa1uZxQuoKYBCwAAAD6X71MtSxZuhUEJ2BBPzD9CqbEJCwAKDOtCorIObAAAAAACE3AAgAAACA0AQsKz/pBmIaBFYtH5i3MexQAAEBbqpVK3kOIx2sCAAAApZJpCtAZOmcGFgAAAAChCVhQbNYPwrRZRQgAAEUhYAEAAAAQmoAFAAAAQGgCFhSY9YPQIasICWjmqiW1C+v2WJDvSADoUP2dvP7eDkybgAUAAABAaAIWFJXpV9AVJmEBAEB8AhYAQCxWEQL0AesHobsELAAAAABCE7CgkKwfhC6yipCATMICKDTTr6DrBCwAgNA0LIBi8b4NWRCwAAAiavyjvWMhgKJofMc2/Qq6aEZKFf8a/tXkPoyWo4LHWT8IXWcVITFpWADFol4VXKk6Q/H+mYEFABCXhgVQFOoVZErAAoCUTMIiMA0LID71CrImYEHBWD8IUEJNDUvGAoij6W1ZvYKMVPMeAAAAmzdz1ZLh+YvqX9YPlmavWZbTiABKreXfEtQryI6ABUVi+hVkamDF4tH9TxxavTTvgUBrteOixoyVLCoEiEG6gqwJWAAARdIyYwGQF+kKekPAAgAonvrxkpIFkAvdCnpMwILCsH4QesAqQgrHERQAUAY+hRAAAACA0AQs6FsDx8ypXx47f2WOI4Hea9znG/9bAAAAikjAgmKwfhB6ZmDF4pF5C/MeBQAA8HsCFgAAAAChCVhQANOefmUVIeXU+fpBk7AAACAUAQsAAACA0AQsKBGTsCgD+zkAAPQfAQui6/D07U3rpxzb09+a9vBOPn/QKkIAAIhDwIL+18kxPBSXPR8AAPqGgAWlYxIW/cq+DQAA/UrAgtA6XD9YZyEhfa+Liwd//yBWEQIAQAzVvAcA9MjAMXNGr3yg/mXtaL9y8r75jQi6Y3yQtXgQAAD6jBlYUCLjj+pNxaLo1CsAACgDAQvi6tb6wUYtG5aMRRG13HW7Xq+sIgQAgAgsIYTSaVpLWFMPARYVEtwkvdXcKwAA6FcCFgSVxfSrutpx/viMlSwqpJgyTVcDKxaP7n/i0Oql2T0FAAAwOUsIobxMV6E/2JMBAKDvVVOq5D2GUMZSSl4TyqN+5N9yNhZEplsBANBVGaUAnaE7LCGEiDJdP9iSkkVR5NKtrCIEAIB8CVjAE5jVAgAAQDTOgQUAAABAaAIWhNP79YPAZg2sWDwyb2HeowAAgJISsAAAAAAIrepE+C14TQAYx6ncAQD6WaYpQGfomBlYEIv1gwAAANBEwAIAAAAgNAELAjH9CoJzKncAAMiFgAUAAABAaAIWAAAAAKEJWBCF9YNQCFYRAgBA7wlYAAAAAIQmYAEAAAAQmoAFIVg/CAViFSEAAPSYgAUAAABAaAIW5M/0Kygck7AAAKCXBCwAAAAAQhOwAAAAAAhNwIKcWT8IBWUVIQAA9Ew17wEAaXT/E/MeAgAAAMQlYDFNM4+fO3z52pTSyKU/Hjpp97yHU2BDq5fmPQSAfIxc+uPahZnHz813JAAABGcJIQAAAAChCVgAAAAAhCZgAQAAABBaNaVK3mMIyGsyNU6DBcBU1U+ABQAQQ6YpQGfolBlYTJ9z7gLQOb9NAADYLAELAAAAgNAELDpS/7O5lSAAtK/+W8P0KwAA2iFgAQAAABCagEXXmIQFQDv8vgAAYKoELDpl9QcA0+M3CAAAbRKw6CZ/VAdgcn5TAAAwDQIWXeBP6ABMld8dAAC0T8CiO3wcIQCb5cMHAQCYHgGL7tOwABjPbwcAAKZNwKJrGv+c7igFgEaNvxdMvwIAYKoELLrJMQkAk/ObAgCAaRCw6DInwwKgiVNfAQDQIQGL7tOwAKhTrwAA6Fw17wHQn2YeP3f48rXpd8ctQyftnveIAOg1570CAKBbzMAiK87pDlBm6hUAAF0kYJEhDQugnNQrAAC6yxJCslVfS5gsJwQogaY/V6hXAAB0hYBF5hobVpKxAPrU+Jm26hUAAN0iYNELtWMYGQugL0lXAABkTcCid5qmYqWGYx4lC6BwJjq5oXoFAEDXCVj01PipWDWNR0FiFkBYk38ih3QFAEBGBCxyUD/CGV+yks8rBCga3QoAgKwJWORpoglZABSCdAUAQG9UK5VK3mMIx2vSY03HP3oWQFiKFQDQrzJNATpD58zAIhxHRwAAAECjGXkPAAAAAAAmI2ABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAJWAex257WNXw7PX5TXSAAAAKAPNB1ZNx13E1A1pUreYwjIawIAAADlkXUH0Bk6ZQYWAAAAAKEJWAAAAACEJmAVktNgAQAAwPQ4pi4iAasYdrvzuryHAAAAAH3IEXchCFgAAAAAhFbNewBR/Ow5hzV+Gb+/Ds9fNHPVkrxHAQAAAEXSs/WDhesMwVXmbr9H3mPIWdMu1Sja7tU0VAELAAAApqQpYGVx4F+gzlAgZV9COMletdnv5s5p5wAAAKB9PTiOLnRniKzUAaud/SbUvqXUAgAAQLd0/Si7cJ2hQMobsNrfYyLvWyZhAQAAQDuyPoLuj84QVnkDVkGZhAUAAACdc3xdLCUNWFONnZHjqElYAAAAMLk406+md3tKGrAKTSQGAACATjiyLpxq3gOI5fS1Kyf61utmb9XLkUzJ8PxFM1ctyXsUAAAAEFGOS5cK2hk68YV1j2TxsGZgFdL4/wAsJAQAAIDxxh8vm35VRJW52++R9xhyMI21pgH37/E/hXlYAAAAUNezetUfnSGyks7AmupeYq8CAAAAJqIzZK2kAas/jN/dLSQEAACAGosH+0ll7pPLuISw5mfPbmuC324/CL1/j/8pLCQEAACg5FrUq+yP7vujM8RU6hlY7ewx8feq8SM0DwsAAIAyy6Vetfks8TtDTKWegVUzSR8t0F7V8qcwFQsAAIBSaTmlo8dH9/3RGaIRsB7XtHsVcZfSsAAAACizCPWqrg86QygC1hMclDaklG5Og3kPZJo0LAAAAMopVL2qK3pniKPU58DqPy3/yxyev8hZsQAAAOhXEx325l6v6CIBq99M9N+njAUAAECfmeRQV73qM9WUKnmPIaBivya7/eD6nz370Jbfqv2HbVEhAAAAhTb5FI3dfnB9sEP7UIMppGreAyATu/3g+pSSjAUAAECfaSNd0YcErH42yVSs1PDfvJIFAABAcO2cFUe96mMCVp+bfCpWTeO7gJgFAABAEO2fylm66nsCVim0k7FqnOgdAACAApGuSkLAKpH2MxYAAAAEJ12VioBVOjIWAAAAhSZdlZCAVVL1/9qVLAAAAApBtyozAavsmv7717MAAAAIQrGiTsDiCeK/OxyURlJKN6ehvAfChGyj+Gyj+Gyj+Gyj+Gyj+Gyj+Gyj+GwjymNG3gMAAAAAgMkIWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBo1ZQqeY8hIK9JfLZRfLZRfLZRfLZRfLZRfLZRfLZRfLZRfLZRfLZRp8zAAgAAACA0AQsAAACA0AQsAAAAAEITsAAAAAAITcACAAAAIDQBCwAAAIDQBCwAAAAAQhOwAAAAAAhNwAIAAAAgNAELAAAAgNAELAAAAABCq1YqeQ8hlLGUUvKahGYbxWcbxWcbxWcbxWcbxWcbxWcbxWcbxWcbxWcbdYkZWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABBaZbcdnp33GAAAAABgQmZgAQAAABBaNaVK3mMAAAAAgAmZgQUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaNWUKnmPAQAAAAAmZAYWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoVV9CCEAAAAAkZmBBQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhFZNqZL3GAAAAABgQmZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhCZgAQAAABCagAUAAABAaAIWAAAAAKEJWAAAAACEJmABAAAAEJqABQAAAEBoAhYAAAAAoQlYAAAAAIQmYAEAAAAQmoAFAAAAQGgCFgAAAAChCVgAAAAAhPb/AdahDIdtQ2vhAAAAAElFTkSuQmCC" alt="Fluxo de ataque">
-    <div class="flow">
-      <div class="step"><b>1. OSINT</b>Coleta de informações públicas.</div>
-      <div class="step"><b>2. Engenharia Social</b>Uso de pretexto para enganar pessoas.</div>
-      <div class="step"><b>3. Phishing</b>E-mail, SMS ou link falso.</div>
-      <div class="step"><b>4. Exploit</b>Uso de uma vulnerabilidade.</div>
-      <div class="step"><b>5. Acesso</b>Conta, sistema ou servidor comprometido.</div>
-      <div class="step"><b>6. Defesa</b>Logs, correção, 2FA, firewall e monitoramento.</div>
+<!-- NÍVEL 1 -->
+<section id="nivel1" class="level">
+  <div class="level-header">
+    <div class="level-icon">🧠</div>
+    <div>
+      <h2>Nível 1 — Mentalidade &amp; Fundamentos</h2>
+      <div class="sub">A BASE • ÉTICA • TIPOS DE HACKER</div>
     </div>
-  </section>
+  </div>
+  <div class="cards">
 
-  <section id="termos">
-    <div class="section-title"><div class="number">4</div><h2>Termos mais usados na vida real</h2></div>
-    <div class="terms">
-      <div class="term"><strong>OSINT</strong>Investigar informações públicas.</div>
-      <div class="term"><strong>Phishing</strong>Golpe para roubar dados.</div>
-      <div class="term"><strong>Malware</strong>Software malicioso.</div>
-      <div class="term"><strong>Ransomware</strong>Sequestra arquivos e cobra resgate.</div>
-      <div class="term"><strong>Firewall</strong>Filtra conexões da rede.</div>
-      <div class="term"><strong>VPN</strong>Cria túnel criptografado.</div>
-      <div class="term"><strong>Exploit</strong>Aproveita uma falha.</div>
-      <div class="term"><strong>Payload</strong>A parte que executa a ação.</div>
-      <div class="term"><strong>Vulnerabilidade</strong>Brecha explorável.</div>
-      <div class="term"><strong>Backdoor</strong>Acesso escondido.</div>
-      <div class="term"><strong>SOC</strong>Centro de monitoramento.</div>
-      <div class="term"><strong>SIEM</strong>Centraliza e analisa logs.</div>
-      <div class="term"><strong>Hash</strong>Impressão digital de dados.</div>
-      <div class="term"><strong>2FA/MFA</strong>Segunda camada de login.</div>
-      <div class="term"><strong>DDoS</strong>Sobrecarga para derrubar serviço.</div>
-      <div class="term"><strong>Zero-Day</strong>Falha ainda sem correção.</div>
+    <div class="topic">
+      <h3>⚪ White Hat <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Hacker ético que invade com autorização para encontrar e corrigir falhas.</div>
+      <div class="line"><b>Por que aprender:</b> É o caminho legal e bem pago da carreira.</div>
+      <a href="https://tryhackme.com/r/path/outline/introtocyber" target="_blank">TryHackMe — Intro to Cyber Security ↗</a>
     </div>
-  </section>
 
-  <section>
-    <div class="section-title"><div class="number">5</div><h2>Como se proteger</h2></div>
-    <div class="grid">
-      <div class="card"><h3>🔐 Senhas</h3><p>Use senhas únicas e gerenciador de senhas. Repetir senha é pedir para sofrer com design ruim.</p></div>
-      <div class="card"><h3>✅ 2FA/MFA</h3><p>Ative autenticação em dois fatores em e-mail, banco, redes sociais e sistemas do trabalho.</p></div>
-      <div class="card"><h3>👀 Desconfiança</h3><p>Cheque links, domínios, anexos e mensagens urgentes. Urgência falsa é o tempero favorito do golpe.</p></div>
+    <div class="topic">
+      <h3>🔴 Black Hat <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Criminoso que invade para roubar, fraudar ou destruir.</div>
+      <div class="line"><b>Por que aprender:</b> Pra entender como pensam e te defenderes.</div>
+      <a href="https://www.youtube.com/watch?v=fNzpcB7ODxQ" target="_blank">YouTube — Tipos de Hacker ↗</a>
     </div>
-  </section>
 
-  <section id="quiz">
-    <div class="section-title"><div class="number">6</div><h2>Mini quiz para fixar</h2></div>
-    <div class="quiz">
-      <h3 id="question">O que é phishing?</h3>
-      <button class="option" onclick="answer(false)">Um firewall avançado</button>
-      <button class="option" onclick="answer(true)">Um golpe que engana pessoas para roubar dados</button>
-      <button class="option" onclick="answer(false)">Um tipo de VPN</button>
-      <div id="quizResult"></div>
+    <div class="topic">
+      <h3>🟡 Gray Hat <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Invade sem permissão, mas avisa depois. Zona cinzenta legal.</div>
+      <div class="line"><b>Por que aprender:</b> Pra saber por que NÃO virar um — mesmo "ajudando", continua ilegal.</div>
+      <a href="https://owasp.org/www-community/Ethical_Hacking" target="_blank">OWASP — Ethical Hacking ↗</a>
     </div>
-  </section>
+
+    <div class="topic">
+      <h3>👤 Hacker <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Especialista em entender sistemas profundamente para modificá-los.</div>
+      <div class="line"><b>Por que aprender:</b> Hackear ≠ crime. É mentalidade.</div>
+      <a href="https://www.eccouncil.org/cybersecurity-exchange/ethical-hacking/what-is-ethical-hacking/" target="_blank">EC-Council — What is Ethical Hacking ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎓 Hacking Ético <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Exploração autorizada de sistemas para encontrar vulnerabilidades.</div>
+      <div class="line"><b>Por que aprender:</b> Tudo que esta trilha cobre é praticado dentro dessa moldura.</div>
+      <a href="https://tryhackme.com/r/room/introtoethicalhacking" target="_blank">TryHackMe — Intro to Ethical Hacking ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🧒 Script Kiddie <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Iniciante que usa scripts prontos sem entender.</div>
+      <div class="line"><b>Por que aprender:</b> Pra você NÃO ser um. Estudar fundamento &gt; copiar comando.</div>
+      <a href="https://www.kaspersky.com/resource-center/definitions/what-is-a-script-kiddie" target="_blank">Kaspersky — Script Kiddie ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🛡️ Cibersegurança <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Conjunto de práticas para proteger redes, dispositivos e dados.</div>
+      <div class="line"><b>Por que aprender:</b> É a área que mais cresce em TI. Mercado aquecido em 2026.</div>
+      <a href="https://www.cisa.gov/topics/cybersecurity-best-practices" target="_blank">CISA — Cybersecurity Best Practices ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚨 Cibercrime <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Qualquer crime envolvendo computador, rede ou dispositivo conectado.</div>
+      <div class="line"><b>Por que aprender:</b> Conhecer o inimigo é metade da defesa.</div>
+      <a href="https://www.gov.br/pf/pt-br/assuntos/cibercrime" target="_blank">Polícia Federal — Cibercrime ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⚖️ Lei Carolina Dieckmann <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Lei 12.737/2012 que tipifica crimes cibernéticos no Brasil.</div>
+      <div class="line"><b>Por que aprender:</b> Saber o que é crime antes de testar qualquer coisa.</div>
+      <a href="http://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12737.htm" target="_blank">Planalto — Lei 12.737/12 ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🕳️ Vulnerabilidade <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Fraqueza em sistema, software ou processo que pode ser explorada.</div>
+      <div class="line"><b>Por que aprender:</b> Tudo em pentest gira em torno de achar e corrigir vulns.</div>
+      <a href="https://owasp.org/Top10/" target="_blank">OWASP Top 10 ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÍVEL 2 -->
+<section id="nivel2" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl2">🔍</div>
+    <div>
+      <h2>Nível 2 — Reconhecimento &amp; OSINT</h2>
+      <div class="sub">COLETA • INTELIGÊNCIA • MAPEAMENTO DO ALVO</div>
+    </div>
+  </div>
+  <div class="cards">
+
+    <div class="topic">
+      <h3>🌐 OSINT <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Open Source Intelligence — coleta de dados públicos para gerar inteligência.</div>
+      <div class="line"><b>Por que aprender:</b> 80% de qualquer ataque começa aqui. Sem invadir nada.</div>
+      <a href="https://osintframework.com/" target="_blank">OSINT Framework ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔭 Reconhecimento <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Fase inicial de coleta de informações sobre o alvo (passivo ou ativo).</div>
+      <div class="line"><b>Por que aprender:</b> Reconhecer bem = atacar (ou defender) bem.</div>
+      <a href="https://tryhackme.com/r/room/passiverecon" target="_blank">TryHackMe — Passive Recon ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>👣 Footprinting <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Levantamento profundo do alvo antes do ataque (DNS, e-mails, IPs).</div>
+      <div class="line"><b>Por que aprender:</b> Mapa do terreno antes de qualquer movimento.</div>
+      <a href="https://www.eccouncil.org/cybersecurity-exchange/ethical-hacking/footprinting-ethical-hacking/" target="_blank">EC-Council — Footprinting ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔎 Google Dorks <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Operadores avançados do Google (site:, inurl:, filetype:) que expõem dados.</div>
+      <div class="line"><b>Por que aprender:</b> Hackear com Google é real e gratuito.</div>
+      <a href="https://www.exploit-db.com/google-hacking-database" target="_blank">Exploit-DB — GHDB ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🛰️ Shodan <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> "Google dos hackers" — busca dispositivos expostos na internet.</div>
+      <div class="line"><b>Por que aprender:</b> Encontra câmeras, servidores e IoT vulneráveis em segundos.</div>
+      <a href="https://www.shodan.io/" target="_blank">shodan.io ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌍 WHOIS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Consulta pública sobre dono, registrador e datas de um domínio.</div>
+      <div class="line"><b>Por que aprender:</b> Investigar sites fraudulentos começa aqui.</div>
+      <a href="https://registro.br/tecnologia/ferramentas/whois/" target="_blank">Registro.br — WHOIS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💧 haveibeenpwned <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Verifica se seu e-mail/telefone está em vazamentos públicos.</div>
+      <div class="line"><b>Por que aprender:</b> Saber se já foi comprometido é o primeiro passo da defesa.</div>
+      <a href="https://haveibeenpwned.com/" target="_blank">haveibeenpwned.com ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎭 Engenharia Social <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Manipulação psicológica para extrair informação ou acesso.</div>
+      <div class="line"><b>Por que aprender:</b> A maioria dos golpes no Brasil é isso, não "hack" técnico.</div>
+      <a href="https://www.social-engineer.org/framework/general-discussion/" target="_blank">Social-Engineer Framework ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📂 Vazamento de Dados <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Bases de credenciais expostas em breaches públicos ou na dark web.</div>
+      <div class="line"><b>Por que aprender:</b> É o combustível dos ataques modernos (credential stuffing).</div>
+      <a href="https://www.dehashed.com/" target="_blank">Dehashed ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🕸️ Dark Web <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Parte da internet acessível só via Tor; mercados ilegais &amp; fóruns hacker.</div>
+      <div class="line"><b>Por que aprender:</b> Threat intel séria precisa monitorar essas regiões.</div>
+      <a href="https://www.kaspersky.com/resource-center/threats/deep-web" target="_blank">Kaspersky — Deep vs Dark Web ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌊 Deep Web <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Conteúdo não indexado por buscadores (intranets, e-mails, bancos de dados).</div>
+      <div class="line"><b>Por que aprender:</b> Não é ilegal — só não está no Google.</div>
+      <a href="https://www.ibm.com/topics/deep-web" target="_blank">IBM — Deep Web ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📷 Reconhecimento Facial (OSINT) <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Ferramentas como FaceCheck identificam reuso de fotos suas online.</div>
+      <div class="line"><b>Por que aprender:</b> Detecta perfis falsos usando sua imagem.</div>
+      <a href="https://facecheck.id/pt" target="_blank">FaceCheck.id ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÍVEL 3 -->
+<section id="nivel3" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl3">🛠️</div>
+    <div>
+      <h2>Nível 3 — Ferramentas Essenciais</h2>
+      <div class="sub">O ARSENAL • TUDO QUE TODO PENTESTER USA</div>
+    </div>
+  </div>
+  <div class="cards">
+
+    <div class="topic">
+      <h3>🗺️ Nmap <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Scanner de rede que descobre hosts, portas e serviços abertos.</div>
+      <div class="line"><b>Por que aprender:</b> É O primeiro comando de qualquer pentest.</div>
+      <a href="https://nmap.org/book/man.html" target="_blank">Nmap — Reference Guide ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💥 Metasploit <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Framework open-source para desenvolver e executar exploits.</div>
+      <div class="line"><b>Por que aprender:</b> Padrão da indústria em pentest ofensivo.</div>
+      <a href="https://docs.metasploit.com/" target="_blank">Docs Metasploit ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📚 Exploit-DB <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Base pública de exploits e Google Dorks prontos para teste.</div>
+      <div class="line"><b>Por que aprender:</b> Antes de criar exploit, veja se já existe um.</div>
+      <a href="https://www.exploit-db.com/" target="_blank">exploit-db.com ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🦈 Wireshark <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Analisador de pacotes — vê tudo que passa na rede.</div>
+      <div class="line"><b>Por que aprender:</b> Base para sniffing, forense e troubleshooting.</div>
+      <a href="https://www.wireshark.org/docs/" target="_blank">Wireshark — Docs ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🐉 Kali Linux <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Distro Linux com 600+ ferramentas de pentest pré-instaladas.</div>
+      <div class="line"><b>Por que aprender:</b> Ambiente padrão de quem trabalha com ofensiva.</div>
+      <a href="https://www.kali.org/docs/" target="_blank">Kali — Docs Oficial ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🕷️ Burp Suite <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Proxy de interceptação para testes em aplicações web.</div>
+      <div class="line"><b>Por que aprender:</b> Indispensável para achar XSS, SQLi, IDOR.</div>
+      <a href="https://portswigger.net/burp/documentation" target="_blank">PortSwigger — Burp Docs ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🛡️ Nessus / OpenVAS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Scanners automatizados de vulnerabilidades em redes e sistemas.</div>
+      <div class="line"><b>Por que aprender:</b> Auditoria em escala empresarial sem fazer manualmente.</div>
+      <a href="https://www.tenable.com/products/nessus" target="_blank">Tenable Nessus ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔓 Hydra / John the Ripper <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Ferramentas de brute force e quebra de hashes.</div>
+      <div class="line"><b>Por que aprender:</b> Pra entender o quão fraca está aquela "senha123".</div>
+      <a href="https://www.openwall.com/john/" target="_blank">John the Ripper ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÍVEL 4 -->
+<section id="nivel4" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl4">⚔️</div>
+    <div>
+      <h2>Nível 4 — Tipos de Ataques</h2>
+      <div class="sub">ARSENAL OFENSIVO • COMO OS BAD GUYS AGEM</div>
+    </div>
+  </div>
+  <img class="hero-img" src="attack.png" alt="Tipos de ataque" style="margin: 12px 0 28px; max-height: 420px; object-fit: cover;">
+  <div class="cards">
+
+    <div class="topic">
+      <h3>🎣 Phishing <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> E-mail/SMS falso imitando entidade confiável para roubar dados.</div>
+      <div class="line"><b>Por que aprender:</b> Vetor #1 de invasões corporativas.</div>
+      <a href="https://www.phishing.org/what-is-phishing" target="_blank">phishing.org ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎯 Spear Phishing <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Phishing direcionado, personalizado para uma vítima específica.</div>
+      <div class="line"><b>Por que aprender:</b> 10x mais eficaz que phishing genérico.</div>
+      <a href="https://www.proofpoint.com/us/threat-reference/spear-phishing" target="_blank">Proofpoint — Spear Phishing ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🦠 Malware <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Termo guarda-chuva para qualquer software malicioso.</div>
+      <div class="line"><b>Por que aprender:</b> Vírus, trojan, ransomware — tudo é malware.</div>
+      <a href="https://www.malwarebytes.com/malware" target="_blank">Malwarebytes — O que é malware ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔒 Ransomware <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Malware que criptografa arquivos e cobra resgate.</div>
+      <div class="line"><b>Por que aprender:</b> Maior prejuízo corporativo da década (WannaCry, LockBit).</div>
+      <a href="https://www.cisa.gov/stopransomware" target="_blank">CISA — Stop Ransomware ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🐴 Trojan <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Malware disfarçado de software legítimo.</div>
+      <div class="line"><b>Por que aprender:</b> "Otimizador grátis" = backdoor 99% das vezes.</div>
+      <a href="https://www.kaspersky.com/resource-center/threats/trojans" target="_blank">Kaspersky — Trojans ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🪱 Worm <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Malware autorreplicante que se espalha sozinho pela rede.</div>
+      <div class="line"><b>Por que aprender:</b> O Morris Worm (1988) foi o primeiro grande susto.</div>
+      <a href="https://www.imperva.com/learn/application-security/computer-worm/" target="_blank">Imperva — Worm ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🦠 Vírus <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Malware que precisa de ação humana para se propagar.</div>
+      <div class="line"><b>Por que aprender:</b> A categoria mais clássica.</div>
+      <a href="https://www.avast.com/c-computer-virus" target="_blank">Avast — O que é vírus ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>👁️ Spyware <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Software espião que coleta dados sem consentimento.</div>
+      <div class="line"><b>Por que aprender:</b> Pegasus, FinFisher — espionagem real e cara.</div>
+      <a href="https://us.norton.com/blog/malware/spyware" target="_blank">Norton — Spyware ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⌨️ Keylogger <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Registra tudo que é digitado no teclado.</div>
+      <div class="line"><b>Por que aprender:</b> Rouba senhas mesmo com criptografia no canal.</div>
+      <a href="https://www.kaspersky.com/resource-center/definitions/keylogger" target="_blank">Kaspersky — Keylogger ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📺 Adware <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Exibe anúncios indesejados, geralmente disfarçado de freeware.</div>
+      <div class="line"><b>Por que aprender:</b> Aparentemente "leve" — mas costuma vir junto com spyware.</div>
+      <a href="https://www.malwarebytes.com/adware" target="_blank">Malwarebytes — Adware ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>👹 Rootkit <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Ferramentas que mantêm acesso oculto e privilegiado.</div>
+      <div class="line"><b>Por que aprender:</b> Quase impossível de detectar sem ferramentas dedicadas.</div>
+      <a href="https://www.kaspersky.com/resource-center/definitions/what-is-rootkit" target="_blank">Kaspersky — Rootkit ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚪 Backdoor <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> "Porta dos fundos" deixada para retornar ao sistema.</div>
+      <div class="line"><b>Por que aprender:</b> Persistência é tão importante quanto invasão.</div>
+      <a href="https://www.malwarebytes.com/backdoor" target="_blank">Malwarebytes — Backdoor ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌊 DDoS <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Sobrecarga distribuída de requisições para derrubar um serviço.</div>
+      <div class="line"><b>Por que aprender:</b> Botnets fazem isso por aluguel — barato e devastador.</div>
+      <a href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/" target="_blank">Cloudflare — DDoS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💥 DoS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Negação de serviço de uma única origem.</div>
+      <div class="line"><b>Por que aprender:</b> Versão "simples" do DDoS — base do conceito.</div>
+      <a href="https://www.cisa.gov/news-events/news/understanding-denial-service-attacks" target="_blank">CISA — DoS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔨 Brute Force <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Tenta todas as combinações de senha possíveis.</div>
+      <div class="line"><b>Por que aprender:</b> Mostra por que MFA é essencial.</div>
+      <a href="https://owasp.org/www-community/attacks/Brute_force_attack" target="_blank">OWASP — Brute Force ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💉 SQL Injection <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Injeção de comandos SQL via campos de aplicação.</div>
+      <div class="line"><b>Por que aprender:</b> Top 3 do OWASP há 20 anos seguidos.</div>
+      <a href="https://portswigger.net/web-security/sql-injection" target="_blank">PortSwigger — SQLi ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🕷️ XSS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Cross-Site Scripting — injeta JavaScript em páginas vistas por outros.</div>
+      <div class="line"><b>Por que aprender:</b> Roubar cookies de sessão = roubar contas inteiras.</div>
+      <a href="https://owasp.org/www-community/attacks/xss/" target="_blank">OWASP — XSS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎭 CSRF <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Força usuário autenticado a executar ações sem consentir.</div>
+      <div class="line"><b>Por que aprender:</b> Vetor sutil mas perigoso em apps web.</div>
+      <a href="https://portswigger.net/web-security/csrf" target="_blank">PortSwigger — CSRF ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🪞 Man-in-the-Middle <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Atacante intercepta comunicação entre duas partes.</div>
+      <div class="line"><b>Por que aprender:</b> Wi-Fi público sem VPN = isso pode estar rolando agora.</div>
+      <a href="https://www.cloudflare.com/learning/security/threats/man-in-the-middle-attack/" target="_blank">Cloudflare — MITM ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🪪 Spoofing <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Falsificação de identidade (IP, e-mail, DNS).</div>
+      <div class="line"><b>Por que aprender:</b> Base de phishing e MITM.</div>
+      <a href="https://www.forcepoint.com/cyber-edu/spoofing" target="_blank">Forcepoint — Spoofing ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>☠️ DNS Poisoning <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Corrompe cache DNS para redirecionar para sites falsos.</div>
+      <div class="line"><b>Por que aprender:</b> Você digita o banco certo e cai num clone.</div>
+      <a href="https://www.cloudflare.com/learning/dns/dns-cache-poisoning/" target="_blank">Cloudflare — DNS Poisoning ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎨 Defacement <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Pichação digital — altera visualmente uma página web.</div>
+      <div class="line"><b>Por que aprender:</b> Marca registrada de hacktivismo.</div>
+      <a href="https://www.imperva.com/learn/application-security/website-defacement-attack/" target="_blank">Imperva — Defacement ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💣 Buffer Overflow <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Estouro de buffer — escrever além do espaço alocado.</div>
+      <div class="line"><b>Por que aprender:</b> Vetor clássico para RCE em software nativo.</div>
+      <a href="https://owasp.org/www-community/vulnerabilities/Buffer_Overflow" target="_blank">OWASP — Buffer Overflow ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⛏️ Cryptojacking <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Usar CPU/GPU da vítima para minerar criptomoeda.</div>
+      <div class="line"><b>Por que aprender:</b> Silencioso, persistente, lucrativo para o atacante.</div>
+      <a href="https://www.kaspersky.com/resource-center/definitions/what-is-cryptojacking" target="_blank">Kaspersky — Cryptojacking ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⚙️ Exploit <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Código que aproveita uma vulnerabilidade específica.</div>
+      <div class="line"><b>Por que aprender:</b> Sem exploit, vulnerabilidade é só teoria.</div>
+      <a href="https://www.exploit-db.com/" target="_blank">Exploit-DB ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📦 Payload <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> A parte do ataque que executa a ação maliciosa.</div>
+      <div class="line"><b>Por que aprender:</b> Exploit é a chave, payload é o que vc faz depois.</div>
+      <a href="https://www.offsec.com/metasploit-unleashed/payloads/" target="_blank">OffSec — Payloads ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📁 LFI / RFI <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Inclusão de arquivos locais (LFI) ou remotos (RFI) em apps web.</div>
+      <div class="line"><b>Por que aprender:</b> Leitura de /etc/passwd em 1 URL é assustador.</div>
+      <a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion" target="_blank">OWASP — LFI Testing ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🆔 IDOR <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Trocar IDs na URL (?id=123 → ?id=124) e acessar dados de outro user.</div>
+      <div class="line"><b>Por que aprender:</b> Vuln mais paga em programas de Bug Bounty.</div>
+      <a href="https://portswigger.net/web-security/access-control/idor" target="_blank">PortSwigger — IDOR ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>0️⃣ Zero-Day <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Vulnerabilidade descoberta antes que o fabricante saiba.</div>
+      <div class="line"><b>Por que aprender:</b> Valem milhões no mercado negro e em bug bounty.</div>
+      <a href="https://www.zerodayinitiative.com/" target="_blank">Zero Day Initiative ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎯 APT <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Advanced Persistent Threat — ataque longo, direcionado, patrocinado.</div>
+      <div class="line"><b>Por que aprender:</b> Onde estados-nação operam (APT28, Lazarus).</div>
+      <a href="https://attack.mitre.org/groups/" target="_blank">MITRE ATT&amp;CK — Groups ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÍVEL 5 -->
+<section id="nivel5" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl5">🛡️</div>
+    <div>
+      <h2>Nível 5 — Defesa &amp; Blue Team</h2>
+      <div class="sub">PROTEÇÃO • MONITORAMENTO • RESPOSTA</div>
+    </div>
+  </div>
+  <img class="hero-img" src="defense.png" alt="Defesa cibernética" style="margin: 12px 0 28px; max-height: 420px; object-fit: cover;">
+  <div class="cards">
+
+    <div class="topic">
+      <h3>🧱 Firewall <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Filtra tráfego de rede baseado em regras.</div>
+      <div class="line"><b>Por que aprender:</b> Primeira linha de defesa em qualquer perímetro.</div>
+      <a href="https://www.cisco.com/c/en/us/products/security/firewalls/what-is-a-firewall.html" target="_blank">Cisco — Firewall ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌐 WAF <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Firewall específico para aplicações web (HTTP/HTTPS).</div>
+      <div class="line"><b>Por que aprender:</b> Bloqueia SQLi, XSS e OWASP Top 10 automaticamente.</div>
+      <a href="https://owasp.org/www-community/Web_Application_Firewall" target="_blank">OWASP — WAF ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔎 IDS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Intrusion Detection System — detecta e alerta sobre anomalias.</div>
+      <div class="line"><b>Por que aprender:</b> Você não defende o que não vê.</div>
+      <a href="https://www.snort.org/" target="_blank">Snort (IDS open source) ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🛑 IPS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Intrusion Prevention System — detecta E bloqueia automaticamente.</div>
+      <div class="line"><b>Por que aprender:</b> IDS avisa, IPS impede.</div>
+      <a href="https://www.fortinet.com/resources/cyberglossary/what-is-an-ips" target="_blank">Fortinet — IPS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💊 Antivírus <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Software que detecta e remove malware.</div>
+      <div class="line"><b>Por que aprender:</b> Camada básica mas indispensável em endpoint.</div>
+      <a href="https://www.crowdstrike.com/cybersecurity-101/endpoint-security/endpoint-detection-and-response-edr/" target="_blank">CrowdStrike — EDR ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔐 VPN <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Túnel criptografado entre você e um servidor remoto.</div>
+      <div class="line"><b>Por que aprender:</b> Wi-Fi público sem VPN = porta aberta.</div>
+      <a href="https://protonvpn.com/blog/what-is-vpn/" target="_blank">Proton — O que é VPN ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📊 SIEM <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Centraliza logs e correlaciona eventos de segurança.</div>
+      <div class="line"><b>Por que aprender:</b> Cérebro de qualquer SOC moderno.</div>
+      <a href="https://www.splunk.com/en_us/data-insider/what-is-siem.html" target="_blank">Splunk — SIEM ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🏢 SOC <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Security Operations Center — equipe que monitora 24/7.</div>
+      <div class="line"><b>Por que aprender:</b> Modelo de serviço lucrativo (R$ 1k a 10k+/mês).</div>
+      <a href="https://www.ibm.com/topics/security-operations-center" target="_blank">IBM — SOC ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🍯 Honeypot <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Armadilha que finge ser um sistema real para atrair atacantes.</div>
+      <div class="line"><b>Por que aprender:</b> Detecta intenção antes do dano.</div>
+      <a href="https://www.honeynet.org/" target="_blank">The Honeynet Project ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔑 2FA / MFA <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Autenticação com 2+ fatores (algo que sabe, tem, é).</div>
+      <div class="line"><b>Por que aprender:</b> Mata 99% dos ataques baseados em senha vazada.</div>
+      <a href="https://www.cisa.gov/news-events/news/more-just-good-idea-why-mfa-matters" target="_blank">CISA — Por que MFA importa ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🪪 Autenticação <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Verificar se você é quem diz ser.</div>
+      <div class="line"><b>Por que aprender:</b> Base de IAM (Identity and Access Management).</div>
+      <a href="https://auth0.com/intro-to-iam/what-is-authentication" target="_blank">Auth0 — Authentication ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚦 Autorização <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Definir o que você pode fazer depois de autenticado.</div>
+      <div class="line"><b>Por que aprender:</b> Falhas aqui = IDOR, privilege escalation.</div>
+      <a href="https://auth0.com/intro-to-iam/what-is-authorization" target="_blank">Auth0 — Authorization ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎟️ Token <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Objeto físico ou digital usado como fator de autenticação.</div>
+      <div class="line"><b>Por que aprender:</b> YubiKey, JWT, OAuth — tudo é token.</div>
+      <a href="https://jwt.io/introduction" target="_blank">JWT.io — Introdução ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🧬 Hash <span class="badge old">✅</span></h3>
+      <div class="line"><b>O que é:</b> Função unidirecional que gera "impressão digital" de dados.</div>
+      <div class="line"><b>Por que aprender:</b> Como senhas devem ser armazenadas.</div>
+      <a href="https://www.okta.com/identity-101/hashing-algorithms/" target="_blank">Okta — Hashing ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔒 Criptografia <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Codifica dados para que só quem tem a chave leia.</div>
+      <div class="line"><b>Por que aprender:</b> AES, RSA, ECC — base de tudo que é seguro.</div>
+      <a href="https://www.khanacademy.org/computing/computer-science/cryptography" target="_blank">Khan Academy — Criptografia ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔐 SSL/TLS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Protocolos que criptografam o tráfego web (HTTPS).</div>
+      <div class="line"><b>Por que aprender:</b> Sem TLS, login = postal.</div>
+      <a href="https://www.cloudflare.com/learning/ssl/what-is-ssl/" target="_blank">Cloudflare — SSL/TLS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🩹 Patch <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Correção lançada pelo fabricante para uma falha.</div>
+      <div class="line"><b>Por que aprender:</b> 60% dos breaches usam vuln com patch disponível.</div>
+      <a href="https://learn.microsoft.com/en-us/security-updates/" target="_blank">Microsoft — Security Updates ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌐 HTTP/HTTPS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Protocolos da web. S = Seguro (com TLS).</div>
+      <div class="line"><b>Por que aprender:</b> Não entender HTTP é não entender a web.</div>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank">MDN — HTTP ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔬 Forense Digital <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Coleta e análise de evidências digitais pós-incidente.</div>
+      <div class="line"><b>Por que aprender:</b> Carreira sólida e bem paga em investigação.</div>
+      <a href="https://www.sans.org/cyber-security-courses/?focus-area=digital-forensics-incident-response" target="_blank">SANS — DFIR ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚩 IOC <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Indicator of Compromise — pistas que indicam invasão.</div>
+      <div class="line"><b>Por que aprender:</b> Hash, IP, domínio — você procura esses no SIEM.</div>
+      <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🧠 Threat Intelligence <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Inteligência sobre ameaças (atuais e emergentes).</div>
+      <div class="line"><b>Por que aprender:</b> Defesa proativa &gt; reativa.</div>
+      <a href="https://www.crowdstrike.com/cybersecurity-101/threat-intelligence/" target="_blank">CrowdStrike — Threat Intel ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💰 Bug Bounty <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Programa que paga por vulnerabilidades reportadas.</div>
+      <div class="line"><b>Por que aprender:</b> R$ 1k a R$ 50k+ por bug. Legalmente.</div>
+      <a href="https://www.hackerone.com/bug-bounty-programs" target="_blank">HackerOne — Programs ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⚔️ Takedown <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Derrubar sites fraudulentos (clones, phishing).</div>
+      <div class="line"><b>Por que aprender:</b> Serviço cobrado a partir de R$ 1k por ocorrência.</div>
+      <a href="https://safebrowsing.google.com/safebrowsing/report_phish/" target="_blank">Google — Reportar phishing ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚫 Zero Trust <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> "Nunca confie, sempre verifique" — modelo padrão moderno.</div>
+      <div class="line"><b>Por que aprender:</b> Substituiu o velho "rede interna = segura".</div>
+      <a href="https://www.nist.gov/publications/zero-trust-architecture" target="_blank">NIST — Zero Trust Architecture ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÍVEL 6 -->
+<section id="nivel6" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl6">🔐</div>
+    <div>
+      <h2>Nível 6 — Técnicas Avançadas</h2>
+      <div class="sub">RED TEAM • PÓS-EXPLORAÇÃO • PESQUISA</div>
+    </div>
+  </div>
+  <div class="cards">
+
+    <div class="topic">
+      <h3>🎯 Pentest <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Penetration Test — invasão autorizada e controlada.</div>
+      <div class="line"><b>Por que aprender:</b> Carreira ofensiva por excelência.</div>
+      <a href="https://www.offsec.com/courses/pen-200/" target="_blank">OSCP — PEN-200 (OffSec) ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📑 Pentest Report <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Relatório técnico e executivo entregue ao cliente.</div>
+      <div class="line"><b>Por que aprender:</b> Saber escrever vale mais que saber atacar.</div>
+      <a href="https://github.com/juliocesarfort/public-pentesting-reports" target="_blank">GitHub — Sample Pentest Reports ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔴 Red Team <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Equipe ofensiva que simula ataques reais contra uma empresa.</div>
+      <div class="line"><b>Por que aprender:</b> Próximo nível depois de pentester.</div>
+      <a href="https://tryhackme.com/r/path/outline/redteaming" target="_blank">TryHackMe — Red Team Path ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>↔️ Lateral Movement <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Mover-se entre máquinas após o acesso inicial.</div>
+      <div class="line"><b>Por que aprender:</b> Maior parte do dano acontece DEPOIS da invasão.</div>
+      <a href="https://attack.mitre.org/tactics/TA0008/" target="_blank">MITRE — Lateral Movement ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>⬆️ Escalada de Privilégios <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> De usuário comum para root/admin.</div>
+      <div class="line"><b>Por que aprender:</b> Acesso baixo é inútil — você quer ser admin.</div>
+      <a href="https://tryhackme.com/r/room/linuxprivesc" target="_blank">TryHackMe — Linux PrivEsc ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🔄 Reverse Engineering <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Analisar binário sem código-fonte para entender lógica.</div>
+      <div class="line"><b>Por que aprender:</b> Análise de malware e descoberta de 0-days.</div>
+      <a href="https://ghidra-sre.org/" target="_blank">Ghidra (NSA) ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🐚 Shell <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Interface de comando — obter "shell" = controlar o sistema.</div>
+      <div class="line"><b>Por que aprender:</b> Reverse shell é o santo graal de qualquer invasão.</div>
+      <a href="https://www.revshells.com/" target="_blank">RevShells.com ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🤖 Botnet <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Rede de máquinas comprometidas (zumbis) controladas remotamente.</div>
+      <div class="line"><b>Por que aprender:</b> Combustível dos maiores DDoS da história.</div>
+      <a href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-botnet/" target="_blank">Cloudflare — Botnet ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🧟 Zombie <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Máquina pertencente a uma botnet, sem o dono saber.</div>
+      <div class="line"><b>Por que aprender:</b> Seu PC pode estar nessa hora mesmo.</div>
+      <a href="https://www.kaspersky.com/resource-center/threats/botnet-attacks" target="_blank">Kaspersky — Botnet/Zombie ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌀 Fuzzing <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Envia dados aleatórios/inválidos para encontrar bugs.</div>
+      <div class="line"><b>Por que aprender:</b> Como muitos 0-days nascem.</div>
+      <a href="https://github.com/google/AFL" target="_blank">AFL — Fuzzer do Google ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🚪 Port Scanning <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Mapeia portas abertas em um host.</div>
+      <div class="line"><b>Por que aprender:</b> Primeiro passo prático em qualquer ataque.</div>
+      <a href="https://nmap.org/book/man-port-scanning-techniques.html" target="_blank">Nmap — Port Scanning ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>👃 Sniffing <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Capturar pacotes trafegando na rede.</div>
+      <div class="line"><b>Por que aprender:</b> Wireshark + rede aberta = senhas em texto claro.</div>
+      <a href="https://www.wireshark.org/" target="_blank">Wireshark ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🌫️ Ofuscação <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Esconder lógica de malware para escapar de antivírus.</div>
+      <div class="line"><b>Por que aprender:</b> Análise reversa e evasão de defesa.</div>
+      <a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE — Obfuscated Files ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🕵️ Ciberespionagem <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Roubar segredos via meios cibernéticos.</div>
+      <div class="line"><b>Por que aprender:</b> APTs estatais vivem disso.</div>
+      <a href="https://www.fireeye.com/blog/threat-research.html" target="_blank">Mandiant — Threat Research ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📜 CVE <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Common Vulnerabilities and Exposures — registro público.</div>
+      <div class="line"><b>Por que aprender:</b> Toda vuln conhecida tem um CVE-AAAA-NNNNN.</div>
+      <a href="https://cve.mitre.org/" target="_blank">cve.mitre.org ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📈 CVSS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Sistema de pontuação 0-10 que classifica severidade.</div>
+      <div class="line"><b>Por que aprender:</b> Prioriza o que corrigir primeiro.</div>
+      <a href="https://www.first.org/cvss/" target="_blank">FIRST — CVSS ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🏆 OWASP <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Fundação que publica o Top 10 de vulns web.</div>
+      <div class="line"><b>Por que aprender:</b> Bíblia da segurança em aplicações.</div>
+      <a href="https://owasp.org/Top10/" target="_blank">OWASP Top 10 ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💻 Endpoint <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Dispositivo final na rede (PC, celular, servidor).</div>
+      <div class="line"><b>Por que aprender:</b> Alvo #1 nos ataques modernos.</div>
+      <a href="https://www.crowdstrike.com/cybersecurity-101/endpoint-security/" target="_blank">CrowdStrike — Endpoint Security ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>📱 BYOD <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Bring Your Own Device — usar dispositivo pessoal no trabalho.</div>
+      <div class="line"><b>Por que aprender:</b> Pesadelo de governança e isolamento.</div>
+      <a href="https://www.cisa.gov/news-events/news/cyber-essentials-toolkit-chapter-1" target="_blank">CISA — BYOD ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🎯 Vetor de Ataque <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Caminho pelo qual o atacante chega ao sistema.</div>
+      <div class="line"><b>Por que aprender:</b> Reduzir vetores = reduzir superfície de ataque.</div>
+      <a href="https://attack.mitre.org/tactics/TA0001/" target="_blank">MITRE — Initial Access ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>💾 Dump <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Exportação massiva de dados após comprometimento.</div>
+      <div class="line"><b>Por que aprender:</b> Vaza no PasteBin, no Telegram, na dark web.</div>
+      <a href="https://haveibeenpwned.com/PwnedWebsites" target="_blank">HIBP — Pwned Websites ↗</a>
+    </div>
+
+    <div class="topic">
+      <h3>🧪 Heurística <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Detecção por comportamento, não por assinatura.</div>
+      <div class="line"><b>Por que aprender:</b> Como antivírus modernos pegam malware desconhecido.</div>
+      <a href="https://www.kaspersky.com/resource-center/definitions/heuristic-analysis" target="_blank">Kaspersky — Heuristic Analysis ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Quiz -->
+<section id="quiz">
+  <div class="quiz">
+    <h3>🎮 Mini quiz — Fixe o que aprendeu</h3>
+    <div id="question">O que é phishing?</div>
+    <button class="option" onclick="answer(false, 'Um firewall avan&ccedil;ado')">🛡️ Um firewall avançado</button>
+    <button class="option" onclick="answer(true, 'Um golpe que engana pessoas para roubar dados')">🎣 Um golpe que engana pessoas para roubar dados</button>
+    <button class="option" onclick="answer(false, 'Um tipo de VPN')">🔐 Um tipo de VPN</button>
+    <div id="quizResult"></div>
+  </div>
+</section>
+
 </main>
 
 <div class="footer">
-  Guia criado para estudo visual. Use conhecimento de cyber apenas com autorização. A lei não aceita “foi só um teste, chefe” como superpoder jurídico.
+  <p>Trilha criada para estudo visual. Use seu conhecimento de cyber <b>apenas com autorização</b>.<br>
+  A lei não aceita "foi só um teste, chefe" como superpoder jurídico.<br>
+  <br>
+  📚 Baseado em materiais da <a href="https://www.youtube.com/@TIAcademy" target="_blank">TI Academy</a> (Prof. Robson Costa) e conteúdo prévio do guia.<br>
+  ⚖️ Conforme Lei 12.737/2012 (Carolina Dieckmann) e Marco Civil da Internet.</p>
 </div>
 
 <script>
-function answer(ok) {
+function answer(ok, label) {
   const r = document.getElementById("quizResult");
-  r.innerHTML = ok ? "✅ Certo. Phishing explora pessoas, não só sistemas." : "❌ Não. Tenta de novo, antes que o criminoso tente por você.";
+  r.style.color = ok ? "var(--green)" : "var(--pink)";
+  r.innerHTML = ok
+    ? "✅ Certo! Phishing explora pessoas, não sistemas. Próximo nível: estudar engenharia social."
+    : "❌ Não. Tenta de novo, antes que o criminoso tente por você.";
 }
 </script>
 </body>
