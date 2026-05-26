@@ -1,0 +1,12 @@
+[build]
+publish = "."
+
+[dev]
+command = ""
+
+[build.environment]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
