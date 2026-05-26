@@ -71,15 +71,17 @@ h1 span { color: var(--cyan); text-shadow: 0 0 22px rgba(0,217,255,.45); }
 
 main { padding: 0 42px 70px; }
 
-/* Barra de busca fixa */
-.searchbar {
+/* Barra fixa: busca + navegação por abas */
+.topbar {
   position: sticky; top: 0; z-index: 60;
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 42px;
-  background: rgba(3,6,17,.92);
+  background: rgba(3,6,17,.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,217,255,.25);
+}
+.searchbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 42px 8px;
 }
 .searchbar input {
   flex: 1; min-width: 0;
@@ -94,7 +96,36 @@ main { padding: 0 42px 70px; }
 .searchbar input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 16px rgba(0,217,255,.25); }
 .search-count { color: var(--cyan); font-size: 13px; font-weight: 700; white-space: nowrap; }
 .search-empty { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 16px; }
-@media (max-width: 950px) { .searchbar { padding: 10px 16px; } .searchbar input { font-size: 15px; padding: 11px 16px; } }
+
+/* Navegação por abas (chips horizontais) */
+.navtabs {
+  display: flex; gap: 8px;
+  padding: 4px 42px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.navtabs::-webkit-scrollbar { display: none; }
+.navchip {
+  flex-shrink: 0;
+  white-space: nowrap;
+  background: rgba(0,217,255,.06);
+  border: 1px solid rgba(0,217,255,.3);
+  color: var(--muted);
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+}
+.navchip:hover { background: rgba(0,217,255,.12); color: var(--text); }
+.navchip.active { background: linear-gradient(135deg, var(--cyan), #0066ff); border-color: var(--cyan); color: #021019; }
+@media (max-width: 950px) {
+  .searchbar { padding: 10px 16px 6px; }
+  .searchbar input { font-size: 15px; padding: 11px 16px; }
+  .navtabs { padding: 4px 16px 10px; }
+  .navchip { font-size: 13px; padding: 8px 13px; }
+}
 
 /* Metadata box */
 .meta {
@@ -391,9 +422,12 @@ main { padding: 0 42px 70px; }
 </head>
 <body>
 
-<div class="searchbar">
-  <input id="searchInput" type="search" placeholder="🔎 Buscar conceito (ex: phishing, hash, nmap, ransomware)..." autocomplete="off" spellcheck="false">
-  <span id="searchCount" class="search-count"></span>
+<div class="topbar">
+  <div class="searchbar">
+    <input id="searchInput" type="search" placeholder="🔎 Buscar conceito (ex: phishing, hash, nmap, ransomware)..." autocomplete="off" spellcheck="false">
+    <span id="searchCount" class="search-count"></span>
+  </div>
+  <div id="navTabs" class="navtabs"></div>
 </div>
 <div id="searchEmpty" class="search-empty" style="display:none;">Nenhum conceito encontrado. Tente outro termo.</div>
 
@@ -2707,32 +2741,69 @@ function answer(ok, label) {
   render();
 })();
 
-// ===== Busca / filtro de conceitos =====
+// ===== Navega\u00e7\u00e3o por abas + busca =====
 (function(){
   var si = document.getElementById('searchInput');
   var sc = document.getElementById('searchCount');
   var empty = document.getElementById('searchEmpty');
-  if(!si) return;
+  var nav = document.getElementById('navTabs');
+  if(!si || !nav) return;
+
+  function byId(id){ return document.getElementById(id); }
+  var header = document.querySelector('header');
+  var meta = byId('meta');
+
+  var views = [
+    { k:'inicio',  label:'\ud83c\udfe0 In\u00edcio',     els:[header, meta] },
+    { k:'nivel1',  label:'\ud83e\udde0 Fundamentos', els:[byId('nivel1')] },
+    { k:'nivel2',  label:'\ud83d\udd0d Recon',       els:[byId('nivel2')] },
+    { k:'nivel3',  label:'\ud83d\udee0\ufe0f Ferramentas', els:[byId('nivel3')] },
+    { k:'nivel4',  label:'\u2694\ufe0f Ataques',     els:[byId('nivel4')] },
+    { k:'nivel5',  label:'\ud83d\udee1\ufe0f Defesa',      els:[byId('nivel5')] },
+    { k:'nivel6',  label:'\ud83d\udd10 Avan\u00e7ado',    els:[byId('nivel6')] },
+    { k:'gerador', label:'\ud83e\uddf0 Gerador',     els:[byId('gerador')] },
+    { k:'quiz',    label:'\ud83c\udfae Quiz',        els:[byId('quiz')] }
+  ];
+  var conceptLevels = ['nivel1','nivel2','nivel3','nivel4','nivel5','nivel6'].map(byId);
+  var allEls = []; views.forEach(function(v){ v.els.forEach(function(e){ if(e && allEls.indexOf(e) < 0) allEls.push(e); }); });
+
   function norm(s){ return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
   var topics = Array.prototype.slice.call(document.querySelectorAll('.topic'));
-  var levels = Array.prototype.slice.call(document.querySelectorAll('section.level'));
   topics.forEach(function(t){ t._txt = norm(t.textContent); });
 
-  function filter(){
+  var active = 'inicio';
+  var chips = {};
+
+  function setActiveChip(k){
+    for(var key in chips){ chips[key].classList.toggle('active', key === k); }
+  }
+
+  function showView(k){
+    active = k;
+    si.value = '';
+    sc.textContent = '';
+    empty.style.display = 'none';
+    topics.forEach(function(t){ t.style.display = ''; });
+    allEls.forEach(function(e){ e.style.display = 'none'; });
+    var v = views.filter(function(x){ return x.k === k; })[0] || views[0];
+    v.els.forEach(function(e){ if(e) e.style.display = ''; });
+    setActiveChip(k);
+    window.scrollTo(0, 0);
+  }
+
+  function doSearch(){
     var q = norm(si.value.trim());
-    if(!q){
-      topics.forEach(function(t){ t.style.display = ''; });
-      levels.forEach(function(l){ l.style.display = ''; });
-      sc.textContent = ''; empty.style.display = 'none';
-      return;
-    }
+    if(!q){ showView(active); return; }
+    setActiveChip(null);
+    allEls.forEach(function(e){ e.style.display = 'none'; });
     var n = 0;
     topics.forEach(function(t){
       var hit = t._txt.indexOf(q) >= 0;
       t.style.display = hit ? '' : 'none';
       if(hit) n++;
     });
-    levels.forEach(function(l){
+    conceptLevels.forEach(function(l){
+      if(!l) return;
       var tp = l.querySelectorAll('.topic'); var vis = false;
       for(var i=0;i<tp.length;i++){ if(tp[i].style.display !== 'none'){ vis = true; break; } }
       l.style.display = vis ? '' : 'none';
@@ -2740,7 +2811,24 @@ function answer(ok, label) {
     sc.textContent = n + (n === 1 ? ' resultado' : ' resultados');
     empty.style.display = n ? 'none' : 'block';
   }
-  si.addEventListener('input', filter);
+
+  // monta os chips
+  views.forEach(function(v){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'navchip'; b.textContent = v.label;
+    b.addEventListener('click', function(){ showView(v.k); });
+    chips[v.k] = b; nav.appendChild(b);
+  });
+
+  // links do her\u00f3i passam a trocar de aba
+  var hashMap = { '#nivel1':'nivel1','#nivel2':'nivel2','#nivel3':'nivel3','#nivel4':'nivel4','#nivel5':'nivel5','#nivel6':'nivel6','#gerador':'gerador','#quiz':'quiz','#meta':'inicio' };
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    var h = a.getAttribute('href');
+    if(hashMap[h]){ a.addEventListener('click', function(ev){ ev.preventDefault(); showView(hashMap[h]); }); }
+  });
+
+  si.addEventListener('input', doSearch);
+  showView('inicio');
 })();
 </script>
 </body>
