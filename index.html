@@ -2415,6 +2415,7 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
     <div class="gen-tabs">
       <button type="button" class="gen-tab active" data-tab="dorks">🔎 Google Dorks</button>
       <button type="button" class="gen-tab" data-tab="cmds">🐧 Comandos (terminal)</button>
+      <button type="button" class="gen-tab" data-tab="discover">❓ Como descobrir</button>
     </div>
 
     <div id="genOut"></div>
@@ -2558,6 +2559,43 @@ function answer(ok, label) {
       flags:[['-l','modo listen (escutar conexões)'],['-v','verboso (mostra detalhes)'],['-n','não resolve nomes DNS'],['-p 4444','porta em que vai escutar']]}
   ];
 
+  // "não tenho a info X → use isto para descobrir"
+  var discover = [
+    {t:'❓ Não sei o IP → descubra', cmd:function(d){return 'dig +short '+d;}, desc:'Resolve o domínio para o endereço IP.', badge:'passivo', web:function(d){return 'https://toolbox.googleapps.com/apps/dig/#A/'+d;}, webLabel:'🌐 Abrir online',
+      resumo:'Sem o IP? O DNS te entrega. Equivalentes que fazem o mesmo: host DOMÍNIO, nslookup DOMÍNIO e ping -c1 DOMÍNIO.',
+      flags:[['dig +short','pergunta ao DNS só o IP'],['host / nslookup','alternativas que fazem o mesmo'],['ping -c1','também revela o IP se o alvo responder']]},
+    {t:'❓ Não sei as portas → descubra', cmd:function(d){return 'nmap -p- -T4 '+d;}, desc:'Varre todas as portas para achar as abertas.', badge:'ativo',
+      resumo:'Sem saber portas/serviços, o nmap descobre. -p- testa todas as 65535; depois rode -sV nas que abrirem para ver as versões.',
+      flags:[['-p-','testa todas as 65535 portas'],['-T4','mais rápido'],['próximo passo','nmap -sV -p <abertas> DOMÍNIO para as versões']]},
+    {t:'❓ Não sei subdomínios → descubra', cmd:function(d){return 'sublist3r -d '+d;}, desc:'Enumera subdomínios via OSINT.', badge:'passivo', web:function(d){return 'https://crt.sh/?q=%25.'+d;}, webLabel:'🌐 Ver no crt.sh',
+      resumo:'Cada subdomínio (api., dev., loja.) é uma nova porta de entrada. O crt.sh acha pelos certificados emitidos — abre no navegador, sem instalar nada.',
+      flags:[['sublist3r -d','enumera subdomínios do alvo'],['crt.sh','busca subdomínios em certificados públicos (100% passivo)']]},
+    {t:'❓ Não sei o servidor/tecnologias → descubra', cmd:function(d){return 'whatweb https://'+d;}, desc:'Identifica servidor, CMS, linguagem e libs.', badge:'ativo', web:function(d){return 'https://builtwith.com/'+d;}, webLabel:'🌐 Ver no BuiltWith',
+      resumo:'Mostra qual servidor (Apache/Nginx), CMS (é WordPress?), framework e versões o site usa — base para decidir o próximo passo.',
+      flags:[['whatweb','fingerprint de tecnologias web'],['BuiltWith','versão online, sem instalar nada']]},
+    {t:'❓ Não sei o sistema operacional → descubra', cmd:function(d){return 'sudo nmap -O '+d;}, desc:'Estima o SO pelo comportamento de rede.', badge:'ativo',
+      resumo:'O -O analisa detalhes dos pacotes para estimar o sistema operacional do alvo (Linux, Windows, versão aproximada). Precisa de sudo.',
+      flags:[['-O','detecção de sistema operacional'],['sudo','necessário para esse tipo de sonda']]},
+    {t:'❓ Não sei e-mails/nomes → descubra', cmd:function(d){return 'theHarvester -d '+d+' -b all';}, desc:'Coleta e-mails e nomes públicos do alvo.', badge:'passivo',
+      resumo:'Junta e-mails, nomes e subdomínios de fontes públicas — útil para mapear a superfície humana (engenharia social) sem tocar no alvo.',
+      flags:[['-d','domínio alvo'],['-b all','todas as fontes públicas de busca']]},
+    {t:'❓ Não sei páginas/pastas → descubra', cmd:function(d,o){return 'gobuster dir -u https://'+d+' -w '+o.dirlist;}, desc:'Acha rotas e arquivos escondidos.', badge:'ativo',
+      resumo:'Quando não há links públicos, o gobuster testa nomes comuns (/admin, /backup, /api) e revela o que existe. Ajuste a "Wordlist de diretórios" nos campos acima.',
+      flags:[['dir','busca de diretórios/arquivos'],['-u','URL alvo'],['-w','wordlist (vem do campo Wordlist de diretórios)']]},
+    {t:'❓ Não sei registros DNS (MX/NS/TXT) → descubra', cmd:function(d){return 'dig '+d+' ANY +noall +answer';}, desc:'Mostra e-mail, servidores e SPF.', badge:'passivo', web:function(d){return 'https://toolbox.googleapps.com/apps/dig/#ANY/'+d;}, webLabel:'🌐 Abrir online',
+      resumo:'Lista todos os tipos de registro de uma vez: servidores de e-mail (MX), de nome (NS) e políticas anti-spam (TXT/SPF).',
+      flags:[['ANY','pede todos os tipos de registro'],['+noall +answer','saída limpa, só as respostas']]},
+    {t:'❓ Não sei quem é o dono → descubra', cmd:function(d){return 'whois '+d;}, desc:'Registrante, datas e contatos do domínio.', badge:'passivo', web:function(d){return 'https://who.is/whois/'+d;}, webLabel:'🌐 Abrir WHOIS',
+      resumo:'O registro público traz quem registrou o domínio, quando, e às vezes e-mail/telefone de contato.',
+      flags:[['whois','consulta o registro público do domínio']]},
+    {t:'❓ Não sei as máquinas da rede → descubra', cmd:function(d){return 'nmap -sn 192.168.0.0/24';}, desc:'Ping sweep: lista os hosts vivos numa faixa.', badge:'ativo',
+      resumo:'Quando você está numa rede e não sabe os IPs ativos, o -sn faz um "ping sweep" e lista quem está ligado. Troque 192.168.0.0/24 pela sua faixa de rede.',
+      flags:[['-sn','descoberta de hosts (sem escanear portas)'],['192.168.0.0/24','a faixa de rede a varrer — ajuste para a sua']]},
+    {t:'❓ Não tenho wordlist → consiga uma', cmd:function(d){return 'sudo gunzip /usr/share/wordlists/rockyou.txt.gz';}, desc:'A rockyou já vem no Kali (compactada).', badge:'local', web:function(d){return 'https://github.com/danielmiessler/SecLists';}, webLabel:'🌐 Baixar SecLists',
+      resumo:'No Kali, a famosa rockyou.txt vem em /usr/share/wordlists/ (descompacte com gunzip). Para muito mais listas (usuários, diretórios, subdomínios), use o SecLists.',
+      flags:[['gunzip ...rockyou.txt.gz','descompacta a wordlist que já vem no Kali'],['SecLists','a maior coleção de wordlists (GitHub)']]}
+  ];
+
   function copyBtn(code){
     var copy = document.createElement('button'); copy.type = 'button'; copy.className = 'gen-btn copy'; copy.textContent = '📋 Copiar';
     copy.addEventListener('click', function(ev){
@@ -2624,7 +2662,7 @@ function answer(ok, label) {
   function render(){
     var d = clean(input.value) || 'exemplo.com';
     out.innerHTML = '';
-    if(params){ params.classList.toggle('show', current === 'cmds'); }
+    if(params){ params.classList.toggle('show', current !== 'dorks'); }
     var note = document.createElement('p'); note.className = 'gen-note';
     if(current === 'dorks'){
       note.innerHTML = '👆 <b>Clique em qualquer item</b> (ou no botão 🔎) e a busca abre direto no Google, em uma nova aba. Nada de copiar e colar.';
@@ -2633,19 +2671,25 @@ function answer(ok, label) {
         var code = item[1](d);
         out.appendChild(makeDorkRow(item[0], code, item[2], 'https://www.google.com/search?q=' + encodeURIComponent(code)));
       });
+      return;
+    }
+    var o = {
+      user: fval('genUser', 'admin'),
+      users: fval('genUsers', 'users.txt'),
+      pass: fval('genPass', '/usr/share/wordlists/rockyou.txt'),
+      dirlist: fval('genDirlist', '/usr/share/wordlists/dirb/common.txt'),
+      hashes: fval('genHashes', 'hashes.txt'),
+      port: fval('genPort', ''),
+      url: fval('genUrl', '/pagina?id=1'),
+      token: fval('genToken', '')
+    };
+    if(current === 'discover'){
+      note.innerHTML = '❓ <b>Não tem alguma informação</b> (IP, portas, subdomínios, tecnologias...)? Aqui está o comando para <b>descobrir</b> cada uma. Comece pelos <b style="color:var(--green)">passivos</b> (não tocam no alvo) e só faça os <b style="color:var(--pink)">ativos</b> com autorização.';
+      out.appendChild(note);
+      discover.forEach(function(item){ out.appendChild(makeCmdRow(item, d, o)); });
     } else {
       note.innerHTML = '✏️ <b>Preencha os campos acima</b> (usuário, wordlists, hashes) e os comandos se completam sozinhos — é só copiar. Clique em <b>ℹ️ O que faz</b> para entender cada parte. Etiquetas: <b style="color:var(--green)">passivo</b> = não toca no alvo · <b style="color:var(--pink)">ativo</b> = contata o alvo (precisa de autorização) · <b style="color:var(--cyan)">local</b> = roda só na sua máquina.';
       out.appendChild(note);
-      var o = {
-        user: fval('genUser', 'admin'),
-        users: fval('genUsers', 'users.txt'),
-        pass: fval('genPass', '/usr/share/wordlists/rockyou.txt'),
-        dirlist: fval('genDirlist', '/usr/share/wordlists/dirb/common.txt'),
-        hashes: fval('genHashes', 'hashes.txt'),
-        port: fval('genPort', ''),
-        url: fval('genUrl', '/pagina?id=1'),
-        token: fval('genToken', '')
-      };
       cmds.forEach(function(item){ out.appendChild(makeCmdRow(item, d, o)); });
     }
   }
