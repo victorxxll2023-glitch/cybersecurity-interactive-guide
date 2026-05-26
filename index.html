@@ -2479,6 +2479,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Firewall específico para aplicações web (HTTP/HTTPS).</div>
       <div class="line"><b>Por que aprender:</b> Bloqueia SQLi, XSS e OWASP Top 10 automaticamente.</div>
       <a href="https://owasp.org/www-community/Web_Application_Firewall" target="_blank">OWASP — WAF ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>WAF</b> (Web Application Firewall) é um firewall <b>especializado em tráfego web</b>. Enquanto o firewall comum filtra portas e IPs, o WAF entende requisições HTTP e bloqueia padrões de ataque — SQLi, XSS, path traversal — antes de chegarem à aplicação.</p>
+          <h4>Pontos-chave</h4>
+          <ul class="bullets">
+            <li>Usa regras/assinaturas (ex.: OWASP Core Rule Set).</li>
+            <li>Exemplos: Cloudflare, AWS WAF, ModSecurity.</li>
+            <li>É uma camada extra — <b>não substitui</b> código seguro.</li>
+          </ul>
+          <div class="callout tip">O WAF é remédio para o sintoma; corrigir o código é a cura. Mas ele ganha tempo e barra ataques conhecidos automaticamente.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2486,6 +2501,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Intrusion Detection System — detecta e alerta sobre anomalias.</div>
       <div class="line"><b>Por que aprender:</b> Você não defende o que não vê.</div>
       <a href="https://www.snort.org/" target="_blank">Snort (IDS open source) ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>IDS</b> (Intrusion Detection System) <b>monitora e alerta</b> sobre atividade suspeita, mas <em>não bloqueia</em>. É a câmera de segurança: avisa que algo errado está acontecendo.</p>
+          <h4>Tipos e detecção</h4>
+          <ul class="bullets">
+            <li><b>NIDS</b> (rede) × <b>HIDS</b> (em um host específico).</li>
+            <li>Detecção por <b>assinatura</b> (padrão conhecido) ou <b>anomalia</b> (fora do normal).</li>
+            <li>Exemplos: Snort, Suricata, Zeek.</li>
+          </ul>
+          <div class="callout tip">"Você não defende o que não vê." O IDS dá visibilidade — e alimenta o SIEM com alertas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2493,6 +2523,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Intrusion Prevention System — detecta E bloqueia automaticamente.</div>
       <div class="line"><b>Por que aprender:</b> IDS avisa, IPS impede.</div>
       <a href="https://www.fortinet.com/resources/cyberglossary/what-is-an-ips" target="_blank">Fortinet — IPS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>IPS</b> (Intrusion Prevention System) é o IDS que <b>também age</b>: detecta E <b>bloqueia automaticamente</b> a ameaça. Fica "em linha" no caminho do tráfego, podendo descartar pacotes maliciosos na hora.</p>
+          <h4>IDS × IPS</h4>
+          <table class="cmp">
+            <tr><th>🔎 IDS</th><th>🛑 IPS</th></tr>
+            <tr><td>Detecta e <b>avisa</b></td><td>Detecta e <b>impede</b></td></tr>
+            <tr><td>Fora do caminho (passivo)</td><td>Em linha (ativo)</td></tr>
+          </table>
+          <div class="callout tip">Cuidado: um falso positivo no IPS pode bloquear tráfego legítimo — por isso exige ajuste fino.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2500,6 +2545,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Software que detecta e remove malware.</div>
       <div class="line"><b>Por que aprender:</b> Camada básica mas indispensável em endpoint.</div>
       <a href="https://www.crowdstrike.com/cybersecurity-101/endpoint-security/endpoint-detection-and-response-edr/" target="_blank">CrowdStrike — EDR ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>antivírus</b> detecta e remove malware no dispositivo. Ele evoluiu para o <b>EDR</b> (Endpoint Detection &amp; Response), que além de detectar, <b>registra o comportamento</b>, investiga e responde a incidentes no endpoint.</p>
+          <h4>Como detecta</h4>
+          <ul class="bullets">
+            <li><b>Assinatura:</b> compara com uma base de malware conhecido.</li>
+            <li><b>Heurística/comportamento:</b> pega ameaças novas pelo que elas <em>fazem</em>.</li>
+          </ul>
+          <div class="callout tip">Antivírus é a camada básica do endpoint; o EDR é o padrão corporativo, pois dá visibilidade e resposta, não só bloqueio.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2584,6 +2643,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Armadilha que finge ser um sistema real para atrair atacantes.</div>
       <div class="line"><b>Por que aprender:</b> Detecta intenção antes do dano.</div>
       <a href="https://www.honeynet.org/" target="_blank">The Honeynet Project ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Honeypot</b> é uma <b>armadilha</b>: um sistema falso, propositalmente atraente/vulnerável, criado para <b>atrair atacantes</b>. Como ninguém legítimo deveria acessá-lo, <b>qualquer interação já é sinal de ataque</b> — quase sem falso positivo.</p>
+          <h4>Para que serve</h4>
+          <ul class="bullets">
+            <li>Detectar invasores <b>cedo</b> e desviá-los do alvo real.</li>
+            <li>Estudar técnicas e coletar IOCs (threat intel).</li>
+            <li>Uma <b>honeynet</b> é uma rede inteira de honeypots.</li>
+          </ul>
+          <div class="callout tip">Detecta a <b>intenção</b> antes do dano — um dos poucos controles com taxa de alerta quase perfeita.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2621,6 +2695,20 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Verificar se você é quem diz ser.</div>
       <div class="line"><b>Por que aprender:</b> Base de IAM (Identity and Access Management).</div>
       <a href="https://auth0.com/intro-to-iam/what-is-authentication" target="_blank">Auth0 — Authentication ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Autenticação</b> é provar que <b>você é quem diz ser</b> — o login. É a porta de entrada do IAM (gestão de identidade e acesso). Não confunda com <b>autorização</b> (o que você pode fazer depois de entrar).</p>
+          <h4>Como se prova</h4>
+          <ul class="bullets">
+            <li>Algo que você <b>sabe</b> (senha), <b>tem</b> (celular/chave) ou <b>é</b> (biometria).</li>
+            <li>Combinar fatores diferentes = <b>MFA</b> (muito mais forte).</li>
+          </ul>
+          <div class="callout tip">Regra de ouro: <b>Autenticação</b> = "quem é você?". <b>Autorização</b> = "o que você pode fazer?".</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2628,6 +2716,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Definir o que você pode fazer depois de autenticado.</div>
       <div class="line"><b>Por que aprender:</b> Falhas aqui = IDOR, privilege escalation.</div>
       <a href="https://auth0.com/intro-to-iam/what-is-authorization" target="_blank">Auth0 — Authorization ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Autorização</b> define <b>o que você pode fazer</b> depois de autenticado: quais dados ver, quais ações executar. Falhas aqui são a raiz do <b>IDOR</b> e da <b>escalada de privilégios</b>.</p>
+          <h4>Modelos comuns</h4>
+          <ul class="bullets">
+            <li><b>RBAC:</b> permissões por papel (admin, editor, leitor).</li>
+            <li><b>ABAC:</b> por atributos (cargo, hora, local).</li>
+            <li><b>Menor privilégio:</b> cada um só tem o acesso que realmente precisa.</li>
+          </ul>
+          <div class="callout tip">A checagem de autorização tem que estar no <b>servidor</b>, por objeto — nunca confiar no que o cliente envia.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2635,6 +2738,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Objeto físico ou digital usado como fator de autenticação.</div>
       <div class="line"><b>Por que aprender:</b> YubiKey, JWT, OAuth — tudo é token.</div>
       <a href="https://jwt.io/introduction" target="_blank">JWT.io — Introdução ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Token</b> é um objeto (físico ou digital) usado como prova de identidade ou de sessão. Em vez de reenviar a senha a cada requisição, o sistema entrega um token após o login e você o apresenta nas próximas.</p>
+          <h4>Exemplos</h4>
+          <ul class="bullets">
+            <li><b>JWT</b> e tokens OAuth (web/APIs).</li>
+            <li><b>TOTP:</b> os códigos de 6 dígitos do app autenticador.</li>
+            <li><b>YubiKey/FIDO2:</b> chave física (token de hardware).</li>
+          </ul>
+          <div class="callout danger">Token roubado = sessão sequestrada (sem precisar da senha). Por isso: cookies <code>HttpOnly</code>, expiração curta e sempre HTTPS.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2743,6 +2861,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Correção lançada pelo fabricante para uma falha.</div>
       <div class="line"><b>Por que aprender:</b> 60% dos breaches usam vuln com patch disponível.</div>
       <a href="https://learn.microsoft.com/en-us/security-updates/" target="_blank">Microsoft — Security Updates ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Patch</b> é a correção que o fabricante lança para uma falha. <b>Patch management</b> (manter tudo atualizado) é uma das defesas mais baratas e eficazes — e, ironicamente, das mais negligenciadas.</p>
+          <h4>Por que importa tanto</h4>
+          <ul class="bullets">
+            <li>A maioria dos ataques usa vulnerabilidade com <b>patch já disponível</b>.</li>
+            <li>O <b>WannaCry</b> explorou uma falha corrigida 2 meses antes — quem não atualizou, caiu.</li>
+            <li>Entre o patch sair e você aplicar, existe uma <b>janela</b> de risco.</li>
+          </ul>
+          <div class="callout danger">Atualizar não é frescura: é a diferença entre estar protegido e ser o próximo da lista.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2750,6 +2883,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Protocolos da web. S = Seguro (com TLS).</div>
       <div class="line"><b>Por que aprender:</b> Não entender HTTP é não entender a web.</div>
       <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank">MDN — HTTP ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>HTTP</b> é o protocolo que faz navegador e servidor conversarem na web. O <b>S</b> de <b>HTTPS</b> = Seguro: adiciona o <b>TLS</b>, que criptografa o tráfego e autentica o site (o cadeado).</p>
+          <h4>O básico que todo hacker precisa</h4>
+          <ul class="bullets">
+            <li><b>Métodos:</b> GET (buscar), POST (enviar), PUT, DELETE.</li>
+            <li><b>Status:</b> 200 (ok), 301/302 (redirect), 403 (proibido), 404 (não achou), 500 (erro do servidor).</li>
+            <li><b>Headers</b> e <b>cookies</b> carregam sessão, tipo de conteúdo, segurança.</li>
+          </ul>
+          <div class="callout tip">Sem entender HTTP, não dá para usar Burp nem fazer web hacking/defesa. É a língua da web.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2757,6 +2905,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Coleta e análise de evidências digitais pós-incidente.</div>
       <div class="line"><b>Por que aprender:</b> Carreira sólida e bem paga em investigação.</div>
       <a href="https://www.sans.org/cyber-security-courses/?focus-area=digital-forensics-incident-response" target="_blank">SANS — DFIR ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Forense digital</b> é coletar e analisar <b>evidências digitais</b> após um incidente: descobrir o que aconteceu, como o atacante entrou, o que tocou — e <b>preservar as provas</b> (cadeia de custódia) para uso legal.</p>
+          <h4>Onde se procura</h4>
+          <ul class="bullets">
+            <li><b>Disco</b> (arquivos, apagados), <b>memória RAM</b> (processos, senhas em aberto).</li>
+            <li><b>Logs</b> e tráfego de <b>rede</b>; dispositivos <b>móveis</b>.</li>
+            <li>Faz parte do <b>DFIR</b> (Forense + Resposta a Incidentes).</li>
+          </ul>
+          <div class="callout tip">Carreira sólida e bem paga. Regra de ouro: nunca altere a evidência original — trabalhe sobre cópias e registre tudo.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2764,6 +2927,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Indicator of Compromise — pistas que indicam invasão.</div>
       <div class="line"><b>Por que aprender:</b> Hash, IP, domínio — você procura esses no SIEM.</div>
       <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>IOC</b> (Indicator of Compromise) são as <b>pistas</b> que indicam uma invasão: hash de um malware, IP/domínio malicioso, nome de arquivo estranho, chave de registro suspeita.</p>
+          <h4>Como se usa</h4>
+          <ul class="bullets">
+            <li>Você procura esses indicadores nos logs/<b>SIEM</b> para detectar se foi comprometido.</li>
+            <li>São compartilhados entre defensores via <b>threat intelligence</b>.</li>
+            <li>Evolução: <b>TTPs</b> (táticas/técnicas) são mais robustos que IOCs isolados (que mudam fácil).</li>
+          </ul>
+          <div class="callout tip">Achou um IOC no seu ambiente? É hora de investigar — pode ser a ponta de um incidente.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2771,6 +2949,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Inteligência sobre ameaças (atuais e emergentes).</div>
       <div class="line"><b>Por que aprender:</b> Defesa proativa &gt; reativa.</div>
       <a href="https://www.crowdstrike.com/cybersecurity-101/threat-intelligence/" target="_blank">CrowdStrike — Threat Intel ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Threat intelligence</b> é transformar dados brutos sobre ameaças (quem ataca, como, com quais ferramentas e IOCs) em <b>decisões de defesa proativas</b> — antecipar em vez de só reagir.</p>
+          <h4>Níveis</h4>
+          <ul class="bullets">
+            <li><b>Estratégico:</b> panorama de riscos para decisões de negócio.</li>
+            <li><b>Tático:</b> TTPs dos atacantes (como agem).</li>
+            <li><b>Operacional:</b> IOCs e alertas para o SOC agir.</li>
+          </ul>
+          <div class="callout tip">Defesa proativa &gt; reativa. Fontes: feeds, MITRE ATT&amp;CK, monitoramento de dark web.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2778,6 +2971,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Programa que paga por vulnerabilidades reportadas.</div>
       <div class="line"><b>Por que aprender:</b> R$ 1k a R$ 50k+ por bug. Legalmente.</div>
       <a href="https://www.hackerone.com/bug-bounty-programs" target="_blank">HackerOne — Programs ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Bug bounty</b> é um programa em que empresas <b>pagam</b> por vulnerabilidades reportadas de forma responsável. É a maneira <b>100% legal</b> de hackear sistemas reais — e ganhar com isso.</p>
+          <h4>Como começar</h4>
+          <ul class="bullets">
+            <li>Plataformas: <b>HackerOne</b>, <b>Bugcrowd</b>, <b>Intigriti</b>.</li>
+            <li>Recompensas vão de dezenas a dezenas de milhares (por bug crítico).</li>
+            <li>Comece estudando OWASP Top 10 + PortSwigger Academy.</li>
+          </ul>
+          <div class="callout danger">Leia SEMPRE o <b>escopo</b> do programa. Testar fora do escopo (ou sem programa) tira sua proteção legal e vira crime.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2785,6 +2993,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> Derrubar sites fraudulentos (clones, phishing).</div>
       <div class="line"><b>Por que aprender:</b> Serviço cobrado a partir de R$ 1k por ocorrência.</div>
       <a href="https://safebrowsing.google.com/safebrowsing/report_phish/" target="_blank">Google — Reportar phishing ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Takedown</b> é o processo de <b>derrubar</b> conteúdo malicioso — sites de phishing, clones de banco, perfis falsos — acionando quem tem poder para removê-lo: provedores de hospedagem, registradores de domínio e plataformas.</p>
+          <h4>Como se faz</h4>
+          <ul class="bullets">
+            <li>Reportar ao <b>host/registrador</b> do site (abuse@...).</li>
+            <li>Denunciar ao <b>Google Safe Browsing</b> e antiphishing dos navegadores.</li>
+            <li>Empresas contratam serviços de takedown para proteger a marca.</li>
+          </ul>
+          <div class="callout tip">É um serviço cobrado por ocorrência — área de trabalho real para quem atua com proteção de marca/antifraude.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -2792,6 +3015,21 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
       <div class="line"><b>O que é:</b> "Nunca confie, sempre verifique" — modelo padrão moderno.</div>
       <div class="line"><b>Por que aprender:</b> Substituiu o velho "rede interna = segura".</div>
       <a href="https://www.nist.gov/publications/zero-trust-architecture" target="_blank">NIST — Zero Trust Architecture ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Zero Trust</b> ("nunca confie, sempre verifique") é o modelo moderno que <b>elimina a confiança implícita</b>: cada acesso é verificado, mesmo vindo de dentro da rede. Substitui o velho modelo de "castelo e fosso" (rede interna = segura).</p>
+          <h4>Princípios</h4>
+          <ul class="bullets">
+            <li><b>Verificar sempre</b> (identidade + dispositivo + contexto).</li>
+            <li><b>Menor privilégio</b> em cada acesso.</li>
+            <li><b>Assumir violação:</b> projetar como se o atacante já estivesse dentro.</li>
+          </ul>
+          <div class="callout tip">Hoje o "perímetro" é a <b>identidade</b>, não a rede. Na prática: MFA forte, microssegmentação e monitoramento contínuo.</div>
+        </div>
+      </details>
     </div>
 
   </div>
