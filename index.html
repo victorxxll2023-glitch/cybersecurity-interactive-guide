@@ -2407,6 +2407,9 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="gen-field"><label>🔑 Wordlist de senhas (-P)</label><input id="genPass" type="text" value="/usr/share/wordlists/rockyou.txt" autocomplete="off" spellcheck="false"></div>
       <div class="gen-field"><label>📁 Wordlist de diretórios</label><input id="genDirlist" type="text" value="/usr/share/wordlists/dirb/common.txt" autocomplete="off" spellcheck="false"></div>
       <div class="gen-field"><label>#️⃣ Arquivo de hashes</label><input id="genHashes" type="text" value="hashes.txt" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>🔌 Porta(s) (nmap -p)</label><input id="genPort" type="text" placeholder="ex: 80,443,22 (vazio = padrão)" value="" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>🔗 URL/parâmetro (sqlmap)</label><input id="genUrl" type="text" value="/pagina?id=1" autocomplete="off" spellcheck="false"></div>
+      <div class="gen-field"><label>🔑 WPScan API token</label><input id="genToken" type="text" placeholder="opcional" value="" autocomplete="off" spellcheck="false"></div>
     </div>
 
     <div class="gen-tabs">
@@ -2511,9 +2514,9 @@ function answer(ok, label) {
     {t:'Subdomínios (Sublist3r)', cmd:function(d){return 'sublist3r -d '+d;}, desc:'Enumera subdomínios via OSINT.', badge:'passivo', web:null, webLabel:'',
       resumo:'Descobre subdomínios (loja., api., dev., admin.) cruzando buscadores e bases públicas. Cada subdomínio é uma nova porta de entrada possível.',
       flags:[['-d','domínio alvo']]},
-    {t:'Portas/serviços (Nmap / Shodan)', cmd:function(d){return 'nmap -sV '+d;}, desc:'Nmap no terminal, ou veja o que o Shodan já coletou — sem tocar no alvo.', badge:'ativo', web:function(d){return 'https://www.shodan.io/search?query=hostname:'+encodeURIComponent(d);}, webLabel:'🌐 Ver no Shodan',
-      resumo:'Descobre quais portas estão abertas e quais serviços/versões rodam nelas. A coluna de versão é ouro: software antigo = possível exploit pronto.',
-      flags:[['nmap','scanner de rede'],['-sV','detecta a versão dos serviços nas portas abertas'],['DOMÍNIO','o alvo']]},
+    {t:'Portas/serviços (Nmap / Shodan)', cmd:function(d,o){return 'nmap -sV'+(o.port?' -p '+o.port:'')+' '+d;}, desc:'Nmap no terminal, ou veja o que o Shodan já coletou — sem tocar no alvo.', badge:'ativo', web:function(d){return 'https://www.shodan.io/search?query=hostname:'+encodeURIComponent(d);}, webLabel:'🌐 Ver no Shodan',
+      resumo:'Descobre quais portas estão abertas e quais serviços/versões rodam nelas. A coluna de versão é ouro: software antigo = possível exploit pronto. Preencha o campo Porta(s) para mirar portas específicas.',
+      flags:[['nmap','scanner de rede'],['-sV','detecta a versão dos serviços nas portas abertas'],['-p','porta(s) específica(s), se você preencher o campo (ex.: 80,443)'],['DOMÍNIO','o alvo (domínio ou IP)']]},
     {t:'Nmap — scan rápido', cmd:function(d){return 'nmap -F -T4 '+d;}, desc:'As 100 portas mais comuns, rápido.', badge:'ativo', web:null, webLabel:'',
       resumo:'Varredura ágil só das portas mais usadas — bom para um primeiro retrato do alvo.',
       flags:[['-F','modo "fast": só as 100 portas mais comuns'],['-T4','velocidade mais agressiva (1=lento, 5=insano)']]},
@@ -2529,12 +2532,12 @@ function answer(ok, label) {
     {t:'Scan de vulns web (Nikto)', cmd:function(d){return 'nikto -h https://'+d;}, desc:'Procura falhas e configs erradas no site.', badge:'ativo', web:null, webLabel:'',
       resumo:'Scanner que verifica milhares de arquivos perigosos, versões desatualizadas e configurações inseguras conhecidas em servidores web.',
       flags:[['nikto','scanner de servidor web'],['-h','host/URL alvo']]},
-    {t:'SQL Injection (sqlmap)', cmd:function(d){return 'sqlmap -u "https://'+d+'/pagina?id=1" --batch --dbs';}, desc:'Detecta e explora SQLi automaticamente.', badge:'ativo', web:null, webLabel:'',
-      resumo:'Automatiza a busca por SQL Injection num parâmetro e, se vulnerável, extrai os bancos de dados. Use só em alvos autorizados.',
-      flags:[['-u','URL com o parâmetro a testar'],['--batch','responde as perguntas automaticamente (modo não interativo)'],['--dbs','se vulnerável, lista os bancos de dados']]},
-    {t:'WordPress (WPScan)', cmd:function(d){return 'wpscan --url https://'+d+' --enumerate u';}, desc:'Enumera usuários e plugins vulneráveis.', badge:'ativo', web:null, webLabel:'',
-      resumo:'Scanner especializado em WordPress: encontra a versão, plugins/temas com falhas conhecidas e nomes de usuário válidos.',
-      flags:[['--url','site WordPress alvo'],['--enumerate u','enumera os usuários do site']]},
+    {t:'SQL Injection (sqlmap)', cmd:function(d,o){return 'sqlmap -u "https://'+d+o.url+'" --batch --dbs';}, desc:'Detecta e explora SQLi automaticamente.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Automatiza a busca por SQL Injection num parâmetro e, se vulnerável, extrai os bancos de dados. Ajuste o campo URL/parâmetro para a página real (ex.: /produto.php?id=10). Use só em alvos autorizados.',
+      flags:[['-u','URL completa com o parâmetro a testar (vem do campo URL/parâmetro)'],['--batch','responde as perguntas automaticamente (modo não interativo)'],['--dbs','se vulnerável, lista os bancos de dados']]},
+    {t:'WordPress (WPScan)', cmd:function(d,o){return 'wpscan --url https://'+d+' --enumerate u,vp'+(o.token?' --api-token '+o.token:'');}, desc:'Enumera usuários e plugins vulneráveis.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Scanner especializado em WordPress: encontra a versão, plugins/temas com falhas conhecidas e usuários. Com um API token (grátis em wpscan.com) ele revela as vulnerabilidades conhecidas de cada plugin.',
+      flags:[['--url','site WordPress alvo'],['--enumerate u,vp','enumera usuários (u) e plugins vulneráveis (vp)'],['--api-token','token do WPScan, se você preencher o campo: libera a base de vulnerabilidades']]},
     {t:'Brute force SSH (Hydra)', cmd:function(d,o){return 'hydra -l '+o.user+' -P '+o.pass+' ssh://'+d;}, desc:'Testa senhas em massa no login SSH.', badge:'ativo', web:null, webLabel:'',
       resumo:'O Hydra tenta senha após senha automaticamente contra um serviço de login. Aqui, contra o SSH. Mostra na prática por que senha fraca + sem bloqueio = invasão. Só com autorização.',
       flags:[['-l admin','usuário fixo a testar (use -L lista.txt para vários)'],['-P rockyou.txt','lista de senhas a tentar (use -p para uma senha única)'],['ssh://DOMÍNIO','protocolo e alvo']]},
@@ -2638,7 +2641,10 @@ function answer(ok, label) {
         users: fval('genUsers', 'users.txt'),
         pass: fval('genPass', '/usr/share/wordlists/rockyou.txt'),
         dirlist: fval('genDirlist', '/usr/share/wordlists/dirb/common.txt'),
-        hashes: fval('genHashes', 'hashes.txt')
+        hashes: fval('genHashes', 'hashes.txt'),
+        port: fval('genPort', ''),
+        url: fval('genUrl', '/pagina?id=1'),
+        token: fval('genToken', '')
       };
       cmds.forEach(function(item){ out.appendChild(makeCmdRow(item, d, o)); });
     }
