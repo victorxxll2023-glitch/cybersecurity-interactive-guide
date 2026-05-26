@@ -1638,6 +1638,37 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Filtra tráfego de rede baseado em regras.</div>
       <div class="line"><b>Por que aprender:</b> Primeira linha de defesa em qualquer perímetro.</div>
       <a href="https://www.cisco.com/c/en/us/products/security/firewalls/what-is-a-firewall.html" target="_blank">Cisco — Firewall ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Um <b>firewall</b> ("parede de fogo") é o <b>porteiro da rede</b>: ele inspeciona todo o tráfego que entra e sai e decide, com base em <b>regras</b>, o que passa e o que é bloqueado. É a primeira linha de defesa do perímetro — separa a sua rede confiável da internet hostil.</p>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 150" role="img" aria-label="Firewall filtrando tráfego">
+              <defs><marker id="arrFw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#74ff00"/></marker><marker id="arrFwX" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff2e88"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="12" fill="#eef6ff" text-anchor="middle">
+                <text x="60" y="20" font-size="11" fill="#9fb5c8">🌐 Internet</text>
+                <rect x="240" y="20" width="80" height="110" rx="8" fill="rgba(255,214,10,.10)" stroke="#ffd60a"/><text x="280" y="70">🧱</text><text x="280" y="92" font-size="10" fill="#ffd60a">Firewall</text>
+                <rect x="440" y="55" width="110" height="42" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="495" y="81">🏠 Sua rede</text>
+                <g stroke="#74ff00" stroke-width="2" marker-end="url(#arrFw)"><line x1="20" y1="45" x2="238" y2="55"/></g>
+                <text x="120" y="40" font-size="10" fill="#74ff00">tráfego permitido ✔</text>
+                <g stroke="#ff2e88" stroke-width="2" marker-end="url(#arrFwX)"><line x1="20" y1="110" x2="238" y2="100"/></g>
+                <text x="120" y="128" font-size="10" fill="#ff2e88">tráfego malicioso ✘ bloqueado</text>
+                <g stroke="#74ff00" stroke-width="2" marker-end="url(#arrFw)"><line x1="322" y1="75" x2="436" y2="76"/></g>
+              </g>
+            </svg>
+          </figure>
+          <h4>Tipos que você vai ouvir</h4>
+          <ul class="bullets">
+            <li><b>Packet filter:</b> olha IP/porta (básico).</li>
+            <li><b>Stateful:</b> entende o "estado" da conexão (padrão hoje).</li>
+            <li><b>NGFW (Next-Gen):</b> inspeciona aplicação, faz IPS e filtra conteúdo.</li>
+            <li><b>WAF:</b> firewall especializado em tráfego web (ver card próprio).</li>
+          </ul>
+          <div class="callout tip"><b>Detalhe importante:</b> firewall sozinho não basta. Ele controla o perímetro, mas não impede phishing, malware trazido por USB ou ameaças internas. Defesa boa é <b>em camadas</b> (defense in depth).</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1673,6 +1704,33 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Túnel criptografado entre você e um servidor remoto.</div>
       <div class="line"><b>Por que aprender:</b> Wi-Fi público sem VPN = porta aberta.</div>
       <a href="https://protonvpn.com/blog/what-is-vpn/" target="_blank">Proton — O que é VPN ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Uma <b>VPN</b> (Virtual Private Network) cria um <b>túnel criptografado</b> entre o seu dispositivo e um servidor remoto. Todo o seu tráfego passa por dentro desse túnel: quem estiver na rede local (o dono do Wi-Fi, um atacante MITM) só vê dados embaralhados, e os sites passam a ver o IP do servidor VPN, não o seu.</p>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 580 130" role="img" aria-label="Túnel VPN">
+              <g font-family="Inter, sans-serif" font-size="11" fill="#eef6ff" text-anchor="middle">
+                <rect x="10" y="48" width="90" height="40" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="55" y="72">💻 Você</text>
+                <rect x="370" y="48" width="100" height="40" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="420" y="72">🛡️ Servidor VPN</text>
+                <rect x="500" y="48" width="70" height="40" rx="8" fill="rgba(116,255,0,.08)" stroke="#74ff00"/><text x="535" y="72">🌐 Site</text>
+                <rect x="110" y="40" width="250" height="56" rx="28" fill="rgba(116,255,0,.07)" stroke="#74ff00" stroke-dasharray="5 4"/>
+                <text x="235" y="64" font-size="11" fill="#74ff00">🔒 túnel criptografado</text><text x="235" y="82" font-size="9" fill="#9fb5c8">o Wi-Fi/atacante só vê isto embaralhado</text>
+                <line x1="100" y1="68" x2="110" y2="68" stroke="#74ff00" stroke-width="2"/><line x1="360" y1="68" x2="368" y2="68" stroke="#74ff00" stroke-width="2"/><line x1="470" y1="68" x2="498" y2="68" stroke="#74ff00" stroke-width="2"/>
+              </g>
+            </svg>
+          </figure>
+          <h4>O que a VPN faz e o que NÃO faz</h4>
+          <ul class="bullets">
+            <li>✅ Protege em <b>Wi-Fi público</b> e esconde seu IP/local dos sites.</li>
+            <li>✅ Impede que o provedor (e o dono da rede) veja o conteúdo da navegação.</li>
+            <li>❌ Não te deixa "anônimo" — o provedor de VPN <em>pode</em> ver o tráfego (escolha um confiável, sem logs).</li>
+            <li>❌ Não protege contra malware, phishing ou senha fraca.</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1680,6 +1738,20 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Centraliza logs e correlaciona eventos de segurança.</div>
       <div class="line"><b>Por que aprender:</b> Cérebro de qualquer SOC moderno.</div>
       <a href="https://www.splunk.com/en_us/data-insider/what-is-siem.html" target="_blank">Splunk — SIEM ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>SIEM</b> = <em>Security Information and Event Management</em>. Imagine centenas de equipamentos (firewalls, servidores, antivírus, aplicações) gerando <b>milhões de logs por dia</b>. O SIEM <b>centraliza</b> todos esses logs num só lugar, <b>correlaciona</b> eventos e <b>dispara alertas</b> quando detecta um padrão suspeito.</p>
+          <h4>O valor está na correlação</h4>
+          <p>Sozinho, cada evento parece inofensivo. O SIEM enxerga a <b>história</b>: "100 logins falhos seguidos de 1 sucesso (brute force?), depois acesso a um servidor sensível, depois um envio grande de dados para fora". Um humano levaria horas; o SIEM levanta a mão na hora.</p>
+          <ul class="bullets">
+            <li>Exemplos: <b>Splunk</b>, <b>Elastic (ELK)</b>, <b>Microsoft Sentinel</b>, <b>Wazuh</b> (open source).</li>
+            <li>É a ferramenta central do analista de SOC (Blue Team).</li>
+          </ul>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1687,6 +1759,21 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Security Operations Center — equipe que monitora 24/7.</div>
       <div class="line"><b>Por que aprender:</b> Modelo de serviço lucrativo (R$ 1k a 10k+/mês).</div>
       <a href="https://www.ibm.com/topics/security-operations-center" target="_blank">IBM — SOC ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>SOC</b> = <em>Security Operations Center</em>. É a "sala de guerra" da defesa: uma equipe que <b>monitora a segurança 24 horas por dia, 7 dias por semana</b>, usando o SIEM e outras ferramentas para detectar, analisar e responder a incidentes em tempo real. É a porta de entrada mais comum para quem quer trabalhar com Blue Team.</p>
+          <h4>Os níveis de analista</h4>
+          <ul class="bullets">
+            <li><b>Tier 1 (Triagem):</b> recebe os alertas, separa falso positivo de ameaça real.</li>
+            <li><b>Tier 2 (Investigação):</b> aprofunda os incidentes confirmados, contém a ameaça.</li>
+            <li><b>Tier 3 (Threat Hunting):</b> caça ativamente ameaças que escaparam dos alertas.</li>
+          </ul>
+          <div class="callout tip"><b>Carreira:</b> começar como analista <b>SOC Tier 1</b> é o caminho mais comum e acessível para entrar oficialmente em cibersegurança defensiva.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1701,6 +1788,29 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Autenticação com 2+ fatores (algo que sabe, tem, é).</div>
       <div class="line"><b>Por que aprender:</b> Mata 99% dos ataques baseados em senha vazada.</div>
       <a href="https://www.cisa.gov/news-events/news/more-just-good-idea-why-mfa-matters" target="_blank">CISA — Por que MFA importa ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>MFA</b> (autenticação multifator) exige <b>mais de uma prova</b> de que você é você. A ideia: mesmo que o atacante roube sua senha (phishing, vazamento, keylogger), ele ainda <b>não tem o segundo fator</b> e fica de fora. <b>2FA</b> é o caso com exatamente dois fatores.</p>
+          <h4>Os três tipos de fator</h4>
+          <table class="cmp">
+            <tr><th>Fator</th><th>O que é</th><th>Exemplos</th></tr>
+            <tr><td>🧠 <b>Algo que você SABE</b></td><td>Conhecimento</td><td>senha, PIN</td></tr>
+            <tr><td>📱 <b>Algo que você TEM</b></td><td>Posse</td><td>celular, app autenticador, chave física</td></tr>
+            <tr><td>👤 <b>Algo que você É</b></td><td>Biometria</td><td>digital, rosto, íris</td></tr>
+          </table>
+          <p>Combinar fatores de <b>tipos diferentes</b> é o que dá força (senha + digital). Duas senhas seriam o mesmo tipo — não conta como MFA real.</p>
+          <h4>Qual 2FA é mais seguro?</h4>
+          <ul class="bullets">
+            <li>❌ <b>SMS:</b> melhor que nada, mas vulnerável a <em>SIM swap</em> (clonagem de chip).</li>
+            <li>✅ <b>App autenticador</b> (Google/Microsoft Authenticator, Authy): código gerado no aparelho.</li>
+            <li>✅✅ <b>Chave física</b> (FIDO2/YubiKey): praticamente imune a phishing.</li>
+          </ul>
+          <div class="callout tip"><b>Ative agora:</b> ligue 2FA no e-mail principal antes de tudo — quem controla seu e-mail reseta a senha de todo o resto.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1729,6 +1839,34 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Função unidirecional que gera "impressão digital" de dados.</div>
       <div class="line"><b>Por que aprender:</b> Como senhas devem ser armazenadas.</div>
       <a href="https://www.okta.com/identity-101/hashing-algorithms/" target="_blank">Okta — Hashing ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Um <b>hash</b> é uma "impressão digital" de dados: uma função matemática que transforma <em>qualquer</em> entrada numa saída de tamanho fixo. Tem duas propriedades-chave: é <b>unidirecional</b> (não dá para voltar do hash ao original) e qualquer mudança mínima na entrada gera um hash <b>completamente diferente</b>.</p>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 150" role="img" aria-label="Função de hash">
+              <defs><marker id="arrHash" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#00d9ff"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11" fill="#eef6ff" text-anchor="middle">
+                <rect x="10" y="20" width="120" height="34" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="70" y="42">"senha123"</text>
+                <rect x="10" y="92" width="120" height="34" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="70" y="114">"senha124"</text>
+                <rect x="210" y="56" width="120" height="40" rx="10" fill="rgba(162,89,255,.14)" stroke="#a259ff"/><text x="270" y="80">⚙️ SHA-256</text>
+                <rect x="400" y="20" width="150" height="34" rx="8" fill="rgba(116,255,0,.08)" stroke="#74ff00"/><text x="475" y="42" font-size="10">ef92...a1 (fixo)</text>
+                <rect x="400" y="92" width="150" height="34" rx="8" fill="rgba(255,46,136,.10)" stroke="#ff2e88"/><text x="475" y="114" font-size="10">7d3c...9f (totalmente diferente)</text>
+                <g stroke="#00d9ff" stroke-width="1.6" marker-end="url(#arrHash)"><line x1="130" y1="37" x2="208" y2="66"/><line x1="130" y1="109" x2="208" y2="86"/><line x1="330" y1="68" x2="398" y2="40"/><line x1="330" y1="84" x2="398" y2="108"/></g>
+              </g>
+            </svg>
+            <figcaption>Um caractere de diferença → hash totalmente diferente. E não existe "função inversa" para recuperar o texto.</figcaption>
+          </figure>
+          <h4>Para que serve</h4>
+          <ul class="bullets">
+            <li><b>Guardar senhas:</b> o site salva o hash, não a senha. No login, compara hashes. Se vazar o banco, o atacante não vê senhas diretas.</li>
+            <li><b>Integridade:</b> verificar se um arquivo foi alterado (mesmo hash = mesmo arquivo).</li>
+          </ul>
+          <div class="callout danger"><b>Detalhe que separa amador de profissional:</b> hash puro não basta para senhas — atacantes usam <em>rainbow tables</em>. É preciso <b>salt</b> (valor aleatório por senha) e algoritmos <b>lentos</b> de propósito (bcrypt, Argon2). E nunca use MD5/SHA-1 para senhas: estão quebrados.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1736,6 +1874,41 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Codifica dados para que só quem tem a chave leia.</div>
       <div class="line"><b>Por que aprender:</b> AES, RSA, ECC — base de tudo que é seguro.</div>
       <a href="https://www.khanacademy.org/computing/computer-science/cryptography" target="_blank">Khan Academy — Criptografia ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Criptografia</b> embaralha dados com um algoritmo + uma <b>chave</b>, de forma que só quem tem a chave certa consegue ler. É o que garante a <em>confidencialidade</em> da tríade CIA. Existem duas grandes famílias:</p>
+          <h4>Simétrica × Assimétrica</h4>
+          <figure class="deep-fig">
+            <svg viewBox="0 0 560 210" role="img" aria-label="Criptografia simétrica e assimétrica">
+              <defs><marker id="arrCrypto" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#00d9ff"/></marker></defs>
+              <g font-family="Inter, sans-serif" font-size="11" fill="#eef6ff" text-anchor="middle">
+                <text x="280" y="16" font-size="12" fill="#74ff00" font-weight="bold">🔑 Simétrica — a MESMA chave cifra e decifra</text>
+                <rect x="20" y="30" width="90" height="40" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="65" y="54">📄 Texto</text>
+                <rect x="235" y="30" width="90" height="40" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="280" y="54">🔒 Cifrado</text>
+                <rect x="450" y="30" width="90" height="40" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="495" y="54">📄 Texto</text>
+                <g stroke="#00d9ff" stroke-width="1.8" marker-end="url(#arrCrypto)"><line x1="110" y1="50" x2="233" y2="50"/><line x1="325" y1="50" x2="448" y2="50"/></g>
+                <text x="172" y="26" font-size="10" fill="#ffd60a">🔑 chave X</text><text x="388" y="26" font-size="10" fill="#ffd60a">🔑 chave X</text>
+                <text x="280" y="110" font-size="12" fill="#a259ff" font-weight="bold">🔑🔓 Assimétrica — par de chaves (pública + privada)</text>
+                <rect x="20" y="125" width="100" height="40" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="70" y="149">📄 Texto</text>
+                <rect x="230" y="125" width="100" height="40" rx="8" fill="rgba(162,89,255,.12)" stroke="#a259ff"/><text x="280" y="149">🔒 Cifrado</text>
+                <rect x="440" y="125" width="100" height="40" rx="8" fill="rgba(0,217,255,.10)" stroke="#00d9ff"/><text x="490" y="149">📄 Texto</text>
+                <g stroke="#a259ff" stroke-width="1.8" marker-end="url(#arrCrypto)"><line x1="120" y1="145" x2="228" y2="145"/><line x1="330" y1="145" x2="438" y2="145"/></g>
+                <text x="174" y="121" font-size="10" fill="#74ff00">🔑 pública</text><text x="384" y="121" font-size="10" fill="#ff2e88">🔓 privada</text>
+                <text x="280" y="195" font-size="10" fill="#9fb5c8">Qualquer um cifra com a chave pública; só o dono decifra com a privada.</text>
+              </g>
+            </svg>
+          </figure>
+          <ul class="bullets">
+            <li><b>Simétrica (ex: AES):</b> rápida, uma só chave. Problema: como combinar a chave em segurança?</li>
+            <li><b>Assimétrica (ex: RSA, ECC):</b> resolve a troca de chaves; a pública você divulga, a privada guarda. Base do HTTPS e das assinaturas digitais.</li>
+            <li>Na prática usa-se as duas: a assimétrica troca uma chave simétrica de sessão (mais rápida).</li>
+          </ul>
+          <div class="callout tip"><b>Nunca</b> invente seu próprio algoritmo de criptografia. Use padrões testados (AES, RSA, TLS). "Criptografia caseira" é furada na primeira tentativa séria.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1743,6 +1916,23 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
       <div class="line"><b>O que é:</b> Protocolos que criptografam o tráfego web (HTTPS).</div>
       <div class="line"><b>Por que aprender:</b> Sem TLS, login = postal.</div>
       <a href="https://www.cloudflare.com/learning/ssl/what-is-ssl/" target="_blank">Cloudflare — SSL/TLS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>TLS</b> (Transport Layer Security — o sucessor do antigo SSL) é o protocolo que <b>criptografa o tráfego da web</b>. É o "S" do <b>HTTPS</b> e o que faz aparecer o 🔒 no navegador. Ele garante três coisas: ninguém no meio lê seus dados (confidencialidade), ninguém os altera (integridade) e você está mesmo falando com o site certo (autenticidade, via certificado).</p>
+          <h4>O "handshake" TLS (simplificado)</h4>
+          <ol class="steps">
+            <li><b>Olá:</b> seu navegador diz "quero conexão segura" e quais cifras suporta.</li>
+            <li><b>Certificado:</b> o servidor envia seu certificado digital (assinado por uma autoridade confiável — CA).</li>
+            <li><b>Verificação:</b> o navegador confere se o certificado é válido e do domínio certo.</li>
+            <li><b>Troca de chave:</b> usando criptografia assimétrica, combinam uma chave de sessão secreta.</li>
+            <li><b>Canal seguro:</b> daí em diante tudo é cifrado com essa chave (simétrica, rápida).</li>
+          </ol>
+          <div class="callout danger"><b>O aviso de "certificado inválido" existe por um motivo:</b> ele pode significar um ataque <b>man-in-the-middle</b> em andamento. Nunca clique em "prosseguir mesmo assim" em sites sensíveis.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
