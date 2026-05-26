@@ -310,6 +310,14 @@ main { padding: 0 42px 70px; }
 .gen-row .rl .arrow { float:right; color:var(--cyan); font-size:12px; }
 .gen-note { color:#cdb4ff; font-size:12.5px; margin:0 2px 14px; line-height:1.5; }
 .gen-btn.open.primary { background:rgba(0,217,255,.16); border-color:var(--cyan); color:var(--cyan); }
+.gen-badge.local { background:rgba(0,217,255,.13); color:var(--cyan); border:1px solid rgba(0,217,255,.4); }
+.gen-btn.info { background:rgba(255,214,10,.12); border:1px solid rgba(255,214,10,.4); color:var(--yellow); }
+.gen-info { display:none; margin-top:12px; border-top:1px dashed rgba(255,255,255,.12); padding-top:12px; }
+.gen-info.open { display:block; animation:fadeIn .2s ease; }
+.gen-info p { color:#cdddec; font-size:13px; line-height:1.55; margin:0 0 10px; }
+.gen-info .flag-item { display:flex; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:12.5px; align-items:flex-start; }
+.gen-info .flag-item code { background:#06090f; border:1px solid rgba(0,217,255,.2); color:var(--cyan); padding:2px 6px; border-radius:5px; font-family:ui-monospace,monospace; white-space:nowrap; flex-shrink:0; }
+.gen-info .flag-item span { color:#cdddec; line-height:1.4; }
 
 /* Quiz */
 .quiz {
@@ -2433,18 +2441,74 @@ function answer(ok, label) {
     ['Repositório .git exposto', function(d){return 'site:'+d+' inurl:.git';}, 'Código-fonte vazando — achado grave.']
   ];
 
-  // cada comando: [titulo, gerarComando(d), descricao, badge, gerarUrlWeb(d)|null, rotuloWeb]
+  // cada comando: {t, cmd(d), desc, badge, web(d)|null, webLabel, resumo, flags:[[parte, explicação]]}
   var cmds = [
-    ['WHOIS do domínio', function(d){return 'whois '+d;}, 'Dono, registrador e datas de registro.', 'passivo', function(d){return 'https://who.is/whois/'+d;}, '🌐 Abrir WHOIS'],
-    ['Resolver IP / DNS', function(d){return 'dig +short '+d;}, 'Descobre o IP por trás do domínio.', 'passivo', function(d){return 'https://toolbox.googleapps.com/apps/dig/#A/'+d;}, '🌐 Abrir online'],
-    ['Registros DNS (MX/TXT/NS)', function(d){return 'dig '+d+' ANY +noall +answer';}, 'E-mail (MX), SPF (TXT), servidores (NS).', 'passivo', function(d){return 'https://toolbox.googleapps.com/apps/dig/#ANY/'+d;}, '🌐 Abrir online'],
-    ['Cabeçalhos HTTP / segurança', function(d){return 'curl -sI https://'+d;}, 'Servidor, tecnologias e cabeçalhos de segurança.', 'passivo', function(d){return 'https://securityheaders.com/?q='+encodeURIComponent(d)+'&followRedirects=on';}, '🌐 Abrir online'],
-    ['robots.txt', function(d){return 'curl -s https://'+d+'/robots.txt';}, 'Caminhos que o site pede para não indexar.', 'passivo', function(d){return 'https://'+d+'/robots.txt';}, '🌐 Abrir arquivo'],
-    ['Certificado SSL/TLS', function(d){return 'echo | openssl s_client -connect '+d+':443 2>/dev/null | openssl x509 -noout -subject -dates';}, 'Validade e titular do certificado.', 'passivo', function(d){return 'https://www.ssllabs.com/ssltest/analyze.html?d='+encodeURIComponent(d);}, '🌐 Abrir SSL Labs'],
-    ['theHarvester (e-mails/subs)', function(d){return 'theHarvester -d '+d+' -b all';}, 'OSINT de e-mails e subdomínios.', 'passivo', null, ''],
-    ['Portas/serviços (Shodan)', function(d){return 'nmap -sV '+d;}, 'Nmap (terminal) ou veja o que o Shodan já coletou — sem tocar no alvo.', 'ativo', function(d){return 'https://www.shodan.io/search?query=hostname:'+encodeURIComponent(d);}, '🌐 Ver no Shodan'],
-    ['Nmap — scan rápido', function(d){return 'nmap -F -T4 '+d;}, 'As 100 portas mais comuns, rápido.', 'ativo', null, ''],
-    ['Nmap — todas as portas', function(d){return 'nmap -p- -T4 '+d;}, 'Varredura completa das 65535 portas.', 'ativo', null, '']
+    {t:'WHOIS do domínio', cmd:function(d){return 'whois '+d;}, desc:'Dono, registrador e datas de registro.', badge:'passivo', web:function(d){return 'https://who.is/whois/'+d;}, webLabel:'🌐 Abrir WHOIS',
+      resumo:'Consulta o registro público de um domínio: quem registrou, quando, quando expira e quais servidores DNS usa. Ótimo ponto de partida de uma investigação.',
+      flags:[['whois','ferramenta de consulta ao registro do domínio'],['DOMÍNIO','o alvo a ser consultado']]},
+    {t:'Resolver IP', cmd:function(d){return 'dig +short '+d;}, desc:'Descobre o IP por trás do domínio.', badge:'passivo', web:function(d){return 'https://toolbox.googleapps.com/apps/dig/#A/'+d;}, webLabel:'🌐 Abrir online',
+      resumo:'Pergunta ao DNS qual é o endereço IP do domínio. O +short deixa a resposta enxuta, mostrando só o IP.',
+      flags:[['dig','consulta servidores DNS'],['+short','mostra só o resultado (o IP), sem detalhes'],['DOMÍNIO','o alvo']]},
+    {t:'Registros DNS (MX/TXT/NS)', cmd:function(d){return 'dig '+d+' ANY +noall +answer';}, desc:'E-mail (MX), SPF (TXT), servidores (NS).', badge:'passivo', web:function(d){return 'https://toolbox.googleapps.com/apps/dig/#ANY/'+d;}, webLabel:'🌐 Abrir online',
+      resumo:'Lista todos os tipos de registro DNS de uma vez: servidores de e-mail (MX), políticas anti-spam (TXT/SPF), servidores de nome (NS). Mapeia a infraestrutura.',
+      flags:[['ANY','pede todos os tipos de registro'],['+noall +answer','mostra só a seção de respostas, limpa']]},
+    {t:'Cabeçalhos HTTP / segurança', cmd:function(d){return 'curl -sI https://'+d;}, desc:'Servidor, tecnologias e cabeçalhos de segurança.', badge:'passivo', web:function(d){return 'https://securityheaders.com/?q='+encodeURIComponent(d)+'&followRedirects=on';}, webLabel:'🌐 Abrir online',
+      resumo:'Pega só os cabeçalhos da resposta do site. Revela o servidor, tecnologias e se há proteções como HSTS e Content-Security-Policy.',
+      flags:[['curl','cliente HTTP de linha de comando'],['-s','silencioso (sem barra de progresso)'],['-I','só os cabeçalhos (HEAD), sem baixar o corpo da página']]},
+    {t:'robots.txt', cmd:function(d){return 'curl -s https://'+d+'/robots.txt';}, desc:'Caminhos que o site pede para não indexar.', badge:'passivo', web:function(d){return 'https://'+d+'/robots.txt';}, webLabel:'🌐 Abrir arquivo',
+      resumo:'Baixa o arquivo robots.txt, onde o site lista pastas que pede para os buscadores ignorarem — às vezes revelando justamente áreas sensíveis (/admin, /backup).',
+      flags:[['/robots.txt','arquivo padrão com regras para os robôs de busca']]},
+    {t:'Certificado SSL/TLS', cmd:function(d){return 'echo | openssl s_client -connect '+d+':443 2>/dev/null | openssl x509 -noout -subject -dates';}, desc:'Validade e titular do certificado.', badge:'passivo', web:function(d){return 'https://www.ssllabs.com/ssltest/analyze.html?d='+encodeURIComponent(d);}, webLabel:'🌐 Abrir SSL Labs',
+      resumo:'Abre uma conexão TLS na porta 443 e extrai os dados do certificado: para quem foi emitido e até quando é válido. Útil para achar certificados vencidos ou de domínios irmãos.',
+      flags:[['openssl s_client -connect host:443','abre uma conexão TLS com o servidor'],['x509 -noout -subject -dates','extrai o titular e as datas de validade do certificado']]},
+    {t:'theHarvester (e-mails/subs)', cmd:function(d){return 'theHarvester -d '+d+' -b all';}, desc:'OSINT de e-mails e subdomínios.', badge:'passivo', web:null, webLabel:'',
+      resumo:'Coleta e-mails, nomes e subdomínios do alvo a partir de fontes públicas (buscadores, certificados, etc.) — sem tocar diretamente no alvo.',
+      flags:[['-d','domínio alvo'],['-b all','usa todas as fontes de busca disponíveis']]},
+    {t:'Subdomínios (Sublist3r)', cmd:function(d){return 'sublist3r -d '+d;}, desc:'Enumera subdomínios via OSINT.', badge:'passivo', web:null, webLabel:'',
+      resumo:'Descobre subdomínios (loja., api., dev., admin.) cruzando buscadores e bases públicas. Cada subdomínio é uma nova porta de entrada possível.',
+      flags:[['-d','domínio alvo']]},
+    {t:'Portas/serviços (Nmap / Shodan)', cmd:function(d){return 'nmap -sV '+d;}, desc:'Nmap no terminal, ou veja o que o Shodan já coletou — sem tocar no alvo.', badge:'ativo', web:function(d){return 'https://www.shodan.io/search?query=hostname:'+encodeURIComponent(d);}, webLabel:'🌐 Ver no Shodan',
+      resumo:'Descobre quais portas estão abertas e quais serviços/versões rodam nelas. A coluna de versão é ouro: software antigo = possível exploit pronto.',
+      flags:[['nmap','scanner de rede'],['-sV','detecta a versão dos serviços nas portas abertas'],['DOMÍNIO','o alvo']]},
+    {t:'Nmap — scan rápido', cmd:function(d){return 'nmap -F -T4 '+d;}, desc:'As 100 portas mais comuns, rápido.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Varredura ágil só das portas mais usadas — bom para um primeiro retrato do alvo.',
+      flags:[['-F','modo "fast": só as 100 portas mais comuns'],['-T4','velocidade mais agressiva (1=lento, 5=insano)']]},
+    {t:'Nmap — todas as portas + scripts', cmd:function(d){return 'nmap -p- -sV -sC -T4 '+d;}, desc:'Varredura completa das 65535 portas.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Scan completo de todas as portas, detectando versões e rodando os scripts padrão de reconhecimento. Mais demorado, porém detalhado.',
+      flags:[['-p-','todas as 65535 portas'],['-sV','versão dos serviços'],['-sC','roda os scripts NSE padrão'],['-T4','velocidade agressiva']]},
+    {t:'Diretórios ocultos (Gobuster)', cmd:function(d){return 'gobuster dir -u https://'+d+' -w /usr/share/wordlists/dirb/common.txt';}, desc:'Acha pastas e arquivos não listados.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Testa uma lista de nomes comuns de pastas/arquivos contra o site, achando áreas escondidas (/admin, /backup, /config) que não têm link público.',
+      flags:[['dir','modo de busca de diretórios e arquivos'],['-u','URL alvo'],['-w','wordlist: a lista de nomes a testar']]},
+    {t:'Fuzzing web (ffuf)', cmd:function(d){return 'ffuf -u https://'+d+'/FUZZ -w /usr/share/wordlists/dirb/common.txt';}, desc:'Descoberta de conteúdo por força bruta.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Substitui a palavra FUZZ por cada item da wordlist e dispara requisições muito rápidas — descobre rotas, parâmetros e arquivos escondidos.',
+      flags:[['-u','URL com a palavra-chave FUZZ onde testar'],['FUZZ','marcador trocado por cada item da lista'],['-w','wordlist']]},
+    {t:'Scan de vulns web (Nikto)', cmd:function(d){return 'nikto -h https://'+d;}, desc:'Procura falhas e configs erradas no site.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Scanner que verifica milhares de arquivos perigosos, versões desatualizadas e configurações inseguras conhecidas em servidores web.',
+      flags:[['nikto','scanner de servidor web'],['-h','host/URL alvo']]},
+    {t:'SQL Injection (sqlmap)', cmd:function(d){return 'sqlmap -u "https://'+d+'/pagina?id=1" --batch --dbs';}, desc:'Detecta e explora SQLi automaticamente.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Automatiza a busca por SQL Injection num parâmetro e, se vulnerável, extrai os bancos de dados. Use só em alvos autorizados.',
+      flags:[['-u','URL com o parâmetro a testar'],['--batch','responde as perguntas automaticamente (modo não interativo)'],['--dbs','se vulnerável, lista os bancos de dados']]},
+    {t:'WordPress (WPScan)', cmd:function(d){return 'wpscan --url https://'+d+' --enumerate u';}, desc:'Enumera usuários e plugins vulneráveis.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Scanner especializado em WordPress: encontra a versão, plugins/temas com falhas conhecidas e nomes de usuário válidos.',
+      flags:[['--url','site WordPress alvo'],['--enumerate u','enumera os usuários do site']]},
+    {t:'Brute force SSH (Hydra)', cmd:function(d){return 'hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://'+d;}, desc:'Testa senhas em massa no login SSH.', badge:'ativo', web:null, webLabel:'',
+      resumo:'O Hydra tenta senha após senha automaticamente contra um serviço de login. Aqui, contra o SSH. Mostra na prática por que senha fraca + sem bloqueio = invasão. Só com autorização.',
+      flags:[['-l admin','usuário fixo a testar (use -L lista.txt para vários)'],['-P rockyou.txt','lista de senhas a tentar (use -p para uma senha única)'],['ssh://DOMÍNIO','protocolo e alvo']]},
+    {t:'Brute force login web (Hydra)', cmd:function(d){return 'hydra -L users.txt -P /usr/share/wordlists/rockyou.txt '+d+' http-post-form "/login:user=^USER^&pass=^PASS^:F=inválido"';}, desc:'Ataca um formulário de login HTTP.', badge:'ativo', web:null, webLabel:'',
+      resumo:'Hydra contra um formulário web: ele preenche usuário e senha e detecta o sucesso pela ausência da mensagem de erro. Demonstra a importância de MFA, CAPTCHA e bloqueio por tentativas.',
+      flags:[['-L users.txt','lista de usuários'],['-P rockyou.txt','lista de senhas'],['http-post-form','ataca um formulário de login via POST'],['^USER^ / ^PASS^','onde o usuário e a senha são injetados'],['F=inválido','texto que indica que o login falhou']]},
+    {t:'Quebra de hash offline (John)', cmd:function(d){return 'john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt';}, desc:'Quebra hashes que você já tem, no seu PC.', badge:'local', web:null, webLabel:'',
+      resumo:'O John the Ripper não toca em nenhum servidor: ele pega um arquivo de hashes (ex.: vazado num pentest) e tenta descobrir as senhas testando uma wordlist localmente. Mostra o valor de hash lento + salt.',
+      flags:[['--wordlist=','lista de senhas candidatas'],['hashes.txt','arquivo local com os hashes a quebrar']]},
+    {t:'Quebra de hash GPU (Hashcat)', cmd:function(d){return 'hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt';}, desc:'Igual ao John, porém usando a placa de vídeo.', badge:'local', web:null, webLabel:'',
+      resumo:'Hashcat usa a GPU para testar bilhões de senhas por segundo. O -m define o tipo de hash. Roda localmente sobre hashes que você já possui.',
+      flags:[['-m 0','tipo de hash (0 = MD5; 1000 = NTLM; 1800 = sha512crypt...)'],['-a 0','modo de ataque (0 = wordlist)'],['hashes.txt','os hashes alvo'],['rockyou.txt','lista de senhas']]},
+    {t:'Buscar exploit pronto (searchsploit)', cmd:function(d){return 'searchsploit apache 2.4';}, desc:'Procura exploits na base offline do Exploit-DB.', badge:'local', web:null, webLabel:'',
+      resumo:'Depois de descobrir a versão de um serviço (via Nmap), você procura aqui se já existe um exploit pronto para ela. Tudo offline, na sua máquina.',
+      flags:[['searchsploit','busca local na base do Exploit-DB'],['apache 2.4','termo de busca: produto e versão']]},
+    {t:'Listener para reverse shell (Netcat)', cmd:function(d){return 'nc -lvnp 4444';}, desc:'Abre um "ouvinte" esperando uma shell (lab).', badge:'local', web:null, webLabel:'',
+      resumo:'No lado do atacante (num lab), abre uma porta e espera a máquina-alvo "conectar de volta" — é o que recebe uma reverse shell. Conceito central de pós-exploração.',
+      flags:[['-l','modo listen (escutar conexões)'],['-v','verboso (mostra detalhes)'],['-n','não resolve nomes DNS'],['-p 4444','porta em que vai escutar']]}
   ];
 
   function copyBtn(code){
@@ -2479,17 +2543,31 @@ function answer(ok, label) {
     return row;
   }
 
-  function makeCmdRow(label, code, desc, badge, webUrl, webLabel){
+  function makeCmdRow(item, d){
+    var code = item.cmd(d);
     var row = document.createElement('div'); row.className = 'gen-row';
-    var rl = document.createElement('div'); rl.className = 'rl'; rl.textContent = label;
-    var b = document.createElement('span'); b.className = 'gen-badge ' + badge; b.textContent = badge; rl.appendChild(b);
-    var rd = document.createElement('div'); rd.className = 'rd'; rd.textContent = desc;
+    var rl = document.createElement('div'); rl.className = 'rl'; rl.textContent = item.t;
+    var b = document.createElement('span'); b.className = 'gen-badge ' + item.badge; b.textContent = item.badge; rl.appendChild(b);
+    var rd = document.createElement('div'); rd.className = 'rd'; rd.textContent = item.desc;
     var wrap = document.createElement('div'); wrap.className = 'gen-code';
     var c = document.createElement('code'); c.textContent = code;
     wrap.appendChild(c);
-    if(webUrl){ wrap.appendChild(openLink(webUrl, webLabel, true)); }
+    if(item.web){ wrap.appendChild(openLink(item.web(d), item.webLabel, true)); }
     wrap.appendChild(copyBtn(code));
-    row.appendChild(rl); row.appendChild(rd); row.appendChild(wrap);
+
+    var info = document.createElement('div'); info.className = 'gen-info';
+    var rp = document.createElement('p'); rp.textContent = item.resumo; info.appendChild(rp);
+    (item.flags || []).forEach(function(f){
+      var fi = document.createElement('div'); fi.className = 'flag-item';
+      var fc = document.createElement('code'); fc.textContent = f[0];
+      var fs = document.createElement('span'); fs.textContent = f[1];
+      fi.appendChild(fc); fi.appendChild(fs); info.appendChild(fi);
+    });
+    var infoBtn = document.createElement('button'); infoBtn.type = 'button'; infoBtn.className = 'gen-btn info'; infoBtn.textContent = 'ℹ️ O que faz';
+    infoBtn.addEventListener('click', function(ev){ ev.stopPropagation(); var op = info.classList.toggle('open'); infoBtn.textContent = op ? '▲ Ocultar' : 'ℹ️ O que faz'; });
+    wrap.appendChild(infoBtn);
+
+    row.appendChild(rl); row.appendChild(rd); row.appendChild(wrap); row.appendChild(info);
     return row;
   }
 
@@ -2505,12 +2583,9 @@ function answer(ok, label) {
         out.appendChild(makeDorkRow(item[0], code, item[2], 'https://www.google.com/search?q=' + encodeURIComponent(code)));
       });
     } else {
-      note.innerHTML = 'Onde houver <b>🌐 Abrir online</b>, clique e veja o resultado no navegador (nova aba). Os demais rodam no terminal Linux/Kali — use 📋 Copiar.';
+      note.innerHTML = 'Clique em <b>ℹ️ O que faz</b> para entender o comando parte por parte. <b>🌐 Abrir online</b> mostra o resultado no navegador; o resto roda no terminal (Linux/Kali). Etiquetas: <b style="color:var(--green)">passivo</b> = não toca no alvo · <b style="color:var(--pink)">ativo</b> = contata o alvo (precisa de autorização) · <b style="color:var(--cyan)">local</b> = roda só na sua máquina.';
       out.appendChild(note);
-      cmds.forEach(function(item){
-        var webUrl = item[4] ? item[4](d) : null;
-        out.appendChild(makeCmdRow(item[0], item[1](d), item[2], item[3], webUrl, item[5]));
-      });
+      cmds.forEach(function(item){ out.appendChild(makeCmdRow(item, d)); });
     }
   }
 
