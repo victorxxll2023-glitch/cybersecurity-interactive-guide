@@ -71,6 +71,31 @@ h1 span { color: var(--cyan); text-shadow: 0 0 22px rgba(0,217,255,.45); }
 
 main { padding: 0 42px 70px; }
 
+/* Barra de busca fixa */
+.searchbar {
+  position: sticky; top: 0; z-index: 60;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 42px;
+  background: rgba(3,6,17,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,217,255,.25);
+}
+.searchbar input {
+  flex: 1; min-width: 0;
+  background: #0a0e17;
+  border: 1px solid rgba(0,217,255,.4);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 16px;
+  padding: 12px 18px;
+}
+.searchbar input::placeholder { color: var(--muted); }
+.searchbar input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 16px rgba(0,217,255,.25); }
+.search-count { color: var(--cyan); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.search-empty { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 16px; }
+@media (max-width: 950px) { .searchbar { padding: 10px 16px; } .searchbar input { font-size: 15px; padding: 11px 16px; } }
+
 /* Metadata box */
 .meta {
   background: linear-gradient(135deg, rgba(0,217,255,.10), rgba(162,89,255,.08));
@@ -360,6 +385,12 @@ main { padding: 0 42px 70px; }
 </style>
 </head>
 <body>
+
+<div class="searchbar">
+  <input id="searchInput" type="search" placeholder="🔎 Buscar conceito (ex: phishing, hash, nmap, ransomware)..." autocomplete="off" spellcheck="false">
+  <span id="searchCount" class="search-count"></span>
+</div>
+<div id="searchEmpty" class="search-empty" style="display:none;">Nenhum conceito encontrado. Tente outro termo.</div>
 
 <header>
   <div>
@@ -2429,16 +2460,16 @@ function answer(ok, label) {
   var dorks = [
     ['Todas as páginas indexadas', function(d){return 'site:'+d;}, 'Visão geral do que o Google conhece do alvo.'],
     ['Subdomínios', function(d){return 'site:*.'+d+' -www';}, 'Revela portais e ambientes além do www.'],
-    ['Documentos PDF', function(d){return 'site:'+d+' filetype:pdf';}, 'Relatórios, contratos e manuais expostos.'],
-    ['Planilhas e dados', function(d){return 'site:'+d+' (filetype:xls OR filetype:xlsx OR filetype:csv)';}, 'Onde costumam vazar listas e credenciais.'],
-    ['Páginas de login', function(d){return 'site:'+d+' (inurl:login OR inurl:signin OR intitle:"login")';}, 'Pontos de autenticação do alvo.'],
+    ['Documentos (PDF, Word, PPT...)', function(d){return 'site:'+d+' (filetype:pdf OR filetype:doc OR filetype:docx OR filetype:ppt OR filetype:pptx OR filetype:rtf OR filetype:txt OR filetype:odt)';}, 'Relatórios, contratos, manuais e apresentações expostos.'],
+    ['Planilhas e bancos', function(d){return 'site:'+d+' (filetype:xls OR filetype:xlsx OR filetype:csv OR filetype:ods OR ext:db OR ext:sqlite OR ext:mdb)';}, 'Onde costumam vazar listas, dados e credenciais.'],
+    ['Páginas de login', function(d){return 'site:'+d+' (inurl:login OR inurl:signin OR inurl:logon OR inurl:auth OR inurl:account OR inurl:session OR intitle:"login" OR intitle:"sign in")';}, 'Vários tipos de página de autenticação de uma vez.'],
     ['Painéis administrativos', function(d){return 'site:'+d+' (inurl:admin OR inurl:administrator OR inurl:adminlogin OR inurl:wp-admin OR inurl:cpanel OR inurl:phpmyadmin OR inurl:dashboard OR inurl:panel OR inurl:backend OR inurl:webadmin OR inurl:manager OR intitle:"admin login" OR intitle:"control panel")';}, 'Cobre vários tipos de painel de uma vez: admin, administrator, wp-admin, cpanel, phpMyAdmin, dashboard, panel, backend, webadmin, manager e mais.'],
-    ['Diretórios abertos', function(d){return 'site:'+d+' intitle:"index of"';}, 'Listagem de arquivos sem proteção.'],
-    ['Backups, bancos e logs', function(d){return 'site:'+d+' (ext:sql OR ext:bak OR ext:old OR ext:log)';}, 'Arquivos sensíveis esquecidos no servidor.'],
-    ['Arquivos de configuração', function(d){return 'site:'+d+' (ext:env OR ext:ini OR ext:conf OR ext:yml)';}, 'Podem conter chaves e segredos.'],
-    ['Possíveis credenciais', function(d){return 'site:'+d+' ("senha" OR "password" OR "usuário")';}, 'Texto sensível em páginas e arquivos.'],
-    ['Parâmetros na URL', function(d){return 'site:'+d+' inurl:"?id="';}, 'Pontos para testar (com autorização) SQLi/IDOR.'],
-    ['Repositório .git exposto', function(d){return 'site:'+d+' inurl:.git';}, 'Código-fonte vazando — achado grave.']
+    ['Diretórios abertos', function(d){return 'site:'+d+' (intitle:"index of" OR intitle:"index of /" OR "parent directory" OR intitle:"directory listing")';}, 'Listagem de arquivos sem proteção, em várias formas.'],
+    ['Backups, bancos e logs', function(d){return 'site:'+d+' (ext:sql OR ext:bak OR ext:old OR ext:backup OR ext:bkp OR ext:zip OR ext:tar OR ext:gz OR ext:rar OR ext:dump OR ext:log OR ext:tmp)';}, 'Arquivos sensíveis e cópias esquecidas no servidor.'],
+    ['Arquivos de configuração', function(d){return 'site:'+d+' (ext:env OR ext:ini OR ext:conf OR ext:cfg OR ext:config OR ext:yml OR ext:yaml OR ext:json OR ext:xml OR inurl:wp-config OR inurl:.env)';}, 'Podem conter chaves, senhas e segredos da aplicação.'],
+    ['Possíveis credenciais', function(d){return 'site:'+d+' (intext:"senha" OR intext:"password" OR intext:"usuário" OR intext:"passwd" OR intext:"api_key" OR intext:"secret" OR intext:"token" OR intext:"credentials")';}, 'Texto sensível (senhas, chaves, tokens) em páginas e arquivos.'],
+    ['Parâmetros na URL', function(d){return 'site:'+d+' (inurl:"?id=" OR inurl:"?page=" OR inurl:"?cat=" OR inurl:"?file=" OR inurl:"?dir=" OR inurl:"?search=" OR inurl:"?q=" OR inurl:"?user=")';}, 'Vários parâmetros para testar (com autorização) SQLi/IDOR/LFI.'],
+    ['Arquivos sensíveis e .git/.env', function(d){return 'site:'+d+' (inurl:.git OR inurl:.svn OR inurl:.env OR inurl:.htaccess OR inurl:.DS_Store OR inurl:wp-config OR inurl:backup OR inurl:.bak)';}, 'Código-fonte, controle de versão e arquivos internos vazando.']
   ];
 
   // cada comando: {t, cmd(d), desc, badge, web(d)|null, webLabel, resumo, flags:[[parte, explicação]]}
@@ -2599,6 +2630,42 @@ function answer(ok, label) {
     });
   });
   render();
+})();
+
+// ===== Busca / filtro de conceitos =====
+(function(){
+  var si = document.getElementById('searchInput');
+  var sc = document.getElementById('searchCount');
+  var empty = document.getElementById('searchEmpty');
+  if(!si) return;
+  function norm(s){ return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  var topics = Array.prototype.slice.call(document.querySelectorAll('.topic'));
+  var levels = Array.prototype.slice.call(document.querySelectorAll('section.level'));
+  topics.forEach(function(t){ t._txt = norm(t.textContent); });
+
+  function filter(){
+    var q = norm(si.value.trim());
+    if(!q){
+      topics.forEach(function(t){ t.style.display = ''; });
+      levels.forEach(function(l){ l.style.display = ''; });
+      sc.textContent = ''; empty.style.display = 'none';
+      return;
+    }
+    var n = 0;
+    topics.forEach(function(t){
+      var hit = t._txt.indexOf(q) >= 0;
+      t.style.display = hit ? '' : 'none';
+      if(hit) n++;
+    });
+    levels.forEach(function(l){
+      var tp = l.querySelectorAll('.topic'); var vis = false;
+      for(var i=0;i<tp.length;i++){ if(tp[i].style.display !== 'none'){ vis = true; break; } }
+      l.style.display = vis ? '' : 'none';
+    });
+    sc.textContent = n + (n === 1 ? ' resultado' : ' resultados');
+    empty.style.display = n ? 'none' : 'block';
+  }
+  si.addEventListener('input', filter);
 })();
 </script>
 </body>
