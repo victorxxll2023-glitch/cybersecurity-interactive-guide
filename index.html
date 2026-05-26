@@ -1475,7 +1475,15 @@ Service detection performed. Nmap done.</pre>
             <tr><td>Bate na porta do serviço</td><td>Trabalha sobre um arquivo de hashes</td></tr>
             <tr><td>Lento, gera logs, pode bloquear conta</td><td>Rápido, silencioso, sem tocar no alvo</td></tr>
           </table>
-          <div class="callout danger">Os dois estão no Gerador (parametrizáveis). Use só em sistemas seus ou autorizados. A defesa: senhas longas, 2FA, bloqueio por tentativas e hashes lentos com salt (bcrypt/Argon2).</div>
+          <h4>Comandos para copiar (clique e edite o que falta)</h4>
+          <div class="cmd-list">
+            <code class="cmd">hydra -l &lt;USUARIO&gt; -P &lt;wordlist&gt; ssh://&lt;IP_DO_ALVO&gt;</code>
+            <code class="cmd">hydra -L &lt;lista_usuarios&gt; -P &lt;wordlist&gt; &lt;IP_DO_ALVO&gt; http-post-form "/login:user=^USER^&pass=^PASS^:F=inválido"</code>
+            <code class="cmd">hydra -l &lt;USUARIO&gt; -P &lt;wordlist&gt; ftp://&lt;IP_DO_ALVO&gt;</code>
+            <code class="cmd">john --wordlist=&lt;wordlist&gt; &lt;arquivo_hash&gt;</code>
+            <code class="cmd">hashcat -m 0 -a 0 &lt;arquivo_hash&gt; &lt;wordlist&gt;</code>
+          </div>
+          <div class="callout danger">Os dois também estão no <b>Gerador</b> (parametrizáveis). Use só em sistemas seus ou autorizados. Defesa: senhas longas, 2FA, bloqueio por tentativas e hashes lentos com salt (bcrypt/Argon2).</div>
         </div>
       </details>
     </div>
@@ -4228,6 +4236,8 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     '<payload>':'o payload (ex: linux/x64/meterpreter/reverse_tcp)',
     '<wordlist>':'caminho da lista de senhas (ex: /usr/share/wordlists/rockyou.txt)',
     '<arquivo_hash>':'arquivo local com os hashes',
+    '<USUARIO>':'o usuário a testar (ex: admin, root)',
+    '<lista_usuarios>':'arquivo com a lista de usuários (ex: users.txt)',
     '<FAIXA_DE_REDE>':'sua faixa de rede (ex: 192.168.0.0/24)'
   };
 
