@@ -973,6 +973,20 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Fase inicial de coleta de informações sobre o alvo (passivo ou ativo).</div>
       <div class="line"><b>Por que aprender:</b> Reconhecer bem = atacar (ou defender) bem.</div>
       <a href="https://tryhackme.com/r/room/passiverecon" target="_blank">TryHackMe — Passive Recon ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Reconhecimento</b> (recon) é a primeira fase de qualquer ataque ou pentest: reunir o máximo de informação sobre o alvo antes de agir. Quanto melhor o recon, mais certeiro (e silencioso) é o resto.</p>
+          <h4>Passivo × Ativo</h4>
+          <ul class="bullets">
+            <li><b>Passivo:</b> não toca no alvo (Google, redes sociais, WHOIS, vazamentos). Indetectável.</li>
+            <li><b>Ativo:</b> interage com o alvo (ping, scan de portas, acessar o site). Pode gerar logs.</li>
+          </ul>
+          <div class="callout tip">Regra de ouro: comece sempre pelo passivo — você descobre muito sem nunca "encostar" no alvo. Use a aba <b>❓ Como descobrir</b> do Gerador.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -980,6 +994,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Levantamento profundo do alvo antes do ataque (DNS, e-mails, IPs).</div>
       <div class="line"><b>Por que aprender:</b> Mapa do terreno antes de qualquer movimento.</div>
       <a href="https://www.eccouncil.org/cybersecurity-exchange/ethical-hacking/footprinting-ethical-hacking/" target="_blank">EC-Council — Footprinting ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Footprinting</b> é o levantamento <b>profundo e organizado</b> do alvo durante o recon: domínios e subdomínios, faixas de IP, servidores de e-mail (MX), tecnologias, funcionários e e-mails. É desenhar o "mapa do terreno".</p>
+          <h4>O que se coleta</h4>
+          <ul class="bullets">
+            <li><b>Infra:</b> DNS, IPs, hospedagem, certificados (crt.sh).</li>
+            <li><b>Pessoas:</b> e-mails e cargos (LinkedIn) — base de engenharia social.</li>
+            <li><b>Tecnologia:</b> CMS, frameworks e versões (whatweb/BuiltWith).</li>
+          </ul>
+          <div class="callout tip">O footprint do alvo é o mesmo que VOCÊ deixa. Reduzir a própria exposição já é defesa.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1042,6 +1071,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Consulta pública sobre dono, registrador e datas de um domínio.</div>
       <div class="line"><b>Por que aprender:</b> Investigar sites fraudulentos começa aqui.</div>
       <a href="https://registro.br/tecnologia/ferramentas/whois/" target="_blank">Registro.br — WHOIS ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>WHOIS</b> é uma consulta pública que mostra os dados de registro de um domínio: quem registrou, registrador, datas de criação/expiração e servidores DNS. É um dos primeiros passos para investigar um site (inclusive fraudulento).</p>
+          <h4>O que observar</h4>
+          <ul class="bullets">
+            <li><b>Data de criação recente</b> + "loja" com super promoção = forte sinal de golpe.</li>
+            <li>Registrador e país podem indicar a origem.</li>
+            <li>Muitos usam <b>WHOIS privado</b> (proteção de privacidade) — comum e legítimo.</li>
+          </ul>
+          <div class="callout tip">Teste no Gerador: <code>whois exemplo.com</code> ou o botão "🌐 Abrir WHOIS".</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1049,6 +1093,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Verifica se seu e-mail/telefone está em vazamentos públicos.</div>
       <div class="line"><b>Por que aprender:</b> Saber se já foi comprometido é o primeiro passo da defesa.</div>
       <a href="https://haveibeenpwned.com/" target="_blank">haveibeenpwned.com ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Have I Been Pwned (HIBP)</b> é um serviço gratuito que verifica se o seu e-mail ou telefone apareceu em <b>vazamentos públicos</b> conhecidos. É a forma legítima e defensiva de checar a SUA exposição.</p>
+          <h4>O que fazer se você "vazou"</h4>
+          <ul class="bullets">
+            <li><b>Troque a senha</b> do serviço afetado — e de qualquer outro onde reusava ela.</li>
+            <li>Ative <b>2FA</b> em tudo que for importante.</li>
+            <li>Use um <b>gerenciador de senhas</b> (senha única por site).</li>
+          </ul>
+          <div class="callout danger">Senha vazada + reuso = <b>credential stuffing</b>: o atacante testa a mesma senha em vários sites. Por isso nunca repita senhas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1086,6 +1145,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Bases de credenciais expostas em breaches públicos ou na dark web.</div>
       <div class="line"><b>Por que aprender:</b> É o combustível dos ataques modernos (credential stuffing).</div>
       <a href="https://www.dehashed.com/" target="_blank">Dehashed ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Vazamento de dados</b> (data breach) é quando credenciais e informações pessoais escapam de uma empresa e vão parar em fóruns, na dark web ou em bases de busca. É o <b>combustível</b> dos ataques modernos.</p>
+          <h4>Como os criminosos usam</h4>
+          <ul class="bullets">
+            <li><b>Credential stuffing:</b> testam e-mail+senha vazados em outros serviços.</li>
+            <li><b>Phishing direcionado</b> com dados reais seus (parece legítimo).</li>
+            <li><b>Fraude e roubo de identidade</b> (CPF, endereço, etc.).</li>
+          </ul>
+          <div class="callout danger"><b>Lado ético:</b> pesquisar a SUA exposição é defesa. Coletar/expor dados de terceiros é crime (LGPD) — nunca monte uma base de busca de vítimas.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1093,6 +1167,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Parte da internet acessível só via Tor; mercados ilegais &amp; fóruns hacker.</div>
       <div class="line"><b>Por que aprender:</b> Threat intel séria precisa monitorar essas regiões.</div>
       <a href="https://www.kaspersky.com/resource-center/threats/deep-web" target="_blank">Kaspersky — Deep vs Dark Web ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>A <b>dark web</b> é a parte da internet acessível só por redes especiais como o <b>Tor</b> (endereços <code>.onion</code>). O tráfego passa por várias camadas de criptografia para dar anonimato. Abriga desde fóruns legítimos de privacidade até mercados ilegais.</p>
+          <h4>Por que o Blue Team monitora</h4>
+          <ul class="bullets">
+            <li>Vazamentos e credenciais da empresa costumam ser vendidos lá.</li>
+            <li><b>Threat intel:</b> antecipar ataques observando fóruns de criminosos.</li>
+            <li>Sempre em ambiente isolado (VM), Tor oficial, sem comprar/participar de nada ilegal.</li>
+          </ul>
+          <div class="callout danger">Só acessar via Tor não é crime no Brasil; o crime está no que se faz lá. Sem preparo, é risco de malware e de cair em conteúdo criminoso.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1100,6 +1189,21 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Conteúdo não indexado por buscadores (intranets, e-mails, bancos de dados).</div>
       <div class="line"><b>Por que aprender:</b> Não é ilegal — só não está no Google.</div>
       <a href="https://www.ibm.com/topics/deep-web" target="_blank">IBM — Deep Web ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>A <b>deep web</b> é tudo que os buscadores <b>não indexam</b>: sua caixa de e-mail, internet banking, intranets, bancos de dados, conteúdo atrás de login/paywall. É a <b>maior parte</b> da internet — e é totalmente normal e legal. Você usa todo dia.</p>
+          <h4>Deep web × Dark web (não confunda)</h4>
+          <table class="cmp">
+            <tr><th>Deep web</th><th>Dark web</th></tr>
+            <tr><td>Não indexado (e-mail, banco)</td><td>Só via Tor (.onion)</td></tr>
+            <tr><td>Legal e cotidiano</td><td>Anônima; tem áreas ilegais</td></tr>
+          </table>
+          <div class="callout tip">A web indexada (surface) é só a ponta do iceberg. A deep web é o corpo submerso — e a dark web é uma fatia pequena dela.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1107,6 +1211,20 @@ code.cmd.copied::after { content:'✅'; }
       <div class="line"><b>O que é:</b> Ferramentas como FaceCheck identificam reuso de fotos suas online.</div>
       <div class="line"><b>Por que aprender:</b> Detecta perfis falsos usando sua imagem.</div>
       <a href="https://facecheck.id/pt" target="_blank">FaceCheck.id ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>Ferramentas de <b>reconhecimento facial</b> (como FaceCheck/PimEyes) procuram <b>onde a sua foto aparece</b> na internet a partir de uma imagem. No OSINT, servem para detectar perfis falsos que usam a sua imagem — e, do lado ofensivo, para identificar pessoas.</p>
+          <h4>Uso defensivo (o seu caso)</h4>
+          <ul class="bullets">
+            <li>Descobrir <b>perfis fake</b> usando suas fotos (catfishing, golpe do "amor").</li>
+            <li>Ver o quanto a sua imagem está exposta publicamente.</li>
+          </ul>
+          <div class="callout danger"><b>Cuidado ético/legal:</b> usar para perseguir, expor ou identificar terceiros sem consentimento fere a privacidade e pode violar a LGPD. Use para se proteger, não para vigiar pessoas.</div>
+        </div>
+      </details>
     </div>
 
   </div>
