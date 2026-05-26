@@ -380,6 +380,38 @@ main { padding: 0 42px 70px; }
 .gen-field input { width:100%; background:#0a0e17; border:1px solid rgba(0,217,255,.3); border-radius:9px; color:var(--text); font-size:13px; padding:9px 11px; font-family:ui-monospace,monospace; }
 .gen-field input:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 10px rgba(0,217,255,.2); }
 
+/* Progresso (marcar estudado) */
+.topic { position: relative; }
+.study-toggle {
+  display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+  font-size:12px; font-weight:800; color:var(--muted);
+  background:rgba(116,255,0,.07); border:1px solid rgba(116,255,0,.25);
+  border-radius:999px; padding:5px 11px; margin:2px 0 10px;
+}
+.study-toggle:hover { border-color:rgba(116,255,0,.5); }
+.study-toggle.on { color:var(--green); border-color:var(--green); background:rgba(116,255,0,.16); }
+.topic.studied { border-color:rgba(116,255,0,.45); }
+.level-progress { margin: -8px 0 20px; }
+.level-progress .lbl { font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:700; }
+.level-progress .lbl b { color:var(--green); }
+.level-progress .bar { height:8px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
+.level-progress .fill { height:100%; width:0; background:linear-gradient(90deg, var(--green), var(--cyan)); transition:width .3s ease; }
+
+/* Dossiê do alvo */
+.dossie { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:14px; }
+.dossie-field { display:flex; flex-direction:column; }
+.dossie-field.full { grid-column:1 / -1; }
+.dossie-field label { font-size:12px; color:var(--cyan); font-weight:800; margin-bottom:6px; letter-spacing:.3px; }
+.dossie-field input, .dossie-field textarea {
+  background:#0a0e17; border:1px solid rgba(0,217,255,.3); border-radius:10px;
+  color:var(--text); font-size:14px; padding:10px 12px; font-family:inherit; resize:vertical;
+}
+.dossie-field textarea { min-height:74px; line-height:1.5; }
+.dossie-field input:focus, .dossie-field textarea:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 10px rgba(0,217,255,.2); }
+.dossie-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.dossie-saved { color:var(--green); font-size:12px; font-weight:700; align-self:center; opacity:0; transition:opacity .2s; }
+.dossie-saved.show { opacity:1; }
+
 /* Quiz */
 .quiz {
   max-width: 900px;
@@ -2461,6 +2493,46 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
   </div>
 </section>
 
+<!-- DOSSIÊ DO ALVO -->
+<section id="dossie" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl2">📋</div>
+    <div>
+      <h2>Dossiê do alvo</h2>
+      <div class="sub">ANOTE TUDO QUE DESCOBRIR • SALVA NO SEU APARELHO</div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 18px; max-width:760px;">
+    Use durante o reconhecimento (com autorização) para organizar o que você for descobrindo.
+    Tudo fica salvo automaticamente <b>só neste navegador</b> (não vai para servidor nenhum). Use "Copiar tudo" para levar ao seu relatório.
+  </p>
+
+  <div class="gen">
+    <div class="dossie">
+      <div class="dossie-field full"><label>🎯 Alvo (domínio / empresa)</label><input id="dsAlvo" type="text" placeholder="ex: exemplo.com.br" autocomplete="off"></div>
+      <div class="dossie-field"><label>🌐 IP(s)</label><textarea id="dsIp" placeholder="187.x.x.x&#10;servidor secundário..."></textarea></div>
+      <div class="dossie-field"><label>🧭 DNS / registros (MX, NS, TXT)</label><textarea id="dsDns" placeholder="MX: mail.exemplo.com&#10;NS: ns1..."></textarea></div>
+      <div class="dossie-field"><label>🌿 Subdomínios</label><textarea id="dsSub" placeholder="api.exemplo.com&#10;dev.exemplo.com..."></textarea></div>
+      <div class="dossie-field"><label>🔌 Portas / serviços</label><textarea id="dsPortas" placeholder="22/ssh OpenSSH 8.2&#10;80,443/http nginx..."></textarea></div>
+      <div class="dossie-field"><label>🧰 Tecnologias / CMS</label><textarea id="dsTech" placeholder="WordPress 6.x, PHP, nginx..."></textarea></div>
+      <div class="dossie-field"><label>📧 E-mails / usuários</label><textarea id="dsEmails" placeholder="admin@exemplo.com&#10;joao.silva..."></textarea></div>
+      <div class="dossie-field full"><label>🔓 Achados / vulnerabilidades</label><textarea id="dsVulns" placeholder="Painel /admin exposto&#10;Possível SQLi em ?id=&#10;CVE-..."></textarea></div>
+      <div class="dossie-field full"><label>📝 Notas livres</label><textarea id="dsNotas" placeholder="Qualquer observação, próximos passos, credenciais de teste..."></textarea></div>
+    </div>
+    <div class="dossie-actions">
+      <button type="button" id="dsCopy" class="btn">📋 Copiar tudo</button>
+      <button type="button" id="dsDownload" class="btn green">💾 Baixar .txt</button>
+      <button type="button" id="dsClear" class="btn pink">🗑️ Limpar tudo</button>
+      <span id="dsSaved" class="dossie-saved">✓ salvo</span>
+    </div>
+  </div>
+
+  <div class="callout danger" style="margin-top:16px;">
+    <b>⚠️ Cuidado com o que anota:</b> guardar dados de pessoas/sistemas sem autorização pode violar a LGPD. Use só em alvos seus, em labs ou em testes autorizados — e nunca exponha esse conteúdo publicamente.
+  </div>
+</section>
+
 <!-- Quiz -->
 <section id="quiz">
   <div class="quiz">
@@ -2762,6 +2834,7 @@ function answer(ok, label) {
     { k:'nivel5',  label:'\ud83d\udee1\ufe0f Defesa',      els:[byId('nivel5')] },
     { k:'nivel6',  label:'\ud83d\udd10 Avan\u00e7ado',    els:[byId('nivel6')] },
     { k:'gerador', label:'\ud83e\uddf0 Gerador',     els:[byId('gerador')] },
+    { k:'dossie',  label:'\ud83d\udccb Dossi\u00ea',      els:[byId('dossie')] },
     { k:'quiz',    label:'\ud83c\udfae Quiz',        els:[byId('quiz')] }
   ];
   var conceptLevels = ['nivel1','nivel2','nivel3','nivel4','nivel5','nivel6'].map(byId);
@@ -2829,6 +2902,90 @@ function answer(ok, label) {
 
   si.addEventListener('input', doSearch);
   showView('inicio');
+})();
+
+// ===== Progresso: marcar conceito como estudado =====
+(function(){
+  var KEY = 'cyber_studied_v1';
+  var state; try{ state = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var topics = Array.prototype.slice.call(document.querySelectorAll('.topic'));
+  var levels = Array.prototype.slice.call(document.querySelectorAll('section.level'));
+
+  function keyOf(t){ var h = t.querySelector('h3'); return h ? h.textContent.replace(/\s+/g, ' ').trim() : ''; }
+
+  function updateBar(l){
+    var tp = l.querySelectorAll('.topic'); if(!tp.length) return;
+    var done = 0; for(var i=0;i<tp.length;i++){ if(tp[i].classList.contains('studied')) done++; }
+    var pb = l._pb;
+    if(!pb){
+      pb = document.createElement('div'); pb.className = 'level-progress';
+      pb.innerHTML = '<div class="lbl"></div><div class="bar"><div class="fill"></div></div>';
+      var hd = l.querySelector('.level-header');
+      if(hd && hd.parentNode === l && hd.nextSibling){ l.insertBefore(pb, hd.nextSibling); }
+      else if(hd){ hd.insertAdjacentElement('afterend', pb); }
+      else { l.insertBefore(pb, l.firstChild); }
+      l._pb = pb;
+    }
+    var pct = Math.round(done / tp.length * 100);
+    pb.querySelector('.lbl').innerHTML = 'Progresso: <b>' + done + '/' + tp.length + '</b> estudados (' + pct + '%)';
+    pb.querySelector('.fill').style.width = pct + '%';
+  }
+
+  topics.forEach(function(t){
+    var key = keyOf(t); if(!key) return;
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'study-toggle';
+    function refresh(){ var on = !!state[key]; t.classList.toggle('studied', on); btn.classList.toggle('on', on); btn.textContent = on ? '✓ Estudado' : '☐ Marcar como estudado'; }
+    btn.addEventListener('click', function(){ if(state[key]) delete state[key]; else state[key] = 1; save(); refresh(); var l = t.closest('section.level'); if(l) updateBar(l); });
+    var h = t.querySelector('h3'); if(h){ h.insertAdjacentElement('afterend', btn); } else { t.appendChild(btn); }
+    refresh();
+  });
+  levels.forEach(updateBar);
+})();
+
+// ===== Dossiê do alvo (salvo no navegador) =====
+(function(){
+  var fields = ['dsAlvo','dsIp','dsDns','dsSub','dsPortas','dsTech','dsEmails','dsVulns','dsNotas'];
+  var labels = { dsAlvo:'Alvo', dsIp:'IP(s)', dsDns:'DNS / registros', dsSub:'Subdomínios', dsPortas:'Portas / serviços', dsTech:'Tecnologias / CMS', dsEmails:'E-mails / usuários', dsVulns:'Achados / vulnerabilidades', dsNotas:'Notas' };
+  var KEY = 'cyber_dossie_v1';
+  var els = {}; fields.forEach(function(id){ els[id] = document.getElementById(id); });
+  if(!els.dsAlvo) return;
+  var saved = document.getElementById('dsSaved');
+  var data; try{ data = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ data = {}; }
+  fields.forEach(function(id){ if(els[id] && data[id] != null) els[id].value = data[id]; });
+  var tmo;
+  function save(){
+    fields.forEach(function(id){ if(els[id]) data[id] = els[id].value; });
+    try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){}
+    if(saved){ saved.classList.add('show'); clearTimeout(tmo); tmo = setTimeout(function(){ saved.classList.remove('show'); }, 1200); }
+  }
+  fields.forEach(function(id){ if(els[id]) els[id].addEventListener('input', save); });
+
+  function report(){
+    var alvo = els.dsAlvo.value.trim();
+    var lines = ['=== DOSSIÊ' + (alvo ? ': ' + alvo : ' DO ALVO') + ' ===', 'Gerado em ' + new Date().toLocaleString('pt-BR'), ''];
+    fields.forEach(function(id){ if(id === 'dsAlvo') return; var v = els[id] ? els[id].value.trim() : ''; if(v){ lines.push('## ' + labels[id], v, ''); } });
+    return lines.join('\n');
+  }
+  var copyBtn = document.getElementById('dsCopy');
+  if(copyBtn) copyBtn.addEventListener('click', function(){
+    var txt = report();
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){ copyBtn.textContent = '✅ Copiado!'; setTimeout(function(){ copyBtn.textContent = '📋 Copiar tudo'; }, 1500); }, function(){}); }
+  });
+  var dlBtn = document.getElementById('dsDownload');
+  if(dlBtn) dlBtn.addEventListener('click', function(){
+    var blob = new Blob([report()], { type:'text/plain;charset=utf-8' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    var nm = (els.dsAlvo.value.trim() || 'alvo').replace(/[^a-z0-9.\-]/gi, '_');
+    a.download = 'dossie_' + nm + '.txt'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var clrBtn = document.getElementById('dsClear');
+  if(clrBtn) clrBtn.addEventListener('click', function(){
+    if(!confirm('Apagar todas as anotações do dossiê?')) return;
+    fields.forEach(function(id){ if(els[id]) els[id].value = ''; });
+    data = {}; try{ localStorage.removeItem(KEY); }catch(e){}
+  });
 })();
 </script>
 </body>
