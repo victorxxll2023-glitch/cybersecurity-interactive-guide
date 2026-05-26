@@ -412,6 +412,31 @@ main { padding: 0 42px 70px; }
 .dossie-saved { color:var(--green); font-size:12px; font-weight:700; align-self:center; opacity:0; transition:opacity .2s; }
 .dossie-saved.show { opacity:1; }
 
+/* Roteiro de estudo */
+.roadmap { display:flex; flex-direction:column; gap:14px; }
+.roadstep { background:var(--card); border:1px solid rgba(0,217,255,.18); border-left:4px solid var(--cyan); border-radius:16px; padding:18px 20px; }
+.roadstep h3 { margin:0 0 4px; font-size:18px; }
+.roadstep .tag { font-size:11px; letter-spacing:1px; color:var(--muted); font-weight:800; text-transform:uppercase; }
+.roadstep .what { color:#cdddec; font-size:14px; line-height:1.6; margin:8px 0 12px; }
+.roadstep .labs { display:flex; gap:8px; flex-wrap:wrap; }
+.roadstep .lab { font-size:13px; font-weight:700; color:var(--cyan); text-decoration:none; border:1px solid rgba(0,217,255,.35); border-radius:999px; padding:6px 12px; background:rgba(0,217,255,.06); }
+.roadstep .lab:hover { background:rgba(0,217,255,.14); color:var(--green); }
+
+/* Quiz dinâmico */
+.quiz-start { text-align:center; }
+.quiz-meta { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px; font-weight:700; margin-bottom:12px; }
+.quiz-q { font-size:19px; font-weight:800; margin:6px 0 16px; line-height:1.4; }
+.option.correct { background:rgba(116,255,0,.18); border-color:var(--green); color:#eaffd6; }
+.option.wrong { background:rgba(255,46,136,.16); border-color:var(--pink); color:#ffd9e6; }
+.option:disabled { cursor:default; opacity:.85; }
+.quiz-exp { margin:14px 0 4px; padding:12px 14px; border-radius:12px; background:rgba(0,217,255,.07); border:1px solid rgba(0,217,255,.25); font-size:13.5px; line-height:1.55; color:#cdddec; }
+.quiz-exp b { color:var(--cyan); }
+.quiz-bar { height:8px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-bottom:16px; }
+.quiz-bar .fill { height:100%; width:0; background:linear-gradient(90deg, var(--pink), var(--purple)); transition:width .3s; }
+.quiz-final { text-align:center; }
+.quiz-final .score { font-size:46px; font-weight:900; color:var(--cyan); margin:8px 0; }
+.quiz-final .msg { font-size:16px; color:#cdddec; margin-bottom:18px; }
+
 /* Quiz */
 .quiz {
   max-width: 900px;
@@ -521,6 +546,90 @@ main { padding: 0 42px 70px; }
     <span class="total-pill">⚔️ Nível 4: 27 conceitos</span>
     <span class="total-pill">🛡️ Nível 5: 24 conceitos</span>
     <span class="total-pill">🔐 Nível 6: 22 conceitos</span>
+  </div>
+</section>
+
+<!-- ROTEIRO DE ESTUDO -->
+<section id="roteiro" class="level">
+  <div class="level-header">
+    <div class="level-icon">🗺️</div>
+    <div>
+      <h2>Roteiro de estudo + labs</h2>
+      <div class="sub">A ORDEM CERTA • ONDE PRATICAR DE FORMA LEGAL</div>
+    </div>
+  </div>
+  <p style="color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 18px; max-width:760px;">
+    Estude na ordem abaixo e <b>pratique em laboratórios autorizados</b> (TryHackMe, Hack The Box, etc.) — nunca em sistemas de terceiros sem permissão. Marque os conceitos como estudados nas abas dos níveis para acompanhar seu progresso.
+  </p>
+  <div class="roadmap">
+    <div class="roadstep">
+      <div class="tag">Etapa 1 · Base</div>
+      <h3>🧠 Fundamentos &amp; Linux</h3>
+      <div class="what">Mentalidade, ética/lei, tipos de hacker, tríade CIA e o básico de redes e Linux. Sem essa base, o resto não gruda.</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/path/outline/presecurity" target="_blank" rel="noopener">THM — Pre Security ↗</a>
+        <a class="lab" href="https://tryhackme.com/path/outline/introtocyber" target="_blank" rel="noopener">THM — Intro to Cyber ↗</a>
+        <a class="lab" href="https://overthewire.org/wargames/bandit/" target="_blank" rel="noopener">OverTheWire — Bandit (Linux) ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:var(--green)">
+      <div class="tag">Etapa 2 · Reconhecimento</div>
+      <h3>🔍 OSINT &amp; Recon</h3>
+      <div class="what">Coleta passiva e ativa, Google Dorks, Shodan, WHOIS, engenharia social. Use o Gerador e o Dossiê deste site para praticar no seu próprio domínio.</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/room/passiverecon" target="_blank" rel="noopener">THM — Passive Recon ↗</a>
+        <a class="lab" href="https://tryhackme.com/room/ohsint" target="_blank" rel="noopener">THM — OhSINT ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:var(--yellow)">
+      <div class="tag">Etapa 3 · Ferramentas</div>
+      <h3>🛠️ O arsenal</h3>
+      <div class="what">Nmap, Metasploit, Wireshark, Burp Suite e o Kali Linux. Aprenda cada ferramenta com a mão na massa, em uma VM.</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/room/furthernmap" target="_blank" rel="noopener">THM — Nmap ↗</a>
+        <a class="lab" href="https://tryhackme.com/room/metasploitintro" target="_blank" rel="noopener">THM — Metasploit ↗</a>
+        <a class="lab" href="https://www.kali.org/get-kali/" target="_blank" rel="noopener">Baixar o Kali ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:var(--pink)">
+      <div class="tag">Etapa 4 · Ataques web</div>
+      <h3>⚔️ Exploração</h3>
+      <div class="what">OWASP Top 10, SQLi, XSS, IDOR. Treine em alvos feitos para isso (DVWA, salas do THM, PortSwigger Academy).</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/room/owasptop102021" target="_blank" rel="noopener">THM — OWASP Top 10 ↗</a>
+        <a class="lab" href="https://portswigger.net/web-security" target="_blank" rel="noopener">PortSwigger Academy ↗</a>
+        <a class="lab" href="https://github.com/digininja/DVWA" target="_blank" rel="noopener">DVWA (lab local) ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:var(--purple)">
+      <div class="tag">Etapa 5 · Defesa (Blue Team)</div>
+      <h3>🛡️ Detecção &amp; resposta</h3>
+      <div class="what">Firewall, SIEM, SOC, forense e resposta a incidentes. Caminho de quem quer trabalhar defendendo.</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/path/outline/soclevel1" target="_blank" rel="noopener">THM — SOC Level 1 ↗</a>
+        <a class="lab" href="https://tryhackme.com/room/introtodfir" target="_blank" rel="noopener">THM — Intro to DFIR ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:#ff5370">
+      <div class="tag">Etapa 6 · Ofensiva avançada</div>
+      <h3>🔐 Pentest &amp; Red Team</h3>
+      <div class="what">Escalada de privilégios, pós-exploração, movimento lateral e relatório. Rumo a certificações como a OSCP.</div>
+      <div class="labs">
+        <a class="lab" href="https://tryhackme.com/path/outline/jrpenetrationtester" target="_blank" rel="noopener">THM — Jr Penetration Tester ↗</a>
+        <a class="lab" href="https://www.hackthebox.com/" target="_blank" rel="noopener">Hack The Box ↗</a>
+        <a class="lab" href="https://www.offsec.com/courses/pen-200/" target="_blank" rel="noopener">OSCP / PEN-200 ↗</a>
+      </div>
+    </div>
+    <div class="roadstep" style="border-left-color:var(--cyan)">
+      <div class="tag">Sempre · Prática livre</div>
+      <h3>🚩 Treine com CTFs</h3>
+      <div class="what">Resolver desafios é o melhor jeito de fixar. Comece pelo picoCTF (iniciante) e evolua.</div>
+      <div class="labs">
+        <a class="lab" href="https://picoctf.org/" target="_blank" rel="noopener">picoCTF ↗</a>
+        <a class="lab" href="https://academy.hackthebox.com/" target="_blank" rel="noopener">HTB Academy ↗</a>
+        <a class="lab" href="https://ctftime.org/" target="_blank" rel="noopener">CTFtime (eventos) ↗</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2536,12 +2645,8 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
 <!-- Quiz -->
 <section id="quiz">
   <div class="quiz">
-    <h3>🎮 Mini quiz — Fixe o que aprendeu</h3>
-    <div id="question">O que é phishing?</div>
-    <button class="option" onclick="answer(false, 'Um firewall avan&ccedil;ado')">🛡️ Um firewall avançado</button>
-    <button class="option" onclick="answer(true, 'Um golpe que engana pessoas para roubar dados')">🎣 Um golpe que engana pessoas para roubar dados</button>
-    <button class="option" onclick="answer(false, 'Um tipo de VPN')">🔐 Um tipo de VPN</button>
-    <div id="quizResult"></div>
+    <h3>🎮 Quiz — Teste o que aprendeu</h3>
+    <div id="quizApp"></div>
   </div>
 </section>
 
@@ -2557,13 +2662,96 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
 </div>
 
 <script>
-function answer(ok, label) {
-  const r = document.getElementById("quizResult");
-  r.style.color = ok ? "var(--green)" : "var(--pink)";
-  r.innerHTML = ok
-    ? "✅ Certo! Phishing explora pessoas, não sistemas. Próximo nível: estudar engenharia social."
-    : "❌ Não. Tenta de novo, antes que o criminoso tente por você.";
-}
+// ===== Quiz dinâmico =====
+(function(){
+  var app = document.getElementById('quizApp');
+  if(!app) return;
+  var QUESTIONS = [
+    { q:'O que diferencia um White Hat de um Black Hat?', o:['A linguagem de programação','A autorização para testar','O sistema operacional','A velocidade da internet'], c:1, e:'A técnica é a mesma; o que separa é a <b>autorização</b>. White Hat tem permissão; Black Hat não.' },
+    { q:'O que é phishing?', o:['Um firewall avançado','Um golpe que engana pessoas para roubar dados','Um tipo de VPN','Um scanner de portas'], c:1, e:'Phishing explora <b>pessoas</b> (engenharia social), não falhas técnicas.' },
+    { q:'Qual ferramenta é "O primeiro comando" para descobrir portas abertas?', o:['Wireshark','Nmap','John the Ripper','Burp Suite'], c:1, e:'<b>Nmap</b> mapeia hosts, portas e serviços — o ponto de partida do recon ativo.' },
+    { q:'Ransomware faz o quê?', o:['Mostra anúncios','Criptografa arquivos e cobra resgate','Acelera o PC','Cria backups'], c:1, e:'Ele <b>criptografa</b> seus dados e exige pagamento. Defesa nº 1: backup offline.' },
+    { q:'Por que um keylogger rouba senha mesmo em site HTTPS?', o:['Quebra a criptografia','Captura a tecla antes de tudo, na origem','Desliga o antivírus','Usa força bruta'], c:1, e:'Ele grava no <b>teclado</b>, antes de qualquer criptografia acontecer.' },
+    { q:'Qual a melhor defesa contra senha vazada/brute force?', o:['Trocar de navegador','Ativar 2FA/MFA','Usar tema escuro','Desligar o Wi-Fi'], c:1, e:'O <b>2FA</b> exige um segundo fator que o atacante não tem.' },
+    { q:'O que é uma vulnerabilidade?', o:['Um antivírus','Uma fraqueza que pode ser explorada','Um tipo de firewall','Uma senha forte'], c:1, e:'É a <b>fraqueza</b>; o exploit é a técnica que a aproveita.' },
+    { q:'SQL Injection ataca principalmente o quê?', o:['A placa de vídeo','O banco de dados via entradas não tratadas','O roteador','O monitor'], c:1, e:'Entradas viram comando SQL. Defesa: <b>queries parametrizadas</b>.' },
+    { q:'O que significa o "S" em HTTPS?', o:['Speed','Secure (com TLS)','Server','Search'], c:1, e:'É a camada <b>TLS</b> que criptografa o tráfego e autentica o site.' },
+    { q:'Para que serve um hash de senha?', o:['Acelerar o login','Guardar a senha de forma irreversível','Criptografar e-mails','Esconder o IP'], c:1, e:'Hash é <b>unidirecional</b>: guarda-se o hash (com salt), não a senha.' },
+    { q:'O que é a tríade CIA da segurança?', o:['Câmera, Internet, Antivírus','Confidencialidade, Integridade, Disponibilidade','Criptografia, IP, Autenticação','Cloud, IoT, AI'], c:1, e:'Os três pilares que toda defesa protege e todo ataque viola.' },
+    { q:'Diferença entre vírus e worm?', o:['Não há diferença','Worm se espalha sozinho; vírus precisa de você','Vírus é legal; worm é crime','Worm é hardware'], c:1, e:'O <b>worm</b> é autônomo pela rede; o <b>vírus</b> precisa de ação humana.' },
+    { q:'O que um reverse shell faz?', o:['Reinicia o servidor','A vítima conecta de volta ao atacante','Apaga logs','Cria um firewall'], c:1, e:'A conexão parte de dentro da vítima, furando o firewall de entrada.' },
+    { q:'Deep web é o mesmo que dark web?', o:['Sim, são sinônimos','Não: deep web é só conteúdo não indexado','Sim, ambas ilegais','Não: deep web só abre no Tor'], c:1, e:'Deep web = não indexado (e-mail, banco). Dark web = só via <b>Tor</b> (.onion).' },
+    { q:'O que é um CVE?', o:['Um antivírus','Um identificador público de vulnerabilidade','Um tipo de senha','Um cabo de rede'], c:1, e:'CVE-AAAA-NNNNN identifica uma vuln conhecida; o CVSS dá a nota 0-10.' }
+  ];
+  var PICK = 10;
+
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  var quiz=[], idx=0, score=0, answered=false;
+
+  function start(){
+    quiz = shuffle(QUESTIONS.slice()).slice(0, PICK).map(function(item){
+      var opts = item.o.map(function(text, i){ return { text:text, correct:i===item.c }; });
+      shuffle(opts);
+      return { q:item.q, opts:opts, e:item.e };
+    });
+    idx=0; score=0; renderQ();
+  }
+
+  function el(tag, cls, txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
+
+  function renderStart(){
+    app.innerHTML='';
+    var d=el('div','quiz-start');
+    d.appendChild(el('p', null, 'Responda ' + PICK + ' perguntas sorteadas dos 6 níveis e veja sua pontuação.'));
+    var b=el('button','btn pink','▶️ Começar o quiz'); b.style.marginTop='10px';
+    b.addEventListener('click', start);
+    d.appendChild(b); app.appendChild(d);
+  }
+
+  function renderQ(){
+    answered=false;
+    app.innerHTML='';
+    var bar=el('div','quiz-bar'); var fill=el('div','fill'); fill.style.width=Math.round(idx/quiz.length*100)+'%'; bar.appendChild(fill); app.appendChild(bar);
+    var meta=el('div','quiz-meta'); meta.appendChild(el('span',null,'Pergunta '+(idx+1)+' de '+quiz.length)); meta.appendChild(el('span',null,'✓ '+score)); app.appendChild(meta);
+    var cur=quiz[idx];
+    app.appendChild(el('div','quiz-q', cur.q));
+    cur.opts.forEach(function(opt){
+      var b=el('button','option', opt.text);
+      b.addEventListener('click', function(){ pick(b, opt, cur); });
+      app.appendChild(b);
+    });
+  }
+
+  function pick(btn, opt, cur){
+    if(answered) return; answered=true;
+    if(opt.correct) score++;
+    var btns=app.querySelectorAll('.option');
+    btns.forEach(function(b){
+      b.disabled=true;
+      if(b.textContent===btn.textContent && opt.correct) b.classList.add('correct');
+    });
+    cur.opts.forEach(function(o,i){ if(o.correct) btns[i].classList.add('correct'); });
+    if(!opt.correct) btn.classList.add('wrong');
+    var exp=el('div','quiz-exp'); exp.innerHTML=(opt.correct?'✅ Certo! ':'❌ Quase. ')+cur.e; app.appendChild(exp);
+    var next=el('button','btn', idx+1<quiz.length?'Próxima ➡️':'Ver resultado 🏁'); next.style.marginTop='14px';
+    next.addEventListener('click', function(){ idx++; if(idx<quiz.length) renderQ(); else renderFinal(); });
+    app.appendChild(next);
+  }
+
+  function renderFinal(){
+    app.innerHTML='';
+    var pct=Math.round(score/quiz.length*100);
+    var d=el('div','quiz-final');
+    d.appendChild(el('div','score', score+'/'+quiz.length));
+    var msg = pct>=80 ? '🔥 Excelente! Você domina os fundamentos.' : pct>=50 ? '👍 Bom! Revise os níveis que ainda travam.' : '📚 Continue estudando — refaça as abas dos níveis e tente de novo.';
+    var m=el('div','msg'); m.textContent=msg+' ('+pct+'%)'; d.appendChild(m);
+    var again=el('button','btn pink','🔁 Refazer'); again.addEventListener('click', start); d.appendChild(again);
+    app.appendChild(d);
+  }
+
+  renderStart();
+})();
+
 
 // ===== Gerador de Dorks e Comandos =====
 (function(){
@@ -2827,6 +3015,7 @@ function answer(ok, label) {
 
   var views = [
     { k:'inicio',  label:'\ud83c\udfe0 In\u00edcio',     els:[header, meta] },
+    { k:'roteiro', label:'\ud83d\uddfa\ufe0f Roteiro',    els:[byId('roteiro')] },
     { k:'nivel1',  label:'\ud83e\udde0 Fundamentos', els:[byId('nivel1')] },
     { k:'nivel2',  label:'\ud83d\udd0d Recon',       els:[byId('nivel2')] },
     { k:'nivel3',  label:'\ud83d\udee0\ufe0f Ferramentas', els:[byId('nivel3')] },
