@@ -282,6 +282,35 @@ main { padding: 0 42px 70px; }
 .mock-mail .flag { display: block; color: var(--pink); font-size: 12px; margin: 6px 0; padding-left: 22px; position: relative; }
 .mock-mail .flag::before { content: "🚩"; position: absolute; left: 0; }
 
+/* ===== Gerador interativo (dorks / comandos) ===== */
+.gen { background: rgba(0,0,0,.3); border:1px solid rgba(162,89,255,.35); border-radius:24px; padding:24px; }
+.gen-label { display:block; font-size:13px; letter-spacing:1px; color:var(--cyan); text-transform:uppercase; margin-bottom:8px; font-weight:800; }
+.gen-input { width:100%; background:#0a0e17; border:1px solid rgba(0,217,255,.4); border-radius:12px; color:var(--text); font-size:17px; padding:14px 16px; font-family:ui-monospace,monospace; }
+.gen-input:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 16px rgba(0,217,255,.25); }
+.gen-hint { color:var(--muted); font-size:12px; margin:8px 2px 0; }
+.gen-hint code { background:rgba(0,0,0,.4); padding:1px 5px; border-radius:5px; color:var(--green); }
+.gen-tabs { display:flex; gap:10px; flex-wrap:wrap; margin:20px 0 16px; }
+.gen-tab { background:rgba(0,217,255,.06); border:1px solid rgba(0,217,255,.3); color:var(--muted); padding:10px 16px; border-radius:999px; font-weight:800; font-size:14px; cursor:pointer; }
+.gen-tab.active { background:rgba(162,89,255,.18); border-color:var(--purple); color:#fff; }
+.gen-row { background:rgba(9,18,40,.7); border:1px solid rgba(0,217,255,.15); border-radius:14px; padding:14px; margin:10px 0; }
+.gen-row .rl { font-weight:800; color:var(--yellow); font-size:14px; }
+.gen-row .rd { color:var(--muted); font-size:12.5px; margin:3px 0 10px; }
+.gen-code { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.gen-code code { flex:1; min-width:160px; background:#06090f; border:1px solid rgba(116,255,0,.25); color:var(--green); padding:9px 12px; border-radius:8px; font-family:ui-monospace,monospace; font-size:13px; word-break:break-all; }
+.gen-btn { border:none; cursor:pointer; font-weight:800; font-size:12.5px; padding:9px 12px; border-radius:8px; white-space:nowrap; }
+.gen-btn.copy { background:rgba(0,217,255,.14); border:1px solid rgba(0,217,255,.4); color:var(--cyan); }
+.gen-btn.copy.done { background:rgba(116,255,0,.18); border-color:var(--green); color:var(--green); }
+.gen-btn.open { background:rgba(162,89,255,.14); border:1px solid rgba(162,89,255,.4); color:#cdb4ff; text-decoration:none; display:inline-block; }
+.gen-badge { font-size:10px; padding:2px 7px; border-radius:999px; margin-left:8px; font-weight:800; vertical-align:middle; }
+.gen-badge.passivo { background:rgba(116,255,0,.15); color:var(--green); border:1px solid rgba(116,255,0,.4); }
+.gen-badge.ativo { background:rgba(255,46,136,.15); color:var(--pink); border:1px solid rgba(255,46,136,.4); }
+.gen-row.clickable { cursor:pointer; transition:border-color .15s, background .15s, transform .1s; }
+.gen-row.clickable:hover { border-color:var(--cyan); background:rgba(0,217,255,.07); }
+.gen-row.clickable:active { transform:scale(.995); }
+.gen-row .rl .arrow { float:right; color:var(--cyan); font-size:12px; }
+.gen-note { color:#cdb4ff; font-size:12.5px; margin:0 2px 14px; line-height:1.5; }
+.gen-btn.open.primary { background:rgba(0,217,255,.16); border-color:var(--cyan); color:var(--cyan); }
+
 /* Quiz */
 .quiz {
   max-width: 900px;
@@ -338,6 +367,7 @@ main { padding: 0 42px 70px; }
       <a class="btn" href="#nivel1">Começar do nível 1</a>
       <a class="btn pink" href="#quiz">Mini quiz</a>
       <a class="btn green" href="#meta">Ver índice</a>
+      <a class="btn" href="#gerador">🧰 Gerador de dorks</a>
     </div>
   </div>
   <img class="hero-img" src="hero.png" alt="Arte cyber visual">
@@ -2312,6 +2342,35 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
   </div>
 </section>
 
+<!-- GERADOR INTERATIVO -->
+<section id="gerador" class="level">
+  <div class="level-header">
+    <div class="level-icon lvl5">🧰</div>
+    <div>
+      <h2>Gerador de Dorks &amp; Comandos</h2>
+      <div class="sub">DIGITE O ALVO • COPIE • COLE NO GOOGLE OU NO TERMINAL</div>
+    </div>
+  </div>
+
+  <div class="gen">
+    <label class="gen-label" for="genTarget">🎯 Alvo (domínio)</label>
+    <input id="genTarget" class="gen-input" type="text" placeholder="exemplo.com.br" value="exemplo.com" autocomplete="off" spellcheck="false">
+    <div class="gen-hint">Pode colar com <code>https://</code> e caminho — eu limpo automaticamente. As buscas/comandos se atualizam enquanto você digita.</div>
+
+    <div class="gen-tabs">
+      <button type="button" class="gen-tab active" data-tab="dorks">🔎 Google Dorks</button>
+      <button type="button" class="gen-tab" data-tab="cmds">🐧 Comandos (terminal)</button>
+    </div>
+
+    <div id="genOut"></div>
+  </div>
+
+  <div class="callout danger" style="margin-top:16px;">
+    <b>⚠️ Use com responsabilidade:</b> Google Dorks em sites públicos é legal e ótimo para auditar o <b>seu próprio</b> domínio.
+    Já os comandos marcados como <span class="gen-badge ativo">ativo</span> (Nmap, etc.) <b>tocam no alvo</b> e só devem ser usados em sistemas seus ou com <b>autorização por escrito</b>. Sem permissão, pode ser crime (Lei 12.737/2012).
+  </div>
+</section>
+
 <!-- Quiz -->
 <section id="quiz">
   <div class="quiz">
@@ -2343,6 +2402,129 @@ function answer(ok, label) {
     ? "✅ Certo! Phishing explora pessoas, não sistemas. Próximo nível: estudar engenharia social."
     : "❌ Não. Tenta de novo, antes que o criminoso tente por você.";
 }
+
+// ===== Gerador de Dorks e Comandos =====
+(function(){
+  var input = document.getElementById('genTarget');
+  var out = document.getElementById('genOut');
+  if(!input || !out) return;
+  var current = 'dorks';
+
+  function clean(v){
+    v = (v || '').trim().toLowerCase();
+    v = v.replace(/^[a-z]+:\/\//, '');   // remove protocolo
+    v = v.replace(/\/.*$/, '');          // remove caminho
+    v = v.replace(/[^a-z0-9.\-]/g, '');  // só caracteres válidos de domínio
+    return v;
+  }
+
+  var dorks = [
+    ['Todas as páginas indexadas', function(d){return 'site:'+d;}, 'Visão geral do que o Google conhece do alvo.'],
+    ['Subdomínios', function(d){return 'site:*.'+d+' -www';}, 'Revela portais e ambientes além do www.'],
+    ['Documentos PDF', function(d){return 'site:'+d+' filetype:pdf';}, 'Relatórios, contratos e manuais expostos.'],
+    ['Planilhas e dados', function(d){return 'site:'+d+' (filetype:xls OR filetype:xlsx OR filetype:csv)';}, 'Onde costumam vazar listas e credenciais.'],
+    ['Páginas de login', function(d){return 'site:'+d+' (inurl:login OR inurl:signin OR intitle:"login")';}, 'Pontos de autenticação do alvo.'],
+    ['Painéis administrativos', function(d){return 'site:'+d+' inurl:admin';}, 'Áreas restritas indexadas por engano.'],
+    ['Diretórios abertos', function(d){return 'site:'+d+' intitle:"index of"';}, 'Listagem de arquivos sem proteção.'],
+    ['Backups, bancos e logs', function(d){return 'site:'+d+' (ext:sql OR ext:bak OR ext:old OR ext:log)';}, 'Arquivos sensíveis esquecidos no servidor.'],
+    ['Arquivos de configuração', function(d){return 'site:'+d+' (ext:env OR ext:ini OR ext:conf OR ext:yml)';}, 'Podem conter chaves e segredos.'],
+    ['Possíveis credenciais', function(d){return 'site:'+d+' ("senha" OR "password" OR "usuário")';}, 'Texto sensível em páginas e arquivos.'],
+    ['Parâmetros na URL', function(d){return 'site:'+d+' inurl:"?id="';}, 'Pontos para testar (com autorização) SQLi/IDOR.'],
+    ['Repositório .git exposto', function(d){return 'site:'+d+' inurl:.git';}, 'Código-fonte vazando — achado grave.']
+  ];
+
+  // cada comando: [titulo, gerarComando(d), descricao, badge, gerarUrlWeb(d)|null, rotuloWeb]
+  var cmds = [
+    ['WHOIS do domínio', function(d){return 'whois '+d;}, 'Dono, registrador e datas de registro.', 'passivo', function(d){return 'https://who.is/whois/'+d;}, '🌐 Abrir WHOIS'],
+    ['Resolver IP / DNS', function(d){return 'dig +short '+d;}, 'Descobre o IP por trás do domínio.', 'passivo', function(d){return 'https://toolbox.googleapps.com/apps/dig/#A/'+d;}, '🌐 Abrir online'],
+    ['Registros DNS (MX/TXT/NS)', function(d){return 'dig '+d+' ANY +noall +answer';}, 'E-mail (MX), SPF (TXT), servidores (NS).', 'passivo', function(d){return 'https://toolbox.googleapps.com/apps/dig/#ANY/'+d;}, '🌐 Abrir online'],
+    ['Cabeçalhos HTTP / segurança', function(d){return 'curl -sI https://'+d;}, 'Servidor, tecnologias e cabeçalhos de segurança.', 'passivo', function(d){return 'https://securityheaders.com/?q='+encodeURIComponent(d)+'&followRedirects=on';}, '🌐 Abrir online'],
+    ['robots.txt', function(d){return 'curl -s https://'+d+'/robots.txt';}, 'Caminhos que o site pede para não indexar.', 'passivo', function(d){return 'https://'+d+'/robots.txt';}, '🌐 Abrir arquivo'],
+    ['Certificado SSL/TLS', function(d){return 'echo | openssl s_client -connect '+d+':443 2>/dev/null | openssl x509 -noout -subject -dates';}, 'Validade e titular do certificado.', 'passivo', function(d){return 'https://www.ssllabs.com/ssltest/analyze.html?d='+encodeURIComponent(d);}, '🌐 Abrir SSL Labs'],
+    ['theHarvester (e-mails/subs)', function(d){return 'theHarvester -d '+d+' -b all';}, 'OSINT de e-mails e subdomínios.', 'passivo', null, ''],
+    ['Portas/serviços (Shodan)', function(d){return 'nmap -sV '+d;}, 'Nmap (terminal) ou veja o que o Shodan já coletou — sem tocar no alvo.', 'ativo', function(d){return 'https://www.shodan.io/search?query=hostname:'+encodeURIComponent(d);}, '🌐 Ver no Shodan'],
+    ['Nmap — scan rápido', function(d){return 'nmap -F -T4 '+d;}, 'As 100 portas mais comuns, rápido.', 'ativo', null, ''],
+    ['Nmap — todas as portas', function(d){return 'nmap -p- -T4 '+d;}, 'Varredura completa das 65535 portas.', 'ativo', null, '']
+  ];
+
+  function copyBtn(code){
+    var copy = document.createElement('button'); copy.type = 'button'; copy.className = 'gen-btn copy'; copy.textContent = '📋 Copiar';
+    copy.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      var done = function(){ copy.textContent = '✅ Copiado!'; copy.classList.add('done'); setTimeout(function(){ copy.textContent = '📋 Copiar'; copy.classList.remove('done'); }, 1500); };
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(code).then(done, function(){}); }
+      else { var t=document.createElement('textarea'); t.value=code; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); done(); }
+    });
+    return copy;
+  }
+
+  function openLink(url, label, primary){
+    var a = document.createElement('a'); a.className = 'gen-btn open' + (primary ? ' primary' : ''); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = label;
+    a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+    return a;
+  }
+
+  function makeDorkRow(label, code, desc, url){
+    var row = document.createElement('div'); row.className = 'gen-row clickable';
+    row.addEventListener('click', function(){ window.open(url, '_blank', 'noopener'); });
+    var rl = document.createElement('div'); rl.className = 'rl'; rl.textContent = label;
+    var arrow = document.createElement('span'); arrow.className = 'arrow'; arrow.textContent = 'clique para abrir ↗'; rl.appendChild(arrow);
+    var rd = document.createElement('div'); rd.className = 'rd'; rd.textContent = desc;
+    var wrap = document.createElement('div'); wrap.className = 'gen-code';
+    var c = document.createElement('code'); c.textContent = code;
+    wrap.appendChild(c);
+    wrap.appendChild(openLink(url, '🔎 Abrir no Google', true));
+    wrap.appendChild(copyBtn(code));
+    row.appendChild(rl); row.appendChild(rd); row.appendChild(wrap);
+    return row;
+  }
+
+  function makeCmdRow(label, code, desc, badge, webUrl, webLabel){
+    var row = document.createElement('div'); row.className = 'gen-row';
+    var rl = document.createElement('div'); rl.className = 'rl'; rl.textContent = label;
+    var b = document.createElement('span'); b.className = 'gen-badge ' + badge; b.textContent = badge; rl.appendChild(b);
+    var rd = document.createElement('div'); rd.className = 'rd'; rd.textContent = desc;
+    var wrap = document.createElement('div'); wrap.className = 'gen-code';
+    var c = document.createElement('code'); c.textContent = code;
+    wrap.appendChild(c);
+    if(webUrl){ wrap.appendChild(openLink(webUrl, webLabel, true)); }
+    wrap.appendChild(copyBtn(code));
+    row.appendChild(rl); row.appendChild(rd); row.appendChild(wrap);
+    return row;
+  }
+
+  function render(){
+    var d = clean(input.value) || 'exemplo.com';
+    out.innerHTML = '';
+    var note = document.createElement('p'); note.className = 'gen-note';
+    if(current === 'dorks'){
+      note.innerHTML = '👆 <b>Clique em qualquer item</b> (ou no botão 🔎) e a busca abre direto no Google, em uma nova aba. Nada de copiar e colar.';
+      out.appendChild(note);
+      dorks.forEach(function(item){
+        var code = item[1](d);
+        out.appendChild(makeDorkRow(item[0], code, item[2], 'https://www.google.com/search?q=' + encodeURIComponent(code)));
+      });
+    } else {
+      note.innerHTML = 'Onde houver <b>🌐 Abrir online</b>, clique e veja o resultado no navegador (nova aba). Os demais rodam no terminal Linux/Kali — use 📋 Copiar.';
+      out.appendChild(note);
+      cmds.forEach(function(item){
+        var webUrl = item[4] ? item[4](d) : null;
+        out.appendChild(makeCmdRow(item[0], item[1](d), item[2], item[3], webUrl, item[5]));
+      });
+    }
+  }
+
+  input.addEventListener('input', render);
+  document.querySelectorAll('.gen-tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.gen-tab').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      current = t.getAttribute('data-tab');
+      render();
+    });
+  });
+  render();
+})();
 </script>
 </body>
 </html>
