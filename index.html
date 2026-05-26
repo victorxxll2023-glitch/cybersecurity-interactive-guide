@@ -593,7 +593,7 @@ code.cmd.copied::after { content:'✅'; }
   <div class="totals">
     <span class="total-pill">🧠 Nível 1: 10 conceitos</span>
     <span class="total-pill">🔍 Nível 2: 12 conceitos</span>
-    <span class="total-pill">🛠️ Nível 3: 8 conceitos</span>
+    <span class="total-pill">🛠️ Nível 3: 25 conceitos</span>
     <span class="total-pill">⚔️ Nível 4: 27 conceitos</span>
     <span class="total-pill">🛡️ Nível 5: 24 conceitos</span>
     <span class="total-pill">🔐 Nível 6: 22 conceitos</span>
@@ -1496,6 +1496,214 @@ Service detection performed. Nmap done.</pre>
           <div class="callout danger">Os dois também estão no <b>Gerador</b> (parametrizáveis). Use só em sistemas seus ou autorizados. Defesa: senhas longas, 2FA, bloqueio por tentativas e hashes lentos com salt (bcrypt/Argon2).</div>
         </div>
       </details>
+    </div>
+
+    <div class="topic">
+      <h3>🕵️ Sherlock <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Caça um username em centenas de redes sociais (OSINT, em Python).</div>
+      <div class="line"><b>Por que aprender:</b> Mapeia a presença online de alguém em segundos.</div>
+      <a href="https://github.com/sherlock-project/sherlock" target="_blank">GitHub — Sherlock ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Recebe um nome de usuário e verifica, em centenas de sites, se aquele perfil existe — retornando os links encontrados. 100% passivo (não toca no alvo).</p>
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pipx install sherlock-project</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sherlock &lt;USUARIO&gt;</code></div>
+        <div class="callout tip">Ótimo para auditar a SUA própria pegada digital — veja onde seu @ aparece.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🧩 Recon-ng <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Framework de recon modular em Python (estilo Metasploit).</div>
+      <div class="line"><b>Por que aprender:</b> Organiza a coleta de OSINT com módulos e banco de dados.</div>
+      <a href="https://github.com/lanmaster53/recon-ng" target="_blank">GitHub — Recon-ng ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Centraliza dezenas de módulos de OSINT (domínios, e-mails, hosts) com o mesmo fluxo do Metasploit: carrega um módulo, define opções, executa e guarda tudo num banco.</p>
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pipx install recon-ng</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">recon-ng</code><code class="cmd">marketplace install all</code><code class="cmd">modules load recon/domains-hosts/hackertarget</code></div>
+        <div class="callout tip">Bom para quem já entende o Metasploit — a lógica de módulos é a mesma.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🔎 Maigret <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> OSINT de username em milhares de sites, com relatório (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Versão "turbinada" do Sherlock, com mais fontes e saída em HTML/PDF.</div>
+      <a href="https://github.com/soxoj/maigret" target="_blank">GitHub — Maigret ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install maigret</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">maigret &lt;USUARIO&gt;</code><code class="cmd">maigret &lt;USUARIO&gt; --html</code></div>
+        <div class="callout tip">Gera relatório navegável — útil para documentar uma investigação.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>📧 holehe <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Descobre em quais sites um e-mail tem conta cadastrada (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Revela a superfície de exposição de um e-mail.</div>
+      <a href="https://github.com/megadose/holehe" target="_blank">GitHub — holehe ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install holehe</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">holehe &lt;email&gt;</code></div>
+        <div class="callout danger">Use no SEU e-mail ou com autorização. Investigar o e-mail de terceiros sem permissão fere a privacidade (LGPD).</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>📂 dirsearch <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Brute force de diretórios e arquivos web (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Alternativa popular ao gobuster para achar rotas escondidas.</div>
+      <a href="https://github.com/maurosoria/dirsearch" target="_blank">GitHub — dirsearch ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install dirsearch</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">dirsearch -u https://&lt;ALVO&gt;</code><code class="cmd">dirsearch -u https://&lt;ALVO&gt; -w &lt;wordlist&gt; -e php,bak,txt</code></div>
+        <div class="callout danger">Ativo (toca no alvo). Só em sistema seu ou autorizado.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🌀 wfuzz <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Fuzzing de parâmetros, rotas e formulários web (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Descobre parâmetros ocultos e testa valores em massa.</div>
+      <a href="https://github.com/xmendez/wfuzz" target="_blank">GitHub — wfuzz ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install wfuzz</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">wfuzz -w &lt;wordlist&gt; https://&lt;ALVO&gt;/FUZZ</code></div>
+        <div class="callout danger">A palavra <code>FUZZ</code> é trocada por cada item da lista. Ativo — só com autorização.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>💥 XSStrike <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Detecção avançada de XSS, com análise e geração de payloads (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Vai além do "alert(1)" — analisa o contexto e tenta burlar filtros.</div>
+      <a href="https://github.com/s0md3v/XSStrike" target="_blank">GitHub — XSStrike ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">git clone https://github.com/s0md3v/XSStrike</code><code class="cmd">pip install -r XSStrike/requirements.txt</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">python xsstrike.py -u "https://&lt;ALVO&gt;/?q=teste"</code></div>
+        <div class="callout danger">Ativo. Treine no DVWA ou em salas de XSS do TryHackMe.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>⚡ Nuclei <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Scanner de vulnerabilidades por <em>templates</em> (Go) — muito usado hoje.</div>
+      <div class="line"><b>Por que aprender:</b> Milhares de checagens prontas e atualizadas pela comunidade.</div>
+      <a href="https://github.com/projectdiscovery/nuclei" target="_blank">GitHub — Nuclei ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Roda "templates" (regras em YAML) contra o alvo para detectar falhas conhecidas, exposições e configs erradas — rápido e em escala.</p>
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">nuclei -u https://&lt;ALVO&gt;</code></div>
+        <div class="callout danger">Ativo. Só em alvos seus/autorizados — é "barulhento".</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🪟 Impacket <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Coleção de scripts de protocolo de rede (Python). Padrão em pentest Windows/AD.</div>
+      <div class="line"><b>Por que aprender:</b> psexec.py, secretsdump.py, GetNPUsers.py — pão com manteiga do AD.</div>
+      <a href="https://github.com/fortra/impacket" target="_blank">GitHub — Impacket ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install impacket</code></div>
+        <h4>Como usar (exemplos)</h4><div class="cmd-list"><code class="cmd">secretsdump.py &lt;DOMINIO&gt;/&lt;USUARIO&gt;:&lt;senha&gt;@&lt;IP_DO_ALVO&gt;</code><code class="cmd">psexec.py &lt;DOMINIO&gt;/&lt;USUARIO&gt;@&lt;IP_DO_ALVO&gt;</code></div>
+        <div class="callout danger">Ofensivo (Windows/AD). Só em ambiente de laboratório ou pentest autorizado.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🗝️ NetExec (ex-CrackMapExec) <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> "Canivete suíço" de SMB/AD (Python): valida credenciais, executa, enumera.</div>
+      <div class="line"><b>Por que aprender:</b> Testa um login em centenas de máquinas de uma vez.</div>
+      <a href="https://github.com/Pennyw0rth/NetExec" target="_blank">GitHub — NetExec ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pipx install git+https://github.com/Pennyw0rth/NetExec</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">nxc smb &lt;IP_DO_ALVO&gt; -u &lt;USUARIO&gt; -p &lt;senha&gt;</code><code class="cmd">nxc smb &lt;FAIXA_DE_REDE&gt; -u &lt;USUARIO&gt; -p &lt;senha&gt; --shares</code></div>
+        <div class="callout danger">Ofensivo. Só em rede sua/lab ou pentest autorizado.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🎣 Responder <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Captura hashes na rede local via LLMNR/NBT-NS poisoning (Python).</div>
+      <div class="line"><b>Por que aprender:</b> Mostra como uma rede Windows mal configurada entrega credenciais.</div>
+      <a href="https://github.com/lgandx/Responder" target="_blank">GitHub — Responder ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">sudo apt install responder</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sudo responder -I &lt;interface&gt;</code></div>
+        <div class="callout danger">Bem ofensivo: envenena a rede. <b>Só</b> em laboratório isolado ou pentest autorizado por escrito.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>📦 Scapy <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Biblioteca Python para criar e manipular pacotes de rede do zero.</div>
+      <div class="line"><b>Por que aprender:</b> Entende redes "na mão" — sniffing, spoofing, testes de protocolo.</div>
+      <a href="https://scapy.net/" target="_blank">scapy.net ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install scapy</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sudo scapy</code><code class="cmd">send(IP(dst="&lt;ALVO&gt;")/ICMP())</code></div>
+        <div class="callout tip">Excelente para aprender o que cada campo de um pacote faz, montando um você mesmo.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🩸 BloodHound <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Mapeia caminhos de ataque no Active Directory (em forma de grafo).</div>
+      <div class="line"><b>Por que aprender:</b> Mostra visualmente "como chegar a admin" numa rede Windows.</div>
+      <a href="https://github.com/SpecterOps/BloodHound" target="_blank">GitHub — BloodHound ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Coleta dados do AD (usuários, grupos, permissões) e monta um grafo onde você acha o menor caminho até o domínio — algo quase impossível de ver manualmente.</p>
+        <h4>Coletar os dados (Python)</h4><div class="cmd-list"><code class="cmd">bloodhound-python -u &lt;USUARIO&gt; -p &lt;senha&gt; -d &lt;DOMINIO&gt; -c all</code></div>
+        <div class="callout tip">A interface (BloodHound CE) roda via Docker e importa o resultado da coleta. Ferramenta-chave de Red Team em AD.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🧰 pwntools <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Biblioteca Python para CTF e desenvolvimento de exploits.</div>
+      <div class="line"><b>Por que aprender:</b> É padrão em desafios de binário/pwn e exploit dev.</div>
+      <a href="https://github.com/Gallopsled/pwntools" target="_blank">GitHub — pwntools ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install pwntools</code></div>
+        <h4>Como usar (num script .py)</h4><div class="cmd-list"><code class="cmd">from pwn import *</code><code class="cmd">p = process('./binario')</code><code class="cmd">p.sendline(b'A'*64)</code></div>
+        <div class="callout tip">Resolve a parte chata (conexão, empacotar bytes, ROP) e te deixa focar na lógica do exploit. Combine com o picoCTF.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🧠 Volatility 3 <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Análise forense de memória RAM (Python) — parte do DFIR.</div>
+      <div class="line"><b>Por que aprender:</b> A RAM guarda processos, senhas e malware que o disco não mostra.</div>
+      <a href="https://github.com/volatilityfoundation/volatility3" target="_blank">GitHub — Volatility 3 ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">pip install volatility3</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">vol -f &lt;dump&gt; windows.pslist</code><code class="cmd">vol -f &lt;dump&gt; windows.netscan</code></div>
+        <div class="callout tip">Você analisa uma imagem de memória (<code>&lt;dump&gt;</code>) coletada de uma máquina — base de investigação de incidentes.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🛰️ Bettercap <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Framework de ataques de rede e MITM (Wi-Fi, BLE, HTTP).</div>
+      <div class="line"><b>Por que aprender:</b> Demonstra na prática por que rede aberta sem HTTPS é perigosa.</div>
+      <a href="https://www.bettercap.org/" target="_blank">bettercap.org ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">sudo apt install bettercap</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sudo bettercap -iface &lt;interface&gt;</code></div>
+        <div class="callout danger">Faz MITM de verdade. Só na SUA rede de laboratório ou com autorização — interceptar tráfego alheio é crime.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🐙 Sliver <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> C2 (command &amp; control) moderno e open source para Red Team.</div>
+      <div class="line"><b>Por que aprender:</b> Substituto livre do Cobalt Strike, usado em simulações de adversário.</div>
+      <a href="https://github.com/BishopFox/sliver" target="_blank">GitHub — Sliver ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Um C2 gerencia "implants" (agentes) em máquinas comprometidas durante um exercício de Red Team — gerando payloads, recebendo sessões e executando comandos.</p>
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">curl https://sliver.sh/install | sudo bash</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sliver</code><code class="cmd">generate --mtls &lt;SEU_IP&gt; --save /tmp</code></div>
+        <div class="callout danger">Ferramenta de pós-exploração séria. <b>Exclusivamente</b> em lab próprio ou Red Team autorizado por contrato.</div>
+      </div></details>
     </div>
 
   </div>
@@ -4326,6 +4534,11 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     '<arquivo_hash>':'arquivo local com os hashes',
     '<USUARIO>':'o usuário a testar (ex: admin, root)',
     '<lista_usuarios>':'arquivo com a lista de usuários (ex: users.txt)',
+    '<email>':'o e-mail a investigar',
+    '<senha>':'a senha a testar',
+    '<interface>':'sua placa de rede (ex: eth0, wlan0)',
+    '<dump>':'arquivo de imagem de memória (ex: memoria.raw)',
+    '<DOMINIO>':'o domínio Windows/AD do alvo',
     '<FAIXA_DE_REDE>':'sua faixa de rede (ex: 192.168.0.0/24)'
   };
 
