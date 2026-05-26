@@ -2432,7 +2432,7 @@ function answer(ok, label) {
     ['Documentos PDF', function(d){return 'site:'+d+' filetype:pdf';}, 'Relatórios, contratos e manuais expostos.'],
     ['Planilhas e dados', function(d){return 'site:'+d+' (filetype:xls OR filetype:xlsx OR filetype:csv)';}, 'Onde costumam vazar listas e credenciais.'],
     ['Páginas de login', function(d){return 'site:'+d+' (inurl:login OR inurl:signin OR intitle:"login")';}, 'Pontos de autenticação do alvo.'],
-    ['Painéis administrativos', function(d){return 'site:'+d+' inurl:admin';}, 'Áreas restritas indexadas por engano.'],
+    ['Painéis administrativos', function(d){return 'site:'+d+' (inurl:admin OR inurl:administrator OR inurl:adminlogin OR inurl:wp-admin OR inurl:cpanel OR inurl:phpmyadmin OR inurl:dashboard OR inurl:panel OR inurl:backend OR inurl:webadmin OR inurl:manager OR intitle:"admin login" OR intitle:"control panel")';}, 'Cobre vários tipos de painel de uma vez: admin, administrator, wp-admin, cpanel, phpMyAdmin, dashboard, panel, backend, webadmin, manager e mais.'],
     ['Diretórios abertos', function(d){return 'site:'+d+' intitle:"index of"';}, 'Listagem de arquivos sem proteção.'],
     ['Backups, bancos e logs', function(d){return 'site:'+d+' (ext:sql OR ext:bak OR ext:old OR ext:log)';}, 'Arquivos sensíveis esquecidos no servidor.'],
     ['Arquivos de configuração', function(d){return 'site:'+d+' (ext:env OR ext:ini OR ext:conf OR ext:yml)';}, 'Podem conter chaves e segredos.'],
