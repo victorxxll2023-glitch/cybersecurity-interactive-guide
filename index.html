@@ -1337,6 +1337,21 @@ Service detection performed. Nmap done.</pre>
       <div class="line"><b>O que é:</b> Base pública de exploits e Google Dorks prontos para teste.</div>
       <div class="line"><b>Por que aprender:</b> Antes de criar exploit, veja se já existe um.</div>
       <a href="https://www.exploit-db.com/" target="_blank">exploit-db.com ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p>O <b>Exploit-DB</b> é uma base pública e enorme de <b>exploits prontos</b> e da <b>Google Hacking Database (GHDB)</b>. Depois de descobrir a versão de um serviço (com o Nmap), você procura aqui se já existe um exploit para ela — em vez de escrever do zero.</p>
+          <h4>Fluxo típico</h4>
+          <ol class="steps">
+            <li>Nmap revela, ex.: <code>vsftpd 2.3.4</code>.</li>
+            <li>Você busca esse software+versão no Exploit-DB (ou <code>searchsploit vsftpd 2.3.4</code> no Kali).</li>
+            <li>Se houver, estuda o exploit e testa <b>em alvo autorizado</b>.</li>
+          </ol>
+          <div class="callout tip">No Kali, a base vem offline: use <code>searchsploit</code> (está no Gerador). Sempre leia o exploit antes de rodar — código aleatório pode ser malicioso.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1426,6 +1441,21 @@ Service detection performed. Nmap done.</pre>
       <div class="line"><b>O que é:</b> Scanners automatizados de vulnerabilidades em redes e sistemas.</div>
       <div class="line"><b>Por que aprender:</b> Auditoria em escala empresarial sem fazer manualmente.</div>
       <a href="https://www.tenable.com/products/nessus" target="_blank">Tenable Nessus ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Nessus</b> e <b>OpenVAS</b> são <b>scanners de vulnerabilidades</b>: varrem redes e sistemas e cruzam o que encontram com bases de falhas conhecidas (CVEs), gerando um relatório priorizado. Fazem em escala o que seria inviável manualmente.</p>
+          <h4>Scanner ≠ pentest</h4>
+          <ul class="bullets">
+            <li>O scanner <b>encontra</b> e <b>prioriza</b> (por CVSS), mas não confirma exploração.</li>
+            <li>Pode gerar <b>falsos positivos</b> — o analista valida.</li>
+            <li><b>Nessus</b> é comercial (tem versão grátis limitada); <b>OpenVAS/Greenbone</b> é open source.</li>
+          </ul>
+          <div class="callout tip">Auditoria de verdade usa scanner para a varredura ampla + análise humana para confirmar e explorar.</div>
+        </div>
+      </details>
     </div>
 
     <div class="topic">
@@ -1433,6 +1463,21 @@ Service detection performed. Nmap done.</pre>
       <div class="line"><b>O que é:</b> Ferramentas de brute force e quebra de hashes.</div>
       <div class="line"><b>Por que aprender:</b> Pra entender o quão fraca está aquela "senha123".</div>
       <a href="https://www.openwall.com/john/" target="_blank">John the Ripper ↗</a>
+
+      <details class="deep">
+        <summary>📖 Aprender a fundo</summary>
+        <div class="deep-body">
+          <h4>Explicação completa</h4>
+          <p><b>Hydra</b> e <b>John the Ripper</b> atacam senhas, mas de formas diferentes: o <b>Hydra</b> faz <em>brute force online</em> (testa senhas contra um serviço de login, como SSH ou um formulário); o <b>John</b> (e o Hashcat) faz <em>brute force offline</em> — quebra <b>hashes</b> que você já obteve, na sua máquina.</p>
+          <h4>Online × Offline</h4>
+          <table class="cmp">
+            <tr><th>🔓 Hydra (online)</th><th>🧬 John/Hashcat (offline)</th></tr>
+            <tr><td>Bate na porta do serviço</td><td>Trabalha sobre um arquivo de hashes</td></tr>
+            <tr><td>Lento, gera logs, pode bloquear conta</td><td>Rápido, silencioso, sem tocar no alvo</td></tr>
+          </table>
+          <div class="callout danger">Os dois estão no Gerador (parametrizáveis). Use só em sistemas seus ou autorizados. A defesa: senhas longas, 2FA, bloqueio por tentativas e hashes lentos com salt (bcrypt/Argon2).</div>
+        </div>
+      </details>
     </div>
 
   </div>
