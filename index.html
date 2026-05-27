@@ -617,6 +617,37 @@ code.cmd.copied::after { content:'✅'; }
   .meta-grid { grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr; }
 }
+
+/* Link de vídeo (abre player no site) */
+.topic a.vidlink {
+  border: 1px solid rgba(74,222,128,.4);
+  background: rgba(74,222,128,.10);
+  color: #bbf7d0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border-bottom: 1px solid rgba(74,222,128,.4);
+}
+.topic a.vidlink:hover { background: rgba(74,222,128,.18); color: #dcfce7; border-color: var(--green); }
+
+/* Modal de vídeo */
+.vid-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+  background: rgba(5,8,12,.82);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn .18s ease;
+}
+.vid-modal[hidden] { display: none; }
+.vid-box { width: 100%; max-width: 860px; background: #0b0f14; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+.vid-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.vid-title { font-weight: 700; font-size: 14px; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vid-close { background: var(--panel); border: 1px solid var(--border); color: var(--text); width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+.vid-close:hover { border-color: var(--border-strong); background: rgba(255,255,255,.08); }
+.vid-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vid-open { display: block; text-align: center; padding: 11px; color: var(--green); text-decoration: none; font-weight: 600; font-size: 13.5px; border-top: 1px solid var(--border); }
+.vid-open:hover { background: rgba(74,222,128,.08); }
 </style>
 </head>
 <body>
@@ -795,7 +826,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>📡 Endereço IP <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> O "endereço" do seu dispositivo na rede, para os dados saberem de onde vêm e para onde ir.</div>
       <div class="line"><b>Por que aprender:</b> Tudo em rede, recon e pentest gira em torno de IPs.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+endereco+ip+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="JAD4M7j_tQg" data-title="Entenda o que é o endereço IP — DicionárioTec" href="https://www.youtube.com/watch?v=JAD4M7j_tQg" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>O <b>IP</b> (Internet Protocol) é como o endereço da sua casa, mas na rede: identifica de forma única um dispositivo para que os dados cheguem ao lugar certo.</p>
@@ -812,7 +843,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🔢 IPv4 vs IPv6 <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> As duas versões do endereço IP — a antiga (IPv4) e a nova (IPv6).</div>
       <div class="line"><b>Por que aprender:</b> Entender o formato ajuda a ler scans, logs e configs.</div>
-      <a href="https://www.youtube.com/results?search_query=ipv4+vs+ipv6+diferenca+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="O8DmpmBMUSw" data-title="IPv4 e IPv6 — Código Fonte TV" href="https://www.youtube.com/watch?v=O8DmpmBMUSw" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>O <b>IPv4</b> usa 4 números de 0 a 255 (ex.: <code>192.168.0.1</code>) e tem ~4,3 bilhões de endereços — que <b>acabaram</b>. O <b>IPv6</b> foi criado para resolver isso, com um formato bem maior em hexadecimal (ex.: <code>2001:0db8::1</code>) e uma quantidade praticamente infinita de endereços.</p>
@@ -829,7 +860,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>📶 Roteador <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> O aparelho que liga sua rede à internet e distribui a conexão entre os dispositivos.</div>
       <div class="line"><b>Por que aprender:</b> É o "portão" da sua rede — e um alvo comum se mal configurado.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+roteador+como+funciona" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="ZM6nLXzOghA" data-title="Roteadores: como funcionam e para que servem" href="https://www.youtube.com/watch?v=ZM6nLXzOghA" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>O <b>roteador</b> "roteia" (direciona) os pacotes entre a sua rede local e a internet. Em casa, ele normalmente acumula vários papéis: faz <b>NAT</b> (compartilha 1 IP público entre vários aparelhos), é o <b>Wi-Fi</b> e tem um <b>firewall</b> básico.</p>
@@ -841,7 +872,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🧭 DNS <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> A "agenda de contatos" da internet — traduz o nome do site (google.com) no IP do servidor.</div>
       <div class="line"><b>Por que aprender:</b> Sem DNS você teria que decorar IPs; e ele é alvo de ataques (DNS poisoning).</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+dns+como+funciona" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="Q_aIVbS6wVc" data-title="O que é DNS e como funciona — Simplificando Redes" href="https://www.youtube.com/watch?v=Q_aIVbS6wVc" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>Você digita <code>banco.com.br</code>; o <b>DNS</b> resolve isso para o IP do servidor (ex.: <code>200.x.x.x</code>) e o navegador conecta. É como perguntar "qual o número do Fulano?" antes de ligar.</p>
@@ -857,7 +888,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🚪 Portas <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> "Portas" numeradas num dispositivo; cada serviço escuta numa porta.</div>
       <div class="line"><b>Por que aprender:</b> Port scanning e Nmap giram em torno de descobrir portas abertas.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+sao+portas+de+rede+tcp" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="FaTlrHq8RKM" data-title="O que são as portas TCP e UDP em 3 minutos" href="https://www.youtube.com/watch?v=FaTlrHq8RKM" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>Se o IP é o endereço do prédio, a <b>porta</b> é o número do apartamento: diz para qual <em>serviço</em> os dados vão. Existem 65.535 portas.</p>
@@ -874,7 +905,6 @@ code.cmd.copied::after { content:'✅'; }
       <h3>📦 Pacote de dados <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> A informação é quebrada em pequenos "pacotes" para trafegar pela rede.</div>
       <div class="line"><b>Por que aprender:</b> É o que o Wireshark captura — base de sniffing e forense de rede.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+pacote+de+dados+rede" target="_blank">🎬 Vídeo explicando ↗</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>Um arquivo não viaja inteiro: ele é dividido em <b>pacotes</b>. Cada pacote leva um <b>cabeçalho</b> (IP de origem/destino, porta) + um pedaço dos <b>dados</b>. Eles viajam por caminhos diferentes e são remontados no destino.</p>
@@ -886,7 +916,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🔀 TCP / UDP <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> Os dois principais protocolos de transporte dos pacotes.</div>
       <div class="line"><b>Por que aprender:</b> O Nmap e os ataques distinguem TCP de UDP.</div>
-      <a href="https://www.youtube.com/results?search_query=tcp+vs+udp+diferenca+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="uRvjPlbJ_98" data-title="Protocolos TCP e UDP — Paulo Kretcheu" href="https://www.youtube.com/watch?v=uRvjPlbJ_98" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <table class="cmp">
@@ -902,7 +932,7 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🏷️ Endereço MAC <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> Identificador físico único da placa de rede de cada aparelho.</div>
       <div class="line"><b>Por que aprender:</b> Aparece em sniffing, Wi-Fi e ataques de rede local.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+endereco+mac" target="_blank">🎬 Vídeo explicando ↗</a>
+      <a class="vidlink" data-yt="wUD-95iFBRI" data-title="O que é um Endereço MAC?" href="https://www.youtube.com/watch?v=wUD-95iFBRI" target="_blank" rel="noopener">🎬 Assistir vídeo</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>O <b>MAC</b> (ex.: <code>00:1A:2B:3C:4D:5E</code>) vem gravado no hardware da placa de rede e funciona na <b>rede local</b> (camada 2). Diferença para o IP:</p>
@@ -917,7 +947,6 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🔁 NAT &amp; Gateway <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> NAT compartilha 1 IP público entre vários aparelhos; o gateway é a "saída" da rede.</div>
       <div class="line"><b>Por que aprender:</b> Explica por que seu PC tem IP privado mas a internet vê outro IP.</div>
-      <a href="https://www.youtube.com/results?search_query=o+que+e+nat+gateway+rede" target="_blank">🎬 Vídeo explicando ↗</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <p>O <b>NAT</b> (Network Address Translation) deixa vários dispositivos com IP privado (192.168.x) usarem <b>um único</b> IP público — por isso a internet "vê" o IP do seu roteador, não o do seu PC.</p>
@@ -929,7 +958,6 @@ code.cmd.copied::after { content:'✅'; }
       <h3>🌐 LAN / WAN / Wi-Fi <span class="badge new">🆕</span></h3>
       <div class="line"><b>O que é:</b> Os tipos de rede por alcance — local, ampla e sem fio.</div>
       <div class="line"><b>Por que aprender:</b> Vocabulário básico que aparece o tempo todo.</div>
-      <a href="https://www.youtube.com/results?search_query=diferenca+lan+wan+wifi" target="_blank">🎬 Vídeo explicando ↗</a>
       <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
         <h4>Explicação completa</h4>
         <ul class="bullets">
@@ -4282,6 +4310,45 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
 </div>
 
 <button id="toTop" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+
+<div id="vidModal" class="vid-modal" hidden>
+  <div class="vid-box">
+    <div class="vid-head">
+      <span id="vidTitle" class="vid-title"></span>
+      <button id="vidClose" class="vid-close" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="vid-frame"><iframe id="vidFrame" title="Vídeo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+    <a id="vidOpen" class="vid-open" href="#" target="_blank" rel="noopener">▶ abrir no YouTube</a>
+  </div>
+</div>
+
+<script>
+// ===== Player de vídeo no site (modal) =====
+(function(){
+  var modal = document.getElementById('vidModal');
+  if(!modal) return;
+  var frame = document.getElementById('vidFrame'),
+      title = document.getElementById('vidTitle'),
+      openA = document.getElementById('vidOpen'),
+      closeB = document.getElementById('vidClose');
+  function show(id, t){
+    frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+    openA.href = 'https://www.youtube.com/watch?v=' + id;
+    title.textContent = t || 'Vídeo';
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+  }
+  function hide(){ modal.hidden = true; frame.src = ''; document.body.style.overflow = ''; }
+  document.querySelectorAll('a.vidlink').forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var id = a.getAttribute('data-yt'); if(!id) return;
+      ev.preventDefault(); show(id, a.getAttribute('data-title'));
+    });
+  });
+  closeB.addEventListener('click', hide);
+  modal.addEventListener('click', function(e){ if(e.target === modal) hide(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !modal.hidden) hide(); });
+})();
+</script>
 
 <script>
 // ===== Voltar ao topo =====
