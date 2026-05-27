@@ -683,6 +683,7 @@ code.cmd.copied::after { content:'✅'; }
     </ul>
   </div>
   <div class="totals">
+    <span class="total-pill">🌐 Redes: 10 conceitos</span>
     <span class="total-pill">🧠 Nível 1: 10 conceitos</span>
     <span class="total-pill">🔍 Nível 2: 12 conceitos</span>
     <span class="total-pill">🛠️ Nível 3: 26 conceitos</span>
@@ -773,6 +774,173 @@ code.cmd.copied::after { content:'✅'; }
         <a class="lab" href="https://ctftime.org/" target="_blank" rel="noopener">CTFtime (eventos) ↗</a>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- NÍVEL 0: REDES (BASE) -->
+<section id="redes" class="level">
+  <div class="level-header">
+    <div class="level-icon">🌐</div>
+    <div>
+      <h2>Redes — A Base Técnica</h2>
+      <div class="sub">IP • ROTEADOR • DNS • PORTAS • PROTOCOLOS</div>
+    </div>
+  </div>
+  <p style="color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 18px; max-width:760px;">
+    Antes de atacar ou defender, é preciso entender <b>como a internet conversa</b>. Esses são os fundamentos que aparecem em tudo: recon, Nmap, sniffing, firewall. Cada card tem um link de vídeo explicando.
+  </p>
+  <div class="cards">
+
+    <div class="topic">
+      <h3>📡 Endereço IP <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> O "endereço" do seu dispositivo na rede, para os dados saberem de onde vêm e para onde ir.</div>
+      <div class="line"><b>Por que aprender:</b> Tudo em rede, recon e pentest gira em torno de IPs.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+endereco+ip+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>O <b>IP</b> (Internet Protocol) é como o endereço da sua casa, mas na rede: identifica de forma única um dispositivo para que os dados cheguem ao lugar certo.</p>
+        <ul class="bullets">
+          <li><b>Público:</b> visível na internet, fornecido pelo seu provedor (é o IP do seu roteador).</li>
+          <li><b>Privado:</b> usado dentro da sua rede local (ex.: <code>192.168.0.10</code>).</li>
+          <li><b>Fixo × dinâmico:</b> pode mudar a cada conexão (dinâmico, via DHCP) ou ser fixo.</li>
+        </ul>
+        <div class="callout tip">Descubra o seu: no Gerador, aba "Como descobrir" → <code>dig +short</code>, ou pesquise "meu ip".</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🔢 IPv4 vs IPv6 <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> As duas versões do endereço IP — a antiga (IPv4) e a nova (IPv6).</div>
+      <div class="line"><b>Por que aprender:</b> Entender o formato ajuda a ler scans, logs e configs.</div>
+      <a href="https://www.youtube.com/results?search_query=ipv4+vs+ipv6+diferenca+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>O <b>IPv4</b> usa 4 números de 0 a 255 (ex.: <code>192.168.0.1</code>) e tem ~4,3 bilhões de endereços — que <b>acabaram</b>. O <b>IPv6</b> foi criado para resolver isso, com um formato bem maior em hexadecimal (ex.: <code>2001:0db8::1</code>) e uma quantidade praticamente infinita de endereços.</p>
+        <table class="cmp">
+          <tr><th></th><th>IPv4</th><th>IPv6</th></tr>
+          <tr><td><b>Exemplo</b></td><td>192.168.0.1</td><td>2001:0db8:85a3::8a2e</td></tr>
+          <tr><td><b>Tamanho</b></td><td>32 bits</td><td>128 bits</td></tr>
+          <tr><td><b>Endereços</b></td><td>~4,3 bilhões</td><td>~340 undecilhões</td></tr>
+        </table>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>📶 Roteador <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> O aparelho que liga sua rede à internet e distribui a conexão entre os dispositivos.</div>
+      <div class="line"><b>Por que aprender:</b> É o "portão" da sua rede — e um alvo comum se mal configurado.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+roteador+como+funciona" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>O <b>roteador</b> "roteia" (direciona) os pacotes entre a sua rede local e a internet. Em casa, ele normalmente acumula vários papéis: faz <b>NAT</b> (compartilha 1 IP público entre vários aparelhos), é o <b>Wi-Fi</b> e tem um <b>firewall</b> básico.</p>
+        <div class="callout danger"><b>Segurança:</b> o painel de admin costuma ficar em <code>192.168.0.1</code> ou <code>192.168.1.1</code>. <b>Troque a senha padrão</b> (admin/admin) e o nome/senha do Wi-Fi — roteador com senha de fábrica é porta aberta.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🧭 DNS <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> A "agenda de contatos" da internet — traduz o nome do site (google.com) no IP do servidor.</div>
+      <div class="line"><b>Por que aprender:</b> Sem DNS você teria que decorar IPs; e ele é alvo de ataques (DNS poisoning).</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+dns+como+funciona" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>Você digita <code>banco.com.br</code>; o <b>DNS</b> resolve isso para o IP do servidor (ex.: <code>200.x.x.x</code>) e o navegador conecta. É como perguntar "qual o número do Fulano?" antes de ligar.</p>
+        <ul class="bullets">
+          <li><b>Registros:</b> A (IPv4), AAAA (IPv6), MX (e-mail), TXT (SPF/verificações), NS (servidores).</li>
+          <li>Consulte com <code>dig</code> / <code>nslookup</code> (estão no Gerador).</li>
+        </ul>
+        <div class="callout danger">Se o DNS for envenenado (<b>DNS poisoning</b>, ver Nível 4), você digita o site certo e cai num clone. Por isso DNSSEC e HTTPS importam.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🚪 Portas <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> "Portas" numeradas num dispositivo; cada serviço escuta numa porta.</div>
+      <div class="line"><b>Por que aprender:</b> Port scanning e Nmap giram em torno de descobrir portas abertas.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+sao+portas+de+rede+tcp" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>Se o IP é o endereço do prédio, a <b>porta</b> é o número do apartamento: diz para qual <em>serviço</em> os dados vão. Existem 65.535 portas.</p>
+        <h4>Portas conhecidas</h4>
+        <ul class="bullets">
+          <li><b>80</b> HTTP · <b>443</b> HTTPS · <b>22</b> SSH · <b>21</b> FTP</li>
+          <li><b>53</b> DNS · <b>25</b> SMTP (e-mail) · <b>3389</b> RDP (área de trabalho Windows)</li>
+        </ul>
+        <div class="callout tip">Cada porta aberta é uma possível entrada. Feche o que não usa. (Veja "Port Scanning" e "Nmap".)</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>📦 Pacote de dados <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> A informação é quebrada em pequenos "pacotes" para trafegar pela rede.</div>
+      <div class="line"><b>Por que aprender:</b> É o que o Wireshark captura — base de sniffing e forense de rede.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+pacote+de+dados+rede" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>Um arquivo não viaja inteiro: ele é dividido em <b>pacotes</b>. Cada pacote leva um <b>cabeçalho</b> (IP de origem/destino, porta) + um pedaço dos <b>dados</b>. Eles viajam por caminhos diferentes e são remontados no destino.</p>
+        <div class="callout tip">Capturar e ler pacotes (com Wireshark) é "sniffing" — em rede sem HTTPS, dá para ver dados em texto claro.</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🔀 TCP / UDP <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Os dois principais protocolos de transporte dos pacotes.</div>
+      <div class="line"><b>Por que aprender:</b> O Nmap e os ataques distinguem TCP de UDP.</div>
+      <a href="https://www.youtube.com/results?search_query=tcp+vs+udp+diferenca+explicacao" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <table class="cmp">
+          <tr><th>🔒 TCP</th><th>⚡ UDP</th></tr>
+          <tr><td>Confiável: confirma a entrega (handshake)</td><td>Rápido: não confirma, pode perder pacote</td></tr>
+          <tr><td>Web, e-mail, download</td><td>Streaming, jogos, chamadas, DNS</td></tr>
+        </table>
+        <div class="callout tip">TCP é o "carta registrada" (com recibo); UDP é o "panfleto jogado" (rápido, sem garantia).</div>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🏷️ Endereço MAC <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Identificador físico único da placa de rede de cada aparelho.</div>
+      <div class="line"><b>Por que aprender:</b> Aparece em sniffing, Wi-Fi e ataques de rede local.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+endereco+mac" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>O <b>MAC</b> (ex.: <code>00:1A:2B:3C:4D:5E</code>) vem gravado no hardware da placa de rede e funciona na <b>rede local</b> (camada 2). Diferença para o IP:</p>
+        <ul class="bullets">
+          <li><b>MAC:</b> físico, "de fábrica", local. <b>IP:</b> lógico, pode mudar, funciona na internet toda.</li>
+          <li>Pode ser falsificado (<b>MAC spoofing</b>) para burlar filtros de Wi-Fi.</li>
+        </ul>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🔁 NAT &amp; Gateway <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> NAT compartilha 1 IP público entre vários aparelhos; o gateway é a "saída" da rede.</div>
+      <div class="line"><b>Por que aprender:</b> Explica por que seu PC tem IP privado mas a internet vê outro IP.</div>
+      <a href="https://www.youtube.com/results?search_query=o+que+e+nat+gateway+rede" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <p>O <b>NAT</b> (Network Address Translation) deixa vários dispositivos com IP privado (192.168.x) usarem <b>um único</b> IP público — por isso a internet "vê" o IP do seu roteador, não o do seu PC.</p>
+        <p>O <b>gateway padrão</b> é o endereço para onde o dispositivo manda tudo que vai "pra fora" — em casa, é o roteador.</p>
+      </div></details>
+    </div>
+
+    <div class="topic">
+      <h3>🌐 LAN / WAN / Wi-Fi <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Os tipos de rede por alcance — local, ampla e sem fio.</div>
+      <div class="line"><b>Por que aprender:</b> Vocabulário básico que aparece o tempo todo.</div>
+      <a href="https://www.youtube.com/results?search_query=diferenca+lan+wan+wifi" target="_blank">🎬 Vídeo explicando ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Explicação completa</h4>
+        <ul class="bullets">
+          <li><b>LAN</b> (Local Area Network): rede local — sua casa, um escritório.</li>
+          <li><b>WAN</b> (Wide Area Network): rede ampla que liga várias LANs — a internet é a maior WAN.</li>
+          <li><b>Wi-Fi:</b> uma LAN <b>sem fio</b> (ondas de rádio). Conveniente, mas exige cuidado (senha forte WPA2/WPA3).</li>
+        </ul>
+        <div class="callout danger">Wi-Fi público é uma LAN compartilhada com estranhos — use VPN e só HTTPS.</div>
+      </div></details>
+    </div>
+
   </div>
 </section>
 
@@ -4527,6 +4695,7 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
   var views = [
     { k:'inicio',  label:'\ud83c\udfe0 In\u00edcio',     els:[header, meta] },
     { k:'roteiro', label:'\ud83d\uddfa\ufe0f Roteiro',    els:[byId('roteiro')] },
+    { k:'redes',   label:'\ud83c\udf10 Redes',       els:[byId('redes')] },
     { k:'nivel1',  label:'\ud83e\udde0 Fundamentos', els:[byId('nivel1')] },
     { k:'nivel2',  label:'\ud83d\udd0d Recon',       els:[byId('nivel2')] },
     { k:'nivel3',  label:'\ud83d\udee0\ufe0f Ferramentas', els:[byId('nivel3')] },
@@ -4538,7 +4707,7 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
     { k:'dossie',  label:'\ud83d\udccb Dossi\u00ea',      els:[byId('dossie')] },
     { k:'quiz',    label:'\ud83c\udfae Quiz',        els:[byId('quiz')] }
   ];
-  var conceptLevels = ['nivel1','nivel2','nivel3','nivel4','nivel5','nivel6'].map(byId);
+  var conceptLevels = ['redes','nivel1','nivel2','nivel3','nivel4','nivel5','nivel6'].map(byId);
   var allEls = []; views.forEach(function(v){ v.els.forEach(function(e){ if(e && allEls.indexOf(e) < 0) allEls.push(e); }); });
 
   function norm(s){ return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
