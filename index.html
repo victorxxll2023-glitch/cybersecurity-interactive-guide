@@ -685,10 +685,10 @@ code.cmd.copied::after { content:'✅'; }
   <div class="totals">
     <span class="total-pill">🧠 Nível 1: 10 conceitos</span>
     <span class="total-pill">🔍 Nível 2: 12 conceitos</span>
-    <span class="total-pill">🛠️ Nível 3: 25 conceitos</span>
-    <span class="total-pill">⚔️ Nível 4: 27 conceitos</span>
+    <span class="total-pill">🛠️ Nível 3: 26 conceitos</span>
+    <span class="total-pill">⚔️ Nível 4: 28 conceitos</span>
     <span class="total-pill">🛡️ Nível 5: 24 conceitos</span>
-    <span class="total-pill">🔐 Nível 6: 22 conceitos</span>
+    <span class="total-pill">🔐 Nível 6: 23 conceitos</span>
   </div>
 </section>
 
@@ -1798,6 +1798,20 @@ Service detection performed. Nmap done.</pre>
       </div></details>
     </div>
 
+    <div class="topic">
+      <h3>🎭 SEToolkit (SET) <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Social-Engineer Toolkit — framework Python para ataques de engenharia social (páginas de phishing clonadas, payloads).</div>
+      <div class="line"><b>Por que aprender:</b> Mostra como clones de login e payloads são criados e hospedados — e, por consequência, como detectá-los.</div>
+      <a href="https://github.com/trustedsec/social-engineer-toolkit" target="_blank">GitHub — SET ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>O SET automatiza ataques de <b>engenharia social</b>: clonar uma página de login real para colher credenciais (Credential Harvester), gerar payloads e montar campanhas de spear phishing. Ele <b>hospeda</b> o clone num servidor local para a vítima acessar. É educacional para entender o "outro lado".</p>
+        <h4>Como instalar</h4><div class="cmd-list"><code class="cmd">sudo apt install set</code></div>
+        <h4>Como usar</h4><div class="cmd-list"><code class="cmd">sudo setoolkit</code></div>
+        <p>No menu: <b>1) Social-Engineering Attacks → 2) Website Attack Vectors → 3) Credential Harvester</b> para clonar uma página (apenas em laboratório).</p>
+        <div class="callout danger">Ferramenta ofensiva real. Clonar site e colher credenciais de terceiros é crime (estelionato + Lei 12.737/2012). Use só em lab próprio. <b>Defesa:</b> 2FA, treinar usuários e sempre conferir o domínio na barra.</div>
+      </div></details>
+    </div>
+
   </div>
 </section>
 
@@ -2737,6 +2751,23 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
           <div class="callout tip">Exemplos famosos: APT28 (Fancy Bear), Lazarus (Coreia do Norte). O <b>MITRE ATT&amp;CK</b> cataloga as táticas e técnicas usadas por esses grupos.</div>
         </div>
       </details>
+    </div>
+
+    <div class="topic">
+      <h3>🔌 Ataques USB (BadUSB) <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Um pendrive/dispositivo (Digispark, Rubber Ducky) que finge ser teclado e digita comandos sozinho ao ser plugado.</div>
+      <div class="line"><b>Por que aprender:</b> "Achou um pendrive?" — em segundos ele pode comprometer a máquina.</div>
+      <a href="https://en.wikipedia.org/wiki/BadUSB" target="_blank">Wikipedia — BadUSB ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>Como funciona</h4><p>O dispositivo se identifica como um <b>teclado (HID)</b> — e não como armazenamento. Ao ser plugado, ele "digita" comandos pré-programados em altíssima velocidade (abrir terminal, baixar um payload, criar usuário) antes de você reagir. O <b>Digispark</b> é uma plaquinha barata; o <b>USB Rubber Ducky</b> é a versão comercial.</p>
+        <h4>Por que é tão perigoso</h4>
+        <ul class="bullets">
+          <li>O antivírus confia em "teclado" — não bloqueia a digitação.</li>
+          <li>Leva segundos: o golpe do "pendrive perdido no estacionamento" é real e eficaz.</li>
+          <li>Não precisa de senha nem de clique seu — só de uma porta USB.</li>
+        </ul>
+        <div class="callout danger"><b>Defesa:</b> nunca plugue USB desconhecido; use bloqueio de novos dispositivos HID (USBGuard), políticas de endpoint/MDM e bloqueio de tela. Teste só em equipamento seu.</div>
+      </div></details>
     </div>
 
   </div>
@@ -3881,6 +3912,25 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
           <div class="callout tip">É como os antivírus modernos pegam ameaças <b>novas</b> (0-day, malware ofuscado) que a assinatura sozinha não conhece. O preço: pode gerar falso positivo.</div>
         </div>
       </details>
+    </div>
+
+    <div class="topic">
+      <h3>🎛️ Meterpreter <span class="badge new">🆕</span></h3>
+      <div class="line"><b>O que é:</b> Payload avançado do Metasploit que dá controle remoto total da máquina, vivendo na memória.</div>
+      <div class="line"><b>Por que aprender:</b> É o "controle remoto" clássico de pós-exploração — entender mostra o que um invasor faz <em>depois</em> de entrar.</div>
+      <a href="https://www.offsec.com/metasploit-unleashed/about-meterpreter/" target="_blank">OffSec — Meterpreter ↗</a>
+      <details class="deep"><summary>📖 Aprender a fundo</summary><div class="deep-body">
+        <h4>O que faz</h4><p>Depois que um exploit abre acesso, o Meterpreter roda <b>na memória</b> (sem gravar no disco, difícil de detectar) e entrega um shell avançado: navegar arquivos, capturar tela, registrar teclas, escalar privilégios e pivotar para outras máquinas da rede.</p>
+        <h4>Comandos comuns (após a sessão abrir)</h4>
+        <div class="cmd-list">
+          <code class="cmd">sysinfo</code>
+          <code class="cmd">getuid</code>
+          <code class="cmd">screenshot</code>
+          <code class="cmd">hashdump</code>
+          <code class="cmd">getsystem</code>
+        </div>
+        <div class="callout danger">É um controle remoto real (RAT). Só em lab/pentest autorizado. <b>Defesa:</b> EDR com detecção em memória, princípio do menor privilégio e monitorar processos e conexões de saída anômalas.</div>
+      </div></details>
     </div>
 
   </div>
