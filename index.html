@@ -489,14 +489,24 @@ main { padding: 0 42px 70px; }
 /* Progresso (marcar estudado) */
 .topic { position: relative; }
 .study-toggle {
-  display:inline-flex; align-items:center; gap:6px; cursor:pointer;
-  font-size:12px; font-weight:800; color:var(--muted);
-  background:rgba(34,197,94,.07); border:1px solid rgba(34,197,94,.25);
-  border-radius:999px; padding:5px 11px; margin:2px 0 10px;
+  display:inline-flex; align-items:center; gap:9px; cursor:pointer;
+  font-size:12.5px; font-weight:600; color:var(--muted);
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:999px; padding:7px 14px 7px 9px; margin:2px 0 12px;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
 }
-.study-toggle:hover { border-color:rgba(34,197,94,.5); }
-.study-toggle.on { color:var(--green); border-color:var(--green); background:rgba(34,197,94,.16); }
-.topic.studied { border-color:rgba(34,197,94,.45); }
+.study-toggle::before {
+  content:""; width:16px; height:16px; border-radius:50%;
+  border:1.5px solid var(--muted); flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:900; line-height:1;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.study-toggle:hover { color:#cbd5e1; border-color:rgba(74,222,128,.45); }
+.study-toggle:hover::before { border-color:rgba(74,222,128,.7); }
+.study-toggle.on { color:#bbf7d0; border-color:rgba(74,222,128,.55); background:rgba(74,222,128,.13); }
+.study-toggle.on::before { content:"✓"; background:var(--green); border-color:var(--green); color:#05140a; }
+.topic.studied { border-color:rgba(74,222,128,.4); }
 .level-progress { margin: -8px 0 20px; }
 .level-progress .lbl { font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:700; }
 .level-progress .lbl b { color:var(--green); }
@@ -4893,7 +4903,7 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
   topics.forEach(function(t){
     var key = keyOf(t); if(!key) return;
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'study-toggle';
-    function refresh(){ var on = !!state[key]; t.classList.toggle('studied', on); btn.classList.toggle('on', on); btn.textContent = on ? '✓ Estudado' : '☐ Marcar como estudado'; }
+    function refresh(){ var on = !!state[key]; t.classList.toggle('studied', on); btn.classList.toggle('on', on); btn.textContent = on ? 'Estudado' : 'Marcar como estudado'; }
     btn.addEventListener('click', function(){ if(state[key]) delete state[key]; else state[key] = 1; save(); refresh(); var l = t.closest('section.level'); if(l) updateBar(l); });
     var h = t.querySelector('h3'); if(h){ h.insertAdjacentElement('afterend', btn); } else { t.appendChild(btn); }
     refresh();
