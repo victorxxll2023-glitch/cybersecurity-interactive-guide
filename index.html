@@ -5184,6 +5184,59 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
   </div>
 </div>
 
+<script type="module">
+// ===== Motion: animações editoriais sutis =====
+// Não anima se o usuário pediu prefers-reduced-motion
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  try {
+    const m = await import("https://esm.sh/motion@11.11.17");
+    const { animate, inView, stagger } = m;
+    const ease = [0.22, 1, 0.36, 1];
+
+    // 1) Hero entrance (load) — staggered
+    const heroSel = ".hero-left > .kicker, .hero-left > h1, .hero-left > .lead, .hero-left > .actions, .hero-term";
+    const heroEls = Array.from(document.querySelectorAll(heroSel));
+    heroEls.forEach(el => { el.style.opacity = "0"; el.style.transform = "translateY(14px)"; });
+    requestAnimationFrame(() => {
+      animate(heroEls, { opacity: [0,1], y: [14,0] }, { delay: stagger(0.08, { startDelay: 0.15 }), duration: 0.85, easing: ease });
+    });
+
+    // 2) Level headers — desliza ao entrar no viewport
+    inView(".level-header", (info) => {
+      info.target.style.opacity = "0";
+      info.target.style.transform = "translateY(22px)";
+      animate(info.target, { opacity: [0,1], y: [22,0] }, { duration: 0.8, easing: ease });
+    }, { margin: "-12% 0px" });
+
+    // 3) Topic cards — fade staggered (sem flashes em scroll rápido)
+    inView(".cards", (info) => {
+      const cards = Array.from(info.target.querySelectorAll(".topic"));
+      cards.forEach(c => { c.style.opacity = "0"; c.style.transform = "translateY(10px)"; });
+      animate(cards, { opacity: [0,1], y: [10,0] }, { delay: stagger(0.04), duration: 0.55, easing: ease });
+    }, { margin: "-8% 0px" });
+
+    // 4) Counter dos números grandes do índice (120+, 6/6, etc.)
+    inView(".meta-item .big", (info) => {
+      const el = info.target;
+      const txt = el.textContent.trim();
+      const match = txt.match(/^(\d+)(.*)$/);
+      if (!match) return;
+      const target = parseInt(match[1], 10);
+      const suffix = match[2];
+      el.textContent = "0" + suffix;
+      animate(0, target, {
+        duration: 1.4,
+        easing: ease,
+        onUpdate: v => { el.textContent = Math.round(v) + suffix; }
+      });
+    }, { margin: "-30% 0px" });
+  } catch (e) {
+    // se a CDN falhar, página continua funcionando normalmente
+    console.warn("Motion não pôde ser carregado:", e);
+  }
+}
+</script>
+
 <script>
 // ===== Player de vídeo no site (modal) =====
 (function(){
