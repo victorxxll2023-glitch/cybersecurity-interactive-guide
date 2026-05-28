@@ -23,39 +23,48 @@
    ============================================ */
 
 :root {
-  /* PURPLE TEAM — surfaces (cool dark) */
-  --paper:      #0a0a10;
-  --paper-2:    #11111b;
-  --paper-3:    #181826;
-  --paper-4:    #1f1f2e;
-  --hair:       #262635;
-  --hair-2:     #353548;
-  --rule:       #4a4a60;
-  --ink:        #ece9f4;
-  --ink-2:      #c4c0d4;
-  --ink-3:      #918da3;
-  --ink-mute:   #6a6577;
+  /* SOC PLATFORM — surfaces (graphite) */
+  --paper:      #0a0e13;
+  --paper-2:    #0f151c;
+  --paper-3:    #141c25;
+  --paper-4:    #1c2632;
+  --hair:       #1f2a35;
+  --hair-2:     #2c3a48;
+  --rule:       #3f5365;
+  --ink:        #e8eef4;
+  --ink-2:      #aab8c6;
+  --ink-3:      #7c8c9b;
+  --ink-mute:   #566776;
 
-  /* PURPLE TEAM — signal palette */
-  --red:         #ef4444;
-  --red-bright:  #fb7676;
-  --red-deep:    #b91c1c;
-  --red-tint:    rgba(239, 68, 68, .09);
-  --red-glow:    rgba(239, 68, 68, .35);
+  /* RED TEAM — vinho / âmbar / laranja-queimado (dessaturado, sem neon) */
+  --red:         #b14a3e;
+  --red-bright:  #d07a5f;
+  --red-deep:    #7a2c2a;
+  --red-tint:    rgba(177, 74, 62, .10);
+  --red-glow:    rgba(196, 96, 72, .24);
 
-  --blue:        #3b82f6;
-  --blue-bright: #6ea8ff;
-  --blue-deep:   #1d4ed8;
-  --blue-tint:   rgba(59, 130, 246, .09);
-  --blue-glow:   rgba(59, 130, 246, .35);
+  /* BLUE TEAM — azul petróleo / ciano suave / azul corporativo (dessaturado) */
+  --blue:        #2f7d9e;
+  --blue-bright: #5fb1cd;
+  --blue-deep:   #173f57;
+  --blue-tint:   rgba(47, 125, 158, .10);
+  --blue-glow:   rgba(74, 158, 190, .24);
 
-  --purple:      #a855f7;
-  --purple-bright:#c885ff;
-  --purple-deep: #7e22ce;
-  --purple-tint: rgba(168, 85, 247, .10);
-  --purple-glow: rgba(168, 85, 247, .40);
+  /* NEUTRO — grafite / aço (accent do sistema; substitui o antigo roxo) */
+  --purple:       #7c8b9a;
+  --purple-bright:#a8b6c2;
+  --purple-deep:  #39444f;
+  --purple-tint:  rgba(124, 139, 154, .12);
+  --purple-glow:  rgba(150, 164, 178, .22);
 
-  /* legacy palette names — remapped to Purple Team so existing CSS just works */
+  /* glass tokens (uso cirúrgico — só painéis-chave levam blur de verdade) */
+  --glass-bg:     rgba(18, 26, 34, .55);
+  --glass-bg-2:   rgba(24, 33, 43, .62);
+  --glass-border: rgba(255, 255, 255, .07);
+  --glass-blur:   saturate(135%) blur(14px);
+  --glass-shadow: 0 16px 50px -22px rgba(0, 0, 0, .72);
+
+  /* legacy palette names — remapeados pra nova paleta SOC (o CSS antigo continua funcionando) */
   --lime:        var(--purple);
   --lime-2:      var(--purple-bright);
   --lime-deep:   var(--purple-deep);
@@ -83,11 +92,12 @@
   --border-strong: var(--hair-2);
 
   /* shape + motion */
-  --r-sm: 4px;
-  --r:    6px;
-  --r-lg: 10px;
-  --shadow: 0 30px 60px -28px rgba(0,0,0,.85), 0 8px 22px -12px rgba(0,0,0,.6);
-  --shadow-sm: 0 10px 24px -14px rgba(0,0,0,.7);
+  --r-sm: 6px;
+  --r:    10px;
+  --r-lg: 14px;
+  --shadow: 0 24px 60px -30px rgba(0,0,0,.82), 0 6px 18px -10px rgba(0,0,0,.5);
+  --shadow-sm: 0 10px 26px -16px rgba(0,0,0,.6);
+  --shadow-soft: 0 12px 42px -18px rgba(0,0,0,.55);
 
   /* type stacks */
   --serif: "Fraunces", "Times New Roman", Georgia, serif;
@@ -157,8 +167,8 @@ body::before {
   position: absolute;
   inset: -60% -20% -60% -20%;
   background-image:
-    linear-gradient(to right,  rgba(168,85,247,.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(168,85,247,.16) 1px, transparent 1px);
+    linear-gradient(to right,  rgba(120,150,175,.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120,150,175,.12) 1px, transparent 1px);
   background-size: 48px 48px;
   transform-origin: 50% 50%;
   will-change: transform;
@@ -2319,10 +2329,10 @@ main {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--ink-mute);
 }
-.mode-switch button[data-mode="all"]::before     { background: #a855f7; box-shadow: 0 0 5px rgba(168,85,247,.45); }
-.mode-switch button[data-mode="attack"]::before  { background: #ef4444; box-shadow: 0 0 5px rgba(239,68,68,.45); }
-.mode-switch button[data-mode="defense"]::before { background: #3b82f6; box-shadow: 0 0 5px rgba(59,130,246,.45); }
-.mode-switch button.active[data-mode="all"]     { background: #a855f7; color: #0a0a10; }
+.mode-switch button[data-mode="all"]::before     { background: #7c8b9a; box-shadow: 0 0 5px rgba(150,164,178,.4); }
+.mode-switch button[data-mode="attack"]::before  { background: #b14a3e; box-shadow: 0 0 5px rgba(196,96,72,.45); }
+.mode-switch button[data-mode="defense"]::before { background: #2f7d9e; box-shadow: 0 0 5px rgba(74,158,190,.45); }
+.mode-switch button.active[data-mode="all"]     { background: #7c8b9a; color: #0a0e13; }
 .mode-switch button:hover { color: var(--ink-2); }
 .mode-switch button.active[data-mode="all"]     { background: var(--purple); color: #0a0a10; }
 .mode-switch button.active[data-mode="attack"]  { background: var(--red);    color: #0a0a10; }
@@ -2385,12 +2395,12 @@ body.mode-defense .studied-split .ss-chip[data-team="red"] {
 body.mode-attack::before {
   background-image:
     radial-gradient(1100px 700px at 30% -5%, var(--red-glow), transparent 60%),
-    radial-gradient(700px 500px at 80% 30%, rgba(168,85,247,.20), transparent 60%);
+    radial-gradient(700px 500px at 80% 30%, rgba(120,150,175,.14), transparent 60%);
 }
 body.mode-defense::before {
   background-image:
     radial-gradient(1100px 700px at 70% -5%, var(--blue-glow), transparent 60%),
-    radial-gradient(700px 500px at 20% 30%, rgba(168,85,247,.20), transparent 60%);
+    radial-gradient(700px 500px at 20% 30%, rgba(120,150,175,.14), transparent 60%);
 }
 
 /* hero h1: tint headline lines based on mode */
