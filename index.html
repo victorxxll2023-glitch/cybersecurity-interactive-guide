@@ -1879,7 +1879,7 @@ main {
 }
 
 /* topic interior must sit above spotlight + beam */
-.topic > *:not(.spotlight):not(.beam):not(.studied-bar) { position: relative; z-index: 1; }
+.topic > *:not(.spotlight):not(.beam):not(.studied-bar):not(.team-rail) { position: relative; z-index: 1; }
 
 /* offset h3 so it doesn't overlap with team marker */
 .topic h3 { padding-top: 12px; }
@@ -2636,6 +2636,127 @@ body.mode-defense .attck-tech:not(.has-b) {
   background: var(--purple-tint);
 }
 .otw .otw-links a::before { content: "↗"; color: var(--purple); }
+
+/* ============================================
+   FASE 3C/3E/3F — dashboard headers · cards glass · botões glass
+   ============================================ */
+
+/* ----- 3C: section preamble vira barra de métricas dashboard (sem terminal) ----- */
+.section-preamble {
+  margin: 18px 0 24px;
+  padding: 0;
+}
+.section-preamble .pre-cmd,
+.section-preamble .pre-rule { display: none; } /* terminal removido */
+.section-preamble .pre-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+}
+.section-preamble .pre-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  font: 600 11px var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.section-preamble .pre-stat b {
+  font: 700 16px var(--mono);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.section-preamble .pre-stat.team { gap: 9px; }
+.section-preamble .pre-stat.team::before {
+  width: 8px; height: 8px;
+}
+
+/* ----- 3E: cards viram glass-lite (sem backdrop-blur p/ perf) com elevação ----- */
+.cards {
+  gap: 16px;
+  margin-top: 26px;
+  border-top: none;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+}
+.topic {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-right: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 26px 24px 22px;
+  transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s, border-color .2s, background .2s;
+}
+.topic:hover {
+  background: var(--glass-bg-2);
+  border-color: color-mix(in srgb, var(--team-color) 55%, var(--glass-border));
+  box-shadow: var(--shadow-soft), 0 0 0 1px var(--team-glow), 0 0 28px -10px var(--team-glow);
+  transform: translateY(-3px);
+}
+.topic.studied {
+  background: color-mix(in srgb, var(--team-tint) 70%, var(--glass-bg));
+  border-color: color-mix(in srgb, var(--team-color) 35%, var(--glass-border));
+}
+/* faixa fina de team no topo do card (substitui a sensação de grid-line) */
+.topic .team-rail {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--team-color), transparent 70%);
+  opacity: .5;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  z-index: 1;
+}
+.topic:hover .team-rail { opacity: .9; }
+/* título com mais respiro (sobra do grid antigo) */
+.topic h3 { padding-top: 16px; }
+
+/* ----- 3F: botões glass / transparência refinada (sem fill saturado) ----- */
+.btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: border-color .18s, background .18s, color .18s, transform .1s, box-shadow .25s;
+}
+.btn:hover {
+  border-color: var(--rule);
+  background: var(--glass-bg-2);
+  transform: translateY(-1px);
+}
+.btn:active { transform: translateY(0); }
+.btn.primary {
+  background: color-mix(in srgb, var(--purple) 14%, transparent);
+  border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-border));
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.btn.primary:hover {
+  background: color-mix(in srgb, var(--purple) 24%, transparent);
+  border-color: var(--purple-bright);
+  box-shadow: var(--shadow-sm), 0 0 26px -8px var(--purple-glow);
+}
+.btn.green {
+  background: color-mix(in srgb, var(--purple) 8%, transparent);
+  border-color: color-mix(in srgb, var(--purple) 40%, var(--glass-border));
+  color: var(--purple-bright);
+}
+.btn.green:hover { background: color-mix(in srgb, var(--purple) 16%, transparent); color: var(--ink); }
+.btn.pink {
+  background: color-mix(in srgb, var(--red) 8%, transparent);
+  border-color: color-mix(in srgb, var(--red) 45%, var(--glass-border));
+  color: var(--red-bright);
+}
+.btn.pink:hover { background: color-mix(in srgb, var(--red) 16%, transparent); border-color: var(--red-bright); }
 
 </style>
 </head>
@@ -7069,7 +7190,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return 'purple';
   }
 
-  var LABELS = { red: 'red', blue: 'blue', purple: 'purple' };
+  var LABELS = { red: 'offensive', blue: 'defensive', purple: 'core' };
 
   topics.forEach(function(t){
     var h3 = t.querySelector('h3');
@@ -7082,9 +7203,11 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
       var sp = document.createElement('div'); sp.className = 'spotlight';
       var bm = document.createElement('div'); bm.className = 'beam';
       var sb = document.createElement('div'); sb.className = 'studied-bar';
+      var tr = document.createElement('div'); tr.className = 'team-rail';
       t.insertBefore(sb, t.firstChild);
       t.insertBefore(bm, t.firstChild);
       t.insertBefore(sp, t.firstChild);
+      t.insertBefore(tr, t.firstChild);
     }
   });
 
@@ -7137,16 +7260,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     pre.className = 'section-preamble';
     var teamAttr = sec.getAttribute('data-team') || s.team;
     var topicCount = tp.length;
-    var teamLabel = teamAttr === 'red' ? 'red dominant' : teamAttr === 'blue' ? 'blue dominant' : 'purple — methodology';
-
-    var cmd = document.createElement('div'); cmd.className = 'pre-cmd';
-    var pp = document.createElement('span'); pp.className = 'pp'; pp.textContent = '$'; cmd.appendChild(pp);
-    var pa = document.createElement('span'); pa.className = 'pa'; pa.textContent = ' cd '; cmd.appendChild(pa);
-    var arg = document.createElement('span'); arg.className = 'arg'; arg.textContent = '~/trilha/' + s.path; cmd.appendChild(arg);
-    var pa2 = document.createElement('span'); pa2.className = 'pa'; pa2.textContent = ' && cat README.md'; cmd.appendChild(pa2);
-    var cur = document.createElement('span'); cur.className = 'cur'; cmd.appendChild(cur);
-
-    var rule = document.createElement('div'); rule.className = 'pre-rule';
+    var teamLabel = teamAttr === 'red' ? 'foco ofensivo' : teamAttr === 'blue' ? 'foco defensivo' : 'metodologia';
 
     var stats = document.createElement('div'); stats.className = 'pre-stats';
     if(topicCount){
@@ -7162,7 +7276,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     st3.textContent = teamLabel;
     stats.appendChild(st3);
 
-    pre.appendChild(cmd); pre.appendChild(rule); pre.appendChild(stats);
+    pre.appendChild(stats);
 
     // insere logo depois do .level-header (se existir)
     var hd = sec.querySelector('.level-header');
