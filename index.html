@@ -1959,6 +1959,7 @@ main {
 #gerador .level-header::before { content: "⌘ GERADOR"; }
 #dossie  .level-header::before { content: "✎ DOSSIÊ"; }
 #bases   .level-header::before { content: "≡ BASES"; }
+#attack  .level-header::before { content: "🎯 MITRE ATT&CK"; }
 #quiz    .level-header::before { content: "? QUIZ"; }
 
 .level[data-team="red"]    .level-header::before {
@@ -2083,6 +2084,289 @@ main {
   /* OTW card */
   .otw { padding: 18px 18px; }
   .otw .otw-pitch { font-size: 15px; }
+}
+
+/* ============================================
+   MITRE ATT&CK MATRIX
+   ============================================ */
+.attck-intro {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr;
+  gap: 24px;
+  margin: 8px 0 22px;
+  align-items: end;
+}
+.attck-intro p {
+  color: var(--ink-2);
+  font: 400 15px var(--serif);
+  font-variation-settings: "opsz" 14;
+  line-height: 1.6;
+  margin: 0;
+}
+.attck-intro p b { color: var(--purple-bright); font-weight: 700; }
+.attck-legend {
+  display: flex; gap: 14px;
+  flex-wrap: wrap;
+  font: 600 10.5px var(--mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  justify-content: flex-end;
+}
+.attck-legend .lg {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 9px;
+  border: 1px solid var(--hair-2);
+  border-radius: 999px;
+}
+.attck-legend .lg::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--purple); box-shadow: 0 0 6px var(--purple-glow);
+}
+.attck-legend .lg.red::before  { background: var(--red);  box-shadow: 0 0 6px var(--red-glow); }
+.attck-legend .lg.blue::before { background: var(--blue); box-shadow: 0 0 6px var(--blue-glow); }
+.attck-legend .lg.cov::before  { background: linear-gradient(135deg, var(--red) 0 50%, var(--blue) 50% 100%); box-shadow: 0 0 6px var(--purple-glow); }
+.attck-legend .lg.planned { color: var(--ink-mute); }
+.attck-legend .lg.planned::before { background: transparent; border: 1px dashed var(--ink-mute); box-shadow: none; }
+@media (max-width: 950px) {
+  .attck-intro { grid-template-columns: 1fr; }
+  .attck-legend { justify-content: flex-start; }
+}
+
+.attck-matrix {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(170px, 1fr);
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1px;
+}
+.attck-col {
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.attck-tac {
+  padding: 12px 12px 10px;
+  border-bottom: 1px solid var(--hair);
+  background: var(--paper-2);
+  position: sticky; top: 0;
+  z-index: 2;
+}
+.attck-tac .tac-id {
+  font: 700 9px var(--mono);
+  letter-spacing: 1.5px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.attck-tac .tac-name {
+  font: 700 12px var(--mono);
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-top: 3px;
+  line-height: 1.2;
+}
+.attck-tac .tac-count {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  font: 700 9px var(--mono);
+  background: var(--purple-tint);
+  color: var(--purple-bright);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.attck-techs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 6px;
+  flex: 1;
+}
+.attck-tech {
+  position: relative;
+  background: var(--paper-3);
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  padding: 8px 10px 8px 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, background .15s, transform .12s;
+  font: 600 10.5px var(--mono);
+  color: var(--ink-2);
+  line-height: 1.3;
+  display: block;
+}
+.attck-tech:hover {
+  border-color: var(--purple);
+  background: var(--paper-4);
+  transform: translateX(2px);
+}
+.attck-tech.open {
+  border-color: var(--purple-bright);
+  background: var(--purple-tint);
+}
+.attck-tech .tid {
+  display: block;
+  font: 700 8.5px var(--mono);
+  letter-spacing: 1px;
+  color: var(--ink-mute);
+  margin-bottom: 3px;
+}
+.attck-tech.open .tid { color: var(--purple-bright); }
+.attck-tech .tn {
+  display: block;
+  font: 600 11px var(--mono);
+  color: var(--ink);
+  letter-spacing: 0.3px;
+  text-transform: none;
+}
+.attck-tech .dots {
+  position: absolute;
+  top: 8px; right: 9px;
+  display: inline-flex; gap: 3px;
+}
+.attck-tech .dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--hair-2);
+}
+.attck-tech .dots i.r.on { background: var(--red);  border-color: var(--red);  box-shadow: 0 0 5px var(--red-glow); }
+.attck-tech .dots i.b.on { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 5px var(--blue-glow); }
+.attck-tech .pop {
+  display: none;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--paper);
+  border: 1px solid var(--hair-2);
+  border-left: 2px solid var(--purple);
+  border-radius: 3px;
+  font: 400 12px var(--serif);
+  font-variation-settings: "opsz" 14;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.attck-tech.open .pop { display: block; }
+.attck-tech .pop b { color: var(--purple-bright); font-weight: 700; }
+.attck-tech .pop em {
+  font-family: var(--italic);
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+/* ============================================
+   MODE SWITCH (All / Attack / Defense)
+   ============================================ */
+.mode-switch {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 3px;
+  background: var(--paper-3);
+  border: 1px solid var(--hair-2);
+  border-radius: 999px;
+  margin-right: 12px;
+}
+.mode-switch button {
+  background: transparent;
+  border: none;
+  color: var(--ink-3);
+  font: 700 10px var(--mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .15s, background .15s;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.mode-switch button::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ink-mute);
+}
+.mode-switch button[data-mode="all"]::before     { background: var(--purple); box-shadow: 0 0 5px var(--purple-glow); }
+.mode-switch button[data-mode="attack"]::before  { background: var(--red);    box-shadow: 0 0 5px var(--red-glow); }
+.mode-switch button[data-mode="defense"]::before { background: var(--blue);   box-shadow: 0 0 5px var(--blue-glow); }
+.mode-switch button:hover { color: var(--ink-2); }
+.mode-switch button.active[data-mode="all"]     { background: var(--purple); color: #0a0a10; }
+.mode-switch button.active[data-mode="attack"]  { background: var(--red);    color: #0a0a10; }
+.mode-switch button.active[data-mode="defense"] { background: var(--blue);   color: #f0f6ff; }
+.mode-switch button.active::before { background: #0a0a10 !important; box-shadow: none !important; }
+
+/* ----- dimming rules based on body class ----- */
+body.mode-attack  .topic[data-team="blue"],
+body.mode-defense .topic[data-team="red"] {
+  opacity: 0.13;
+  filter: grayscale(0.85);
+  transition: opacity .35s ease, filter .35s ease, transform .35s ease;
+  transform: scale(0.985);
+}
+body.mode-attack  .topic[data-team="blue"]:hover,
+body.mode-defense .topic[data-team="red"]:hover {
+  opacity: 0.85;
+  filter: none;
+  transform: scale(1);
+}
+
+/* navchips: dim the opposite team */
+body.mode-attack  .navchip[data-team="blue"],
+body.mode-defense .navchip[data-team="red"] {
+  opacity: 0.35;
+  filter: grayscale(0.7);
+}
+
+/* marquee: hide the opposite */
+body.mode-attack  .marquee[data-team="blue"],
+body.mode-defense .marquee[data-team="red"] {
+  opacity: 0.18;
+  filter: grayscale(0.9);
+}
+
+/* studied-split: dim the opposite */
+body.mode-attack  .studied-split .ss-chip[data-team="blue"],
+body.mode-defense .studied-split .ss-chip[data-team="red"] {
+  opacity: 0.4;
+  filter: grayscale(0.6);
+}
+
+/* hero: change body aurora intensity */
+body.mode-attack::before {
+  background-image:
+    radial-gradient(1100px 700px at 30% -5%, var(--red-glow), transparent 60%),
+    radial-gradient(700px 500px at 80% 30%, rgba(168,85,247,.20), transparent 60%);
+}
+body.mode-defense::before {
+  background-image:
+    radial-gradient(1100px 700px at 70% -5%, var(--blue-glow), transparent 60%),
+    radial-gradient(700px 500px at 20% 30%, rgba(168,85,247,.20), transparent 60%);
+}
+
+/* hero h1: tint headline lines based on mode */
+body.mode-attack  h1 .line-blue { opacity: 0.35; filter: grayscale(0.6); }
+body.mode-defense h1 .line-red  { opacity: 0.35; filter: grayscale(0.6); }
+
+/* terminals: dim opposite */
+body.mode-attack  .hero-term.term-blue { opacity: 0.45; }
+body.mode-defense .hero-term.term-red  { opacity: 0.45; }
+
+/* ATT&CK matrix: dim chips lacking that team's coverage */
+body.mode-attack  .attck-tech:not(.has-r),
+body.mode-defense .attck-tech:not(.has-b) {
+  opacity: 0.3;
+  filter: grayscale(0.7);
+}
+
+@media (max-width: 950px) {
+  .mode-switch { padding: 2px; }
+  .mode-switch button { font-size: 9px; padding: 4px 8px; letter-spacing: 1px; }
+  .mode-switch button::before { width: 5px; height: 5px; }
 }
 
 /* ============== STATS HERO + MARQUEE + OPEN-TO-WORK ============== */
@@ -2310,6 +2594,11 @@ main {
       <span class="brand-dot" aria-hidden="true"></span>
       <span class="brand-name">trilha-<b>cyber</b></span>
       <span class="brand-tag"><b>purple</b> team operator</span>
+    </span>
+    <span class="mode-switch" role="tablist" aria-label="Modo de visualização" id="modeSwitch">
+      <button type="button" data-mode="all"     class="active" aria-pressed="true">all</button>
+      <button type="button" data-mode="attack"  aria-pressed="false">attack</button>
+      <button type="button" data-mode="defense" aria-pressed="false">defense</button>
     </span>
     <span class="global-progress" id="globalProgress" aria-label="Progresso global">
       <span class="gp-split"><span class="red" id="gpRed">● 0</span><span class="blue" id="gpBlue">● 0</span></span>
@@ -6000,6 +6289,39 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
   <div class="callout danger" style="margin-top:8px;"><b>⚠️ Ética:</b> use estas bases para defender, investigar incidentes e estudar. Consultar/expor dados pessoais de terceiros viola a LGPD — para exposição, consulte apenas a sua (HIBP).</div>
 </section>
 
+<!-- MITRE ATT&CK Matrix -->
+<section id="attack" class="level">
+  <div class="level-header">
+    <div class="level-icon">🎯</div>
+    <div>
+      <h2>Matriz <em>ATT&amp;CK</em></h2>
+      <div class="sub">como o adversário pensa · como o defensor detecta</div>
+    </div>
+  </div>
+
+  <div class="attck-intro">
+    <p>
+      O <b>MITRE ATT&amp;CK</b> é o framework que organiza táticas e técnicas que adversários reais usam
+      em ataques. Para cada técnica eu marco a perspectiva que estudo: <b>ofensiva</b> (como executar),
+      <b>defensiva</b> (como detectar e bloquear), ou <b>ambas</b> (purple team).
+      Clique numa técnica para ver o resumo.
+    </p>
+    <div class="attck-legend">
+      <span class="lg cov">cobertura purple</span>
+      <span class="lg red">só red</span>
+      <span class="lg blue">só blue</span>
+      <span class="lg planned">planejado</span>
+    </div>
+  </div>
+
+  <div class="attck-matrix" id="attckMatrix" aria-label="Matriz MITRE ATT&CK"></div>
+
+  <div class="callout tip" style="margin-top:18px;">
+    Esta é uma seleção curada das técnicas mais relevantes para a trilha — o ATT&amp;CK Enterprise completo tem 200+ técnicas.
+    Referência oficial: <a href="https://attack.mitre.org/" target="_blank" rel="noopener" style="color:var(--purple-bright); text-decoration: underline;">attack.mitre.org ↗</a>
+  </div>
+</section>
+
 <!-- Quiz -->
 <section id="quiz">
   <div class="quiz">
@@ -6571,6 +6893,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     { k:'nivel6',  label:'\ud83d\udd10 Avan\u00e7ado',    els:[byId('nivel6')] },
     { k:'gerador', label:'\ud83e\uddf0 Gerador',     els:[byId('gerador')] },
     { k:'bases',   label:'\ud83d\uddc4\ufe0f Bases',       els:[byId('bases')] },
+    { k:'attack',  label:'\ud83c\udfaf ATT&CK',      els:[byId('attack')] },
     { k:'dossie',  label:'\ud83d\udccb Dossi\u00ea',      els:[byId('dossie')] },
     { k:'quiz',    label:'\ud83c\udfae Quiz',        els:[byId('quiz')] }
   ];
@@ -6628,7 +6951,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     inicio: 'purple', roteiro: 'purple', redes: 'purple',
     nivel1: 'purple', nivel2: 'red', nivel3: 'red', nivel4: 'red',
     nivel5: 'blue', nivel6: 'blue',
-    gerador: 'red', bases: 'blue', dossie: 'purple', quiz: 'purple'
+    gerador: 'red', bases: 'blue', attack: 'purple', dossie: 'purple', quiz: 'purple'
   };
   // monta os chips
   views.forEach(function(v){
@@ -6747,6 +7070,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     { id:'nivel6',  path:'nivel-6',     label:'NÍVEL 6 — AVANÇADO / DFIR',   team:'blue'   },
     { id:'gerador', path:'gerador',     label:'GERADOR DE COMANDOS',         team:'red'    },
     { id:'bases',   path:'bases-uteis', label:'BASES ÚTEIS',                 team:'blue'   },
+    { id:'attack',  path:'mitre-attack',label:'MATRIZ MITRE ATT&CK',         team:'purple' },
     { id:'dossie',  path:'dossie',      label:'DOSSIÊ DO ALVO',              team:'purple' },
     { id:'quiz',    path:'quiz',        label:'QUIZ',                        team:'purple' }
   ];
@@ -7043,6 +7367,151 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     btn.addEventListener('click', function(){ copyText(cmd, function(){ btn.textContent='✅ copiado'; setTimeout(function(){ btn.textContent='📋 copiar'; }, 1500); }); });
     bar.appendChild(btn);
   });
+})();
+
+// ===== Matriz MITRE ATT&CK (render + popover) =====
+(function(){
+  var host = document.getElementById('attckMatrix');
+  if(!host) return;
+  // r = perspectiva ofensiva coberta · b = perspectiva defensiva coberta · planned = ainda não
+  var DATA = [
+    { tac:'Reconnaissance', id:'TA0043', techs:[
+      { id:'T1595', n:'Active Scanning',        pt:'Varredura ativa de portas/serviços — <b>Nmap, Masscan</b>. Defesa: detecção via <em>IDS/Suricata</em>.', r:1, b:1 },
+      { id:'T1592', n:'Victim Host Info',       pt:'Coleta de infra: <b>WHOIS, DNS, banner grabbing</b>. Defesa: minimizar exposição pública.', r:1, b:1 },
+      { id:'T1589', n:'Victim Identity Info',   pt:'OSINT de e-mails e nomes — <b>theHarvester, Sherlock</b>. Base de engenharia social.', r:1, b:0 },
+      { id:'T1596', n:'Open Technical DBs',     pt:'<b>Shodan, Censys, crt.sh</b> — recon 100% passivo via bases públicas.', r:1, b:1 }
+    ]},
+    { tac:'Initial Access', id:'TA0001', techs:[
+      { id:'T1190', n:'Exploit Public App',     pt:'Explora CVE em app web exposto — <b>sqlmap, Metasploit</b>. Defesa: <em>WAF + patching</em>.', r:1, b:1 },
+      { id:'T1566', n:'Phishing',               pt:'Spearphishing com <b>SET Toolkit</b>. Defesa: <em>DMARC/SPF + treino</em>.', r:1, b:1 },
+      { id:'T1078', n:'Valid Accounts',         pt:'Credenciais vazadas / brute force. Defesa: <em>MFA + monitorar logins</em>.', r:1, b:1 },
+      { id:'T1200', n:'Hardware Additions',     pt:'<b>BadUSB / Rubber Ducky</b> — acesso físico. Defesa: bloquear USB HID.', r:1, b:0 }
+    ]},
+    { tac:'Execution', id:'TA0002', techs:[
+      { id:'T1059', n:'Cmd & Scripting',        pt:'<b>PowerShell, Bash, Python</b> rodando payload. Defesa: <em>Sysmon + AMSI logs</em>.', r:1, b:1 },
+      { id:'T1204', n:'User Execution',         pt:'Vítima abre macro/arquivo isca. Defesa: bloquear macro, sandbox.', r:1, b:1 },
+      { id:'T1053', n:'Scheduled Task',         pt:'<b>cron / Task Scheduler</b> dispara o código. Defesa: auditar tarefas.', r:1, b:1 }
+    ]},
+    { tac:'Persistence', id:'TA0003', techs:[
+      { id:'T1547', n:'Boot Autostart',         pt:'Run keys de registro / <b>rc.local</b>. Defesa: baseline de autostart.', r:1, b:1 },
+      { id:'T1136', n:'Create Account',         pt:'Cria conta com privilégio pra voltar depois. Defesa: alertar conta nova.', r:1, b:1 },
+      { id:'T1505', n:'Server Software Comp',   pt:'<b>Web shell</b> ou módulo malicioso no servidor. Defesa: <em>FIM + YARA</em>.', r:1, b:1 }
+    ]},
+    { tac:'Privilege Esc', id:'TA0004', techs:[
+      { id:'T1068', n:'Exploit for PrivEsc',    pt:'<b>Dirty COW</b>, kernel exploits → root. Defesa: patch + least privilege.', r:1, b:1 },
+      { id:'T1055', n:'Process Injection',      pt:'DLL injection / hollowing pra esconder. Defesa: <em>EDR comportamental</em>.', r:1, b:1 },
+      { id:'T1548', n:'Abuse Elevation',        pt:'<b>sudo</b> mal configurado / UAC bypass. Defesa: revisar sudoers.', r:1, b:1 }
+    ]},
+    { tac:'Defense Evasion', id:'TA0005', techs:[
+      { id:'T1027', n:'Obfuscated Files',       pt:'<b>msfvenom encoders</b>, packers. Defesa: detecção por comportamento, não assinatura.', r:1, b:1 },
+      { id:'T1070', n:'Indicator Removal',      pt:'Limpar logs / <b>history -c</b>. Defesa: <em>logs centralizados (SIEM)</em> fora do host.', r:1, b:1 },
+      { id:'T1562', n:'Impair Defenses',        pt:'Desligar AV/firewall. Defesa: alertar quando proteção para.', r:1, b:1 }
+    ]},
+    { tac:'Credential Access', id:'TA0006', techs:[
+      { id:'T1110', n:'Brute Force',            pt:'<b>Hydra, Hashcat, John</b>. Defesa: <em>lockout + MFA + senha forte</em>.', r:1, b:1 },
+      { id:'T1003', n:'OS Cred Dumping',        pt:'<b>Mimikatz</b>, /etc/shadow, LSASS. Defesa: Credential Guard, monitorar LSASS.', r:1, b:1 },
+      { id:'T1056', n:'Input Capture',          pt:'<b>Keylogger</b> grava antes da criptografia. Defesa: EDR + anti-keylogger.', r:1, b:1 },
+      { id:'T1555', n:'Creds from Stores',      pt:'Senhas salvas no navegador. Defesa: gestor de senha corporativo.', r:1, b:1 }
+    ]},
+    { tac:'Discovery', id:'TA0007', techs:[
+      { id:'T1018', n:'Remote System Disc.',    pt:'Ping sweep / ARP scan da rede. Defesa: segmentação, detectar varredura interna.', r:1, b:1 },
+      { id:'T1083', n:'File & Dir Discovery',   pt:'<b>find, dir, gobuster</b> mapeando arquivos. Defesa: honeyfiles.', r:1, b:0 },
+      { id:'T1046', n:'Network Svc Scanning',   pt:'<b>Nmap</b> interno após acesso. Defesa: IDS interno.', r:1, b:1 }
+    ]},
+    { tac:'Lateral Movement', id:'TA0008', techs:[
+      { id:'T1021', n:'Remote Services',        pt:'<b>SSH, RDP, SMB</b> pra pular de host. Defesa: segmentar + MFA interno.', r:1, b:1 },
+      { id:'T1570', n:'Lateral Tool Transfer',  pt:'Copiar binário pro próximo host. Defesa: monitorar transferências.', r:1, b:0 },
+      { id:'T1210', n:'Exploit Remote Svc',     pt:'<b>EternalBlue, ProxyLogon</b>. Defesa: patch crítico imediato.', r:1, b:1 }
+    ]},
+    { tac:'Collection', id:'TA0009', techs:[
+      { id:'T1113', n:'Screen Capture',         pt:'Screenshot/gravação de tela. Defesa: DLP, monitorar APIs de captura.', r:1, b:0 },
+      { id:'T1005', n:'Local System Data',      pt:'Varre disco por arquivos sensíveis. Defesa: classificar + criptografar dados.', r:1, b:0 },
+      { id:'T1119', n:'Automated Collection',   pt:'Script coleta tudo sozinho. Defesa: detectar acesso em massa a arquivos.', r:1, b:1 }
+    ]},
+    { tac:'Command & Control', id:'TA0011', techs:[
+      { id:'T1071', n:'App Layer Protocol',     pt:'<b>C2 sobre HTTPS</b> / DNS tunneling. Defesa: inspeção TLS, analisar DNS.', r:1, b:1 },
+      { id:'T1572', n:'Protocol Tunneling',     pt:'SSH/ICMP tunnel furando firewall. Defesa: baseline de protocolo.', r:1, b:1 },
+      { id:'T1219', n:'Remote Access SW',       pt:'<b>AnyDesk/TeamViewer</b> abusados. Defesa: allowlist de software.', r:1, b:0 }
+    ]},
+    { tac:'Exfiltration', id:'TA0010', techs:[
+      { id:'T1041', n:'Exfil over C2',          pt:'Dados saem pelo mesmo canal C2. Defesa: monitorar volume de saída.', r:1, b:1 },
+      { id:'T1567', n:'Exfil over Web',         pt:'<b>Pastebin, S3, GitHub</b> como dreno. Defesa: <em>DLP + egress filtering</em>.', r:1, b:1 },
+      { id:'T1048', n:'Exfil Alt Protocol',     pt:'<b>DNS / ICMP exfil</b> disfarçado. Defesa: analisar tamanho/frequência de query.', r:1, b:1 }
+    ]},
+    { tac:'Impact', id:'TA0040', techs:[
+      { id:'T1486', n:'Data Encrypted (Ransom)',pt:'<b>WannaCry, LockBit</b> criptografam tudo. Defesa: <em>backup offline 3-2-1</em>.', r:1, b:1 },
+      { id:'T1490', n:'Inhibit Recovery',       pt:'Apaga shadow copies pra impedir restore. Defesa: backup imutável.', r:1, b:1 },
+      { id:'T1499', n:'Endpoint DoS',           pt:'Fork bomb / exaustão de recurso. Defesa: limites de recurso, rate limit.', r:1, b:0 },
+      { id:'T1531', n:'Account Removal',        pt:'Apaga contas / troca senha do legítimo. Defesa: alertar mudança em massa.', r:0, b:1 }
+    ]}
+  ];
+
+  function esc(s){ return (s||'').replace(/&(?!(amp|lt|gt|#))/g,'&amp;'); }
+
+  DATA.forEach(function(col){
+    var c = document.createElement('div'); c.className = 'attck-col';
+    var tac = document.createElement('div'); tac.className = 'attck-tac';
+    var tid = document.createElement('div'); tid.className = 'tac-id'; tid.textContent = col.id;
+    var tnm = document.createElement('div'); tnm.className = 'tac-name';
+    tnm.textContent = col.tac;
+    var cnt = document.createElement('span'); cnt.className = 'tac-count'; cnt.textContent = col.techs.length;
+    tnm.appendChild(cnt);
+    tac.appendChild(tid); tac.appendChild(tnm);
+    c.appendChild(tac);
+
+    var techsWrap = document.createElement('div'); techsWrap.className = 'attck-techs';
+    col.techs.forEach(function(t){
+      var btn = document.createElement('div'); btn.className = 'attck-tech';
+      if(t.r) btn.classList.add('has-r');
+      if(t.b) btn.classList.add('has-b');
+      btn.setAttribute('role', 'button');
+      btn.setAttribute('tabindex', '0');
+
+      var idEl = document.createElement('span'); idEl.className = 'tid'; idEl.textContent = t.id;
+      var nEl = document.createElement('span'); nEl.className = 'tn'; nEl.textContent = t.n;
+      var dots = document.createElement('span'); dots.className = 'dots';
+      var dr = document.createElement('i'); dr.className = 'r' + (t.r ? ' on' : '');
+      var db = document.createElement('i'); db.className = 'b' + (t.b ? ' on' : '');
+      dots.appendChild(dr); dots.appendChild(db);
+      var pop = document.createElement('div'); pop.className = 'pop'; pop.innerHTML = esc(t.pt);
+
+      btn.appendChild(idEl); btn.appendChild(nEl); btn.appendChild(dots); btn.appendChild(pop);
+      function toggle(){ btn.classList.toggle('open'); }
+      btn.addEventListener('click', toggle);
+      btn.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
+      techsWrap.appendChild(btn);
+    });
+    c.appendChild(techsWrap);
+    host.appendChild(c);
+  });
+})();
+
+// ===== Mode switch: All / Attack / Defense =====
+(function(){
+  var sw = document.getElementById('modeSwitch');
+  if(!sw) return;
+  var KEY = 'cyber_mode_v1';
+  var btns = Array.prototype.slice.call(sw.querySelectorAll('button'));
+  var classes = { all:'mode-all', attack:'mode-attack', defense:'mode-defense' };
+
+  function apply(mode){
+    Object.keys(classes).forEach(function(k){ document.body.classList.remove(classes[k]); });
+    if(mode !== 'all') document.body.classList.add(classes[mode]);
+    btns.forEach(function(b){
+      var on = b.getAttribute('data-mode') === mode;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    try{ localStorage.setItem(KEY, mode); }catch(e){}
+  }
+
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){ apply(b.getAttribute('data-mode')); });
+  });
+
+  var saved = 'all';
+  try{ saved = localStorage.getItem(KEY) || 'all'; }catch(e){}
+  apply(classes[saved] ? saved : 'all');
 })();
 </script>
 </body>
