@@ -2078,6 +2078,42 @@ main {
   .otw .otw-pitch { font-size: 15px; }
 }
 
+/* ----- Pager (Próximo / Anterior) — Purple Team terminal style ----- */
+.pager { gap: 12px; margin: 48px 0 8px; padding-top: 28px; }
+.pager-btn {
+  border: 1px solid var(--hair-2);
+  border-radius: var(--r);
+  padding: 16px 20px;
+  background: var(--paper-2);
+  gap: 6px;
+  transition: border-color .15s, background .15s, transform .12s, box-shadow .2s;
+}
+.pager-btn:hover {
+  border-color: var(--purple);
+  background: var(--purple-tint);
+  box-shadow: 0 0 22px -8px var(--purple-glow);
+}
+.pager-btn.prev:hover { transform: translateX(-3px); }
+.pager-btn.next:hover { transform: translateX(3px); }
+.pager-btn .pg-lbl {
+  font: 700 10px var(--mono);
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.pager-btn:hover .pg-lbl { color: var(--purple-bright); }
+.pager-btn .pg-name {
+  font: 600 16px var(--mono);
+  font-style: normal;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.pager-btn:hover .pg-name { color: var(--purple-bright); }
+@media (max-width: 600px) {
+  .pager-btn { padding: 14px 16px; }
+  .pager-btn .pg-name { font-size: 14px; }
+}
+
 /* ============================================
    MITRE ATT&CK MATRIX
    ============================================ */
