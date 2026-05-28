@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push *)",
+      "Bash(start \"\" \"index.html\")",
+      "Bash(git -c user.email=\"victorxxll2023@gmail.com\" -c user.name=\"victorxxll2023\" add -A)",
+      "Bash(git -c user.email=\"victorxxll2023@gmail.com\" -c user.name=\"victorxxll2023\" commit -m \"fix: level-header bugado + mobile sizing — remove caixa do §/emoji empilhados, chip Purple Team maior, fonts maiores no celular\")"
+    ]
+  }
+}
