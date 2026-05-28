@@ -33,8 +33,8 @@
   --rule:       #3f5365;
   --ink:        #e8eef4;
   --ink-2:      #aab8c6;
-  --ink-3:      #7c8c9b;
-  --ink-mute:   #566776;
+  --ink-3:      #8295a4;
+  --ink-mute:   #6a7c8c;
 
   /* RED TEAM — vinho / âmbar / laranja-queimado (dessaturado, sem neon) */
   --red:         #b14a3e;
@@ -1961,7 +1961,7 @@ main {
 #gerador .level-header::before { content: "⌘ GERADOR"; }
 #dossie  .level-header::before { content: "✎ DOSSIÊ"; }
 #bases   .level-header::before { content: "≡ BASES"; }
-#attack  .level-header::before { content: "🎯 MITRE ATT&CK"; }
+#attack  .level-header::before { content: "MITRE ATT&CK"; }
 #quiz    .level-header::before { content: "? QUIZ"; }
 
 .level[data-team="red"]    .level-header::before {
@@ -2884,6 +2884,22 @@ header::before { display: none; }            /* remove label flutuante de termin
   .nm-flow-r, .nm-flow-b, .nm-pulse, .viz-live { animation: none; }
 }
 
+/* ----- 3I: acessibilidade — foco visível consistente ----- */
+a:focus-visible,
+button:focus-visible,
+.navchip:focus-visible,
+.topic:focus-within,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+.attck-tech:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+/* não mostra o anel de foco no clique de mouse (só teclado) */
+:focus:not(:focus-visible) { outline: none; }
+
 </style>
 </head>
 <body>
@@ -2993,7 +3009,7 @@ header::before { display: none; }            /* remove label flutuante de termin
 <main>
 
 <section id="meta" class="meta">
-  <h2>cat ~/sobre.md</h2>
+  <h2>Visão geral</h2>
 
   <div class="stats-hero">
     <div class="stat-card">
@@ -7932,6 +7948,13 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   // 3) Badges: emoji vira texto curto (não fica pílula vazia)
   document.querySelectorAll('.badge.new').forEach(function(b){ b.textContent = 'novo'; });
   document.querySelectorAll('.badge.old').forEach(function(b){ b.textContent = 'base'; });
+})();
+
+// ===== 3I: respeita prefers-reduced-motion na visualização SVG (SMIL) =====
+(function(){
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var net = document.querySelector('.netmap');
+  if(net && typeof net.pauseAnimations === 'function'){ try{ net.pauseAnimations(); }catch(e){} }
 })();
 </script>
 </body>
