@@ -2319,14 +2319,31 @@ main {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--ink-mute);
 }
-.mode-switch button[data-mode="all"]::before     { background: var(--purple); box-shadow: 0 0 5px var(--purple-glow); }
-.mode-switch button[data-mode="attack"]::before  { background: var(--red);    box-shadow: 0 0 5px var(--red-glow); }
-.mode-switch button[data-mode="defense"]::before { background: var(--blue);   box-shadow: 0 0 5px var(--blue-glow); }
+.mode-switch button[data-mode="all"]::before     { background: #a855f7; box-shadow: 0 0 5px rgba(168,85,247,.45); }
+.mode-switch button[data-mode="attack"]::before  { background: #ef4444; box-shadow: 0 0 5px rgba(239,68,68,.45); }
+.mode-switch button[data-mode="defense"]::before { background: #3b82f6; box-shadow: 0 0 5px rgba(59,130,246,.45); }
+.mode-switch button.active[data-mode="all"]     { background: #a855f7; color: #0a0a10; }
 .mode-switch button:hover { color: var(--ink-2); }
 .mode-switch button.active[data-mode="all"]     { background: var(--purple); color: #0a0a10; }
 .mode-switch button.active[data-mode="attack"]  { background: var(--red);    color: #0a0a10; }
 .mode-switch button.active[data-mode="defense"] { background: var(--blue);   color: #f0f6ff; }
 .mode-switch button.active::before { background: #0a0a10 !important; box-shadow: none !important; }
+
+/* ----- re-tema: remapeia o accent (--purple) p/ vermelho/azul conforme o modo ----- */
+body.mode-attack {
+  --purple:        var(--red);
+  --purple-bright: var(--red-bright);
+  --purple-deep:   var(--red-deep);
+  --purple-tint:   var(--red-tint);
+  --purple-glow:   var(--red-glow);
+}
+body.mode-defense {
+  --purple:        var(--blue);
+  --purple-bright: var(--blue-bright);
+  --purple-deep:   var(--blue-deep);
+  --purple-tint:   var(--blue-tint);
+  --purple-glow:   var(--blue-glow);
+}
 
 /* ----- dimming rules based on body class ----- */
 body.mode-attack  .topic[data-team="blue"],
