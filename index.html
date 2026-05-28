@@ -23,42 +23,60 @@
    ============================================ */
 
 :root {
-  /* ink + paper (warm dark) */
-  --paper:      #0d0c0a;
-  --paper-2:    #14120e;
-  --paper-3:    #1a1813;
-  --paper-4:    #221f19;
-  --hair:       #2b271f;
-  --hair-2:     #3a342a;
-  --rule:       #4a4338;
-  --ink:        #f4ede0;
-  --ink-2:      #d9d0bf;
-  --ink-3:      #a89e8b;
-  --ink-mute:   #6b6557;
+  /* PURPLE TEAM — surfaces (cool dark) */
+  --paper:      #0a0a10;
+  --paper-2:    #11111b;
+  --paper-3:    #181826;
+  --paper-4:    #1f1f2e;
+  --hair:       #262635;
+  --hair-2:     #353548;
+  --rule:       #4a4a60;
+  --ink:        #ece9f4;
+  --ink-2:      #c4c0d4;
+  --ink-3:      #918da3;
+  --ink-mute:   #6a6577;
 
-  /* signal palette — restrained */
-  --lime:       #b6e34d;     /* status / active / signal */
-  --lime-2:     #d4f57b;
-  --lime-deep:  #5a7a1a;
-  --lime-tint:  rgba(182,227,77,.08);
-  --amber:      #e8b04a;     /* emphasis / numbers */
-  --amber-soft: #f0c97a;
-  --amber-tint: rgba(232,176,74,.08);
-  --rust:       #d96444;     /* alerts / danger */
-  --rust-tint:  rgba(217,100,68,.08);
-  --copper:     #c97f4a;     /* secondary warm */
-  --indigo-dim: #6e7fc4;     /* cool counterpoint, used sparingly */
+  /* PURPLE TEAM — signal palette */
+  --red:         #ef4444;
+  --red-bright:  #fb7676;
+  --red-deep:    #b91c1c;
+  --red-tint:    rgba(239, 68, 68, .09);
+  --red-glow:    rgba(239, 68, 68, .35);
+
+  --blue:        #3b82f6;
+  --blue-bright: #6ea8ff;
+  --blue-deep:   #1d4ed8;
+  --blue-tint:   rgba(59, 130, 246, .09);
+  --blue-glow:   rgba(59, 130, 246, .35);
+
+  --purple:      #a855f7;
+  --purple-bright:#c885ff;
+  --purple-deep: #7e22ce;
+  --purple-tint: rgba(168, 85, 247, .10);
+  --purple-glow: rgba(168, 85, 247, .40);
+
+  /* legacy palette names — remapped to Purple Team so existing CSS just works */
+  --lime:        var(--purple);
+  --lime-2:      var(--purple-bright);
+  --lime-deep:   var(--purple-deep);
+  --lime-tint:   var(--purple-tint);
+  --amber:       var(--blue);
+  --amber-soft:  var(--blue-bright);
+  --amber-tint:  var(--blue-tint);
+  --rust:        var(--red);
+  --rust-tint:   var(--red-tint);
+  --copper:      var(--purple-deep);
+  --indigo-dim:  var(--blue-deep);
 
   /* legacy aliases — kept so JS that references colors still works */
   --bg: var(--paper);
   --bg2: var(--paper-2);
   --card: var(--paper-3);
   --panel: var(--paper-4);
-  --green: var(--lime);
-  --cyan: var(--amber);
-  --pink: var(--rust);
-  --yellow: var(--amber);
-  --purple: var(--copper);
+  --green: var(--purple);
+  --cyan: var(--blue);
+  --pink: var(--red);
+  --yellow: var(--blue);
   --text: var(--ink);
   --muted: var(--ink-3);
   --border: var(--hair);
@@ -104,20 +122,62 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--hair-2); border: 3px solid var(--paper); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--rule); }
 
-/* film grain + faint paper rule (background atmosphere) */
+/* ===== PURPLE TEAM — animated background layers ===== */
+/* Aurora (red top-left + blue top-right + purple bottom-center) */
 body::before {
   content: "";
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image:
-    radial-gradient(1400px 700px at 20% -10%, rgba(232,176,74,.04), transparent 60%),
-    radial-gradient(1100px 600px at 90% 5%, rgba(182,227,77,.025), transparent 55%);
+    radial-gradient(900px 600px at 12% -5%, var(--red-glow), transparent 60%),
+    radial-gradient(900px 600px at 88% -5%, var(--blue-glow), transparent 60%),
+    radial-gradient(1100px 700px at 50% 105%, var(--purple-glow), transparent 65%);
+  filter: blur(40px);
+  opacity: .55;
+  animation: auroraDrift 90s ease-in-out infinite;
 }
+@keyframes auroraDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(2%, -1%) scale(1.05); }
+  66%      { transform: translate(-2%, 1%) scale(.97); }
+}
+/* Grid noise overlay (subtle film grain so warm dark feels operational) */
 body::after {
   content: "";
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  opacity: .35;
+  opacity: .28;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+/* Perspective grid floor — separate fixed div injected at body start (.bg-grid) */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: .35;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+}
+.bg-grid::before {
+  content: "";
+  position: absolute;
+  inset: -50% -20% -50% -20%;
+  background-image:
+    linear-gradient(to right,  rgba(168,85,247,.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(168,85,247,.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(700px) rotateX(58deg);
+  transform-origin: 50% 50%;
+  animation: gridScroll 18s linear infinite;
+}
+@keyframes gridScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 96px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  .bg-grid::before { animation: none; }
 }
 header, main, .topbar, .footer, .vid-modal, #toTop { position: relative; z-index: 1; }
 
@@ -129,16 +189,79 @@ header, main, .topbar, .footer, .vid-modal, #toTop { position: relative; z-index
   -webkit-backdrop-filter: saturate(140%) blur(10px);
   border-bottom: 1px solid var(--hair);
 }
-.topbar::before {
-  content: "VOL. 02 · CYBERSEC FIELD JOURNAL · MMXXVI";
-  display: block;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--ink-mute);
-  padding: 9px 42px 6px;
+/* purple-team brand row */
+.topbar .brandrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 42px 7px;
   border-bottom: 1px solid var(--hair);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 12px var(--mono);
+  letter-spacing: 1.5px;
+  color: var(--ink);
+  text-transform: lowercase;
+}
+.brand .brand-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--red) 0% 50%, var(--blue) 50% 100%);
+  box-shadow: 0 0 12px var(--purple-glow);
+}
+.brand .brand-name { letter-spacing: 0.5px; }
+.brand .brand-name b { color: var(--purple-bright); font-weight: 700; }
+.brand .brand-tag {
+  margin-left: 6px;
+  font: 500 9.5px var(--mono);
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 2px 7px;
+  border: 1px solid var(--hair-2);
+  border-radius: 999px;
+}
+.brand .brand-tag b { color: var(--purple); font-weight: 700; }
+
+.global-progress {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 10.5px var(--mono);
+  letter-spacing: 1.5px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.global-progress .gp-num { color: var(--purple-bright); }
+.global-progress .gp-bar {
+  position: relative;
+  width: 110px; height: 4px;
+  background: var(--hair);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.global-progress .gp-fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--red), var(--purple) 50%, var(--blue));
+  transition: width .5s ease;
+}
+.global-progress .gp-split {
+  display: inline-flex; gap: 12px;
+  font: 600 9.5px var(--mono);
+  letter-spacing: 1px;
+  text-transform: none;
+}
+.global-progress .gp-split .red  { color: var(--red-bright); }
+.global-progress .gp-split .blue { color: var(--blue-bright); }
+@media (max-width: 950px) {
+  .topbar .brandrow { padding: 9px 18px 7px; gap: 10px; }
+  .global-progress .gp-bar { width: 64px; }
+  .global-progress .gp-split { display: none; }
+  .brand .brand-tag { display: none; }
 }
 .searchbar {
   display: flex; align-items: center; gap: 18px;
@@ -187,20 +310,39 @@ header, main, .topbar, .footer, .vid-modal, #toTop { position: relative; z-index
   color: var(--ink-3);
   font: 600 12px var(--mono);
   letter-spacing: 0.5px;
-  padding: 8px 12px;
+  padding: 8px 12px 8px 22px;
   border-radius: var(--r-sm);
   text-decoration: none;
   text-transform: uppercase;
   cursor: pointer;
   transition: color .15s, border-color .15s, background .15s;
+  position: relative;
 }
+.navchip::before {
+  content: "";
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 6px var(--purple-glow);
+  transition: background .15s, box-shadow .15s;
+}
+.navchip[data-team="red"]::before    { background: var(--red);    box-shadow: 0 0 6px var(--red-glow); }
+.navchip[data-team="blue"]::before   { background: var(--blue);   box-shadow: 0 0 6px var(--blue-glow); }
+.navchip[data-team="purple"]::before { background: var(--purple); box-shadow: 0 0 6px var(--purple-glow); }
 .navchip:hover { color: var(--ink); background: var(--paper-3); }
 .navchip.active {
-  background: var(--lime);
-  color: #15140a;
-  border-color: var(--lime);
-  font-weight: 700;
+  background: var(--purple);
+  color: #0a0a10;
+  border-color: var(--purple);
+  font-weight: 800;
 }
+.navchip.active::before { background: #0a0a10; box-shadow: none; }
+.navchip[data-team="red"].active    { background: var(--red);  border-color: var(--red); }
+.navchip[data-team="blue"].active   { background: var(--blue); border-color: var(--blue); color: #f0f6ff; }
+.navchip[data-team="blue"].active::before { background: #f0f6ff; }
 @media (max-width: 950px) {
   .topbar::before { padding: 9px 18px 6px; letter-spacing: 2px; }
   .searchbar { padding: 12px 18px 8px; gap: 10px; }
@@ -208,60 +350,93 @@ header, main, .topbar, .footer, .vid-modal, #toTop { position: relative; z-index
   .navtabs { padding: 2px 18px 12px; }
 }
 
-/* ============== HERO ============== */
+/* ============== HERO — PURPLE TEAM SPLIT ============== */
 header {
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  gap: 56px;
-  align-items: end;
-  padding: 80px 42px 72px;
+  display: block;
+  padding: 64px 42px 56px;
   border-bottom: 1px solid var(--hair);
   position: relative;
 }
 header::before {
-  /* floating issue numeral */
-  content: "N° 02";
+  content: "// purple-team.session";
   position: absolute;
-  top: 32px; right: 42px;
-  font: italic 400 22px var(--italic);
+  top: 22px; right: 42px;
+  font: 500 10.5px var(--mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--ink-mute);
-  letter-spacing: 0.04em;
 }
-.hero-left { max-width: 720px; }
+.hero-left { max-width: 980px; margin: 0 auto 40px; text-align: left; }
 
 .kicker {
   font-family: var(--mono);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 3px;
-  color: var(--lime);
+  color: var(--purple-bright);
   text-transform: uppercase;
-  margin-bottom: 28px;
+  margin-bottom: 22px;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
+  padding: 6px 12px 6px 10px;
+  background: var(--purple-tint);
+  border: 1px solid var(--purple-deep);
+  border-radius: 999px;
 }
 .kicker::before {
-  content: "—";
-  color: var(--ink-mute);
-  letter-spacing: 0;
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--purple-bright);
+  box-shadow: 0 0 8px var(--purple-glow);
+  animation: kickerPulse 2.2s ease-in-out infinite;
+}
+@keyframes kickerPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .55; transform: scale(.85); }
 }
 
 h1 {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 400;
-  font-size: clamp(48px, 7vw, 96px);
-  line-height: 0.94;
-  letter-spacing: -0.035em;
-  font-weight: 400;
+  font-family: var(--mono);
+  font-size: clamp(40px, 6.2vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-weight: 600;
   color: var(--ink);
-  margin: 0 0 28px;
+  margin: 0 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-h1 span {
+h1 .line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+h1 .line .dot {
+  font-family: var(--italic);
+  font-style: italic;
+  font-weight: 400;
+  margin-left: -2px;
+}
+h1 .line-red  { color: var(--ink); }
+h1 .line-red .dot  { color: var(--red); }
+h1 .line-blue { color: var(--ink); }
+h1 .line-blue .dot { color: var(--blue); }
+h1 .amp {
+  font-family: var(--italic);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--purple-bright);
+  margin: 0 6px;
+}
+/* legacy h1 span — caso algum lugar antigo ainda use */
+h1 span:not(.line):not(.dot):not(.amp) {
   display: inline;
   background: none;
   -webkit-text-fill-color: currentColor;
-  color: var(--amber);
+  color: var(--purple-bright);
   font-family: var(--italic);
   font-style: italic;
   font-weight: 400;
@@ -269,15 +444,21 @@ h1 span {
 }
 
 .lead {
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 14, "wght" 400;
-  font-size: 20px;
-  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink-3);
   line-height: 1.55;
-  max-width: 580px;
-  margin: 0 0 36px;
+  max-width: 680px;
+  margin: 0 0 28px;
+  letter-spacing: 0.5px;
 }
-.lead b { font-weight: 600; color: var(--ink); }
+.lead b { font-weight: 700; color: var(--purple-bright); }
+.lead::before {
+  content: "$ ";
+  color: var(--purple);
+  font-weight: 700;
+  margin-right: 2px;
+}
 
 .actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -299,34 +480,47 @@ h1 span {
 .btn:hover { border-color: var(--rule); background: var(--paper-4); }
 .btn:active { transform: translateY(1px); }
 .btn.primary {
-  background: var(--lime);
-  border-color: var(--lime);
-  color: #15140a;
-  font-weight: 700;
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #0a0a10;
+  font-weight: 800;
+  box-shadow: 0 0 0 0 var(--purple-glow);
+  transition: box-shadow .25s ease, background .15s, border-color .15s, color .15s, transform .1s;
 }
-.btn.primary:hover { background: var(--lime-2); border-color: var(--lime-2); }
+.btn.primary:hover {
+  background: var(--purple-bright);
+  border-color: var(--purple-bright);
+  box-shadow: 0 0 24px 2px var(--purple-glow);
+}
 .btn.pink {
   background: transparent;
-  border-color: var(--rust);
-  color: var(--rust);
+  border-color: var(--red);
+  color: var(--red);
 }
-.btn.pink:hover { background: var(--rust-tint); }
+.btn.pink:hover { background: var(--red-tint); border-color: var(--red-bright); color: var(--red-bright); }
 .btn.green {
   background: transparent;
-  border-color: var(--lime-deep);
-  color: var(--lime);
+  border-color: var(--purple-deep);
+  color: var(--purple);
 }
-.btn.green:hover { background: var(--lime-tint); }
+.btn.green:hover { background: var(--purple-tint); color: var(--purple-bright); }
 
-/* ============== HERO TERMINAL ============== */
+/* ============== HERO TERMINALS — split (red × blue) ============== */
 .hero-img {
   width: 100%;
   border-radius: var(--r);
   border: 1px solid var(--hair);
   box-shadow: var(--shadow);
 }
+.terms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
 .hero-term {
-  background: #0a0907;
+  background: #06060c;
   border: 1px solid var(--hair-2);
   border-radius: var(--r);
   overflow: hidden;
@@ -334,17 +528,21 @@ h1 span {
   font-family: var(--mono);
   position: relative;
 }
-.hero-term::before {
-  content: "// session.log";
-  position: absolute; top: -22px; left: 2px;
-  font: 500 10px var(--mono);
-  letter-spacing: 2px;
-  color: var(--ink-mute);
-  text-transform: uppercase;
+.hero-term.term-red  { box-shadow: var(--shadow), 0 0 0 1px rgba(239,68,68,.18), 0 0 32px -10px var(--red-glow); }
+.hero-term.term-blue { box-shadow: var(--shadow), 0 0 0 1px rgba(59,130,246,.18), 0 0 32px -10px var(--blue-glow); }
+.hero-term::after {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--purple);
+  opacity: .5;
 }
+.hero-term.term-red::after  { background: linear-gradient(90deg, var(--red), transparent); opacity: .8; }
+.hero-term.term-blue::after { background: linear-gradient(270deg, var(--blue), transparent); opacity: .8; }
+
 .term-bar {
   display: flex; align-items: center; gap: 7px;
-  padding: 10px 14px;
+  padding: 11px 14px;
   background: var(--paper-2);
   border-bottom: 1px solid var(--hair);
 }
@@ -354,39 +552,58 @@ h1 span {
 .term-bar .d.g { background: #87a64a; }
 .term-bar .tt {
   margin-left: 10px;
-  font: 500 11px var(--mono);
-  color: var(--ink-mute);
+  font: 600 11px var(--mono);
+  color: var(--ink-3);
   letter-spacing: 0.5px;
 }
+.term-red  .term-bar .tt::before { content: "● "; color: var(--red);  font-size: 8px; vertical-align: middle; }
+.term-blue .term-bar .tt::before { content: "● "; color: var(--blue); font-size: 8px; vertical-align: middle; }
+
 .term-body {
   margin: 0;
-  padding: 22px 18px;
-  min-height: 230px;
-  font: 400 13px var(--mono);
-  line-height: 1.85;
+  padding: 18px 18px 22px;
+  min-height: 250px;
+  font: 400 12.5px var(--mono);
+  line-height: 1.75;
   color: var(--ink-2);
   white-space: pre-wrap;
   word-break: break-word;
   letter-spacing: 0;
 }
-.term-body .g { color: var(--lime); }
-.term-body .c { color: var(--amber); }
+/* legacy color tags reused by old typer */
+.term-body .g { color: var(--purple-bright); }
+.term-body .c { color: var(--blue-bright); }
 .term-body .m { color: var(--ink-mute); }
+/* new color tags for split terminals */
+.term-red  .term-body .prompt { color: var(--red-bright);  font-weight: 600; }
+.term-red  .term-body .ok     { color: var(--red-bright); }
+.term-red  .term-body .num    { color: var(--ink); }
+.term-blue .term-body .prompt { color: var(--blue-bright); font-weight: 600; }
+.term-blue .term-body .ok     { color: var(--blue-bright); }
+.term-blue .term-body .num    { color: var(--ink); }
+.term-body .alert { color: var(--red-bright); font-weight: 600; }
+.term-body .label { color: var(--ink-mute); }
+
 .term-cur {
   display: inline-block;
-  width: 8px; height: 14px;
-  background: var(--lime);
+  width: 7px; height: 13px;
+  background: var(--purple);
   margin-left: 2px;
   vertical-align: -2px;
   animation: termblink 1.05s steps(1) infinite;
 }
+.cur-red  { background: var(--red); }
+.cur-blue { background: var(--blue); }
 @keyframes termblink { 50% { opacity: 0; } }
 
+@media (max-width: 760px) {
+  .terms-grid { grid-template-columns: 1fr; gap: 16px; }
+}
 @media (max-width: 950px) {
-  header { grid-template-columns: 1fr; padding: 56px 20px 48px; gap: 36px; }
+  header { padding: 48px 20px 40px; }
   header::before { top: 18px; right: 20px; }
-  h1 { font-size: clamp(40px, 11vw, 64px); }
-  .lead { font-size: 18px; }
+  h1 { font-size: clamp(34px, 9vw, 56px); }
+  .lead { font-size: 13px; }
 }
 
 /* ============== MAIN ============== */
@@ -1157,14 +1374,7 @@ main {
   line-height: 12px;
   font-family: var(--sans);
 }
-.topic.studied { background: rgba(182,227,77,0.025); }
-.topic.studied::after {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: var(--lime);
-}
+/* .topic.studied background + bar — handled by Purple Team overrides below (team-tinted) */
 
 .level-progress { margin: 0 0 28px; padding-top: 4px; }
 .level-progress .lbl {
@@ -1510,11 +1720,444 @@ main {
   .footer { padding: 40px 20px 60px; margin-top: 80px; }
 }
 
+/* ============================================
+   PURPLE TEAM — overrides & new components
+   ============================================ */
+
+/* ----- Section preamble (terminal-style header before cards) ----- */
+.section-preamble {
+  margin: 28px 0 22px;
+  padding: 14px 0 0;
+  font-family: var(--mono);
+}
+.section-preamble .pre-cmd {
+  display: block;
+  color: var(--ink-2);
+  font: 600 12.5px var(--mono);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.section-preamble .pre-cmd .pp { color: var(--purple-bright); margin-right: 6px; }
+.section-preamble .pre-cmd .pa { color: var(--ink); }
+.section-preamble .pre-cmd .arg { color: var(--blue-bright); }
+.section-preamble .pre-cmd .cur {
+  display: inline-block;
+  width: 7px; height: 12px;
+  background: var(--purple);
+  margin-left: 4px;
+  vertical-align: -1px;
+  animation: termblink 1.05s steps(1) infinite;
+}
+.section-preamble .pre-rule {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--hair-2) 0 6px, transparent 6px 12px);
+  margin: 0 0 12px;
+}
+.section-preamble .pre-stats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font: 600 10.5px var(--mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.section-preamble .pre-stat {
+  padding: 5px 9px;
+  border: 1px solid var(--hair-2);
+  border-radius: 4px;
+  color: var(--ink-3);
+}
+.section-preamble .pre-stat b { color: var(--ink); font-weight: 700; }
+.section-preamble .pre-stat.team {
+  display: inline-flex; align-items: center; gap: 7px;
+  border-color: var(--hair-2);
+}
+.section-preamble .pre-stat.team::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 6px var(--purple-glow);
+}
+.section-preamble .pre-stat.team[data-team="red"]::before  { background: var(--red);  box-shadow: 0 0 6px var(--red-glow); }
+.section-preamble .pre-stat.team[data-team="blue"]::before { background: var(--blue); box-shadow: 0 0 6px var(--blue-glow); }
+.section-preamble .pre-stat.team[data-team="red"]  { color: var(--red-bright); }
+.section-preamble .pre-stat.team[data-team="blue"] { color: var(--blue-bright); }
+
+/* ----- Topic cards — Purple Team markers + LED + spotlight + border beam ----- */
+.topic {
+  --mx: 50%;
+  --my: 50%;
+  --team-color: var(--purple);
+  --team-glow: var(--purple-glow);
+  --team-tint: var(--purple-tint);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.topic[data-team="red"]    { --team-color: var(--red);    --team-glow: var(--red-glow);    --team-tint: var(--red-tint); }
+.topic[data-team="blue"]   { --team-color: var(--blue);   --team-glow: var(--blue-glow);   --team-tint: var(--blue-tint); }
+.topic[data-team="purple"] { --team-color: var(--purple); --team-glow: var(--purple-glow); --team-tint: var(--purple-tint); }
+
+/* team marker — small label on top-left of every card */
+.topic::before {
+  content: attr(data-team-label);
+  position: absolute;
+  top: 14px; left: 18px;
+  font: 700 9.5px var(--mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--team-color);
+  padding-left: 12px;
+  z-index: 2;
+}
+.topic::after {
+  content: "";
+  position: absolute;
+  top: 18px; left: 18px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--team-color);
+  box-shadow: 0 0 8px var(--team-glow);
+  z-index: 2;
+}
+/* keep .topic.studied vertical bar from JS in team color */
+.topic.studied { background: var(--team-tint); }
+.topic.studied::after {
+  /* keep team dot; old studied bar comes via second pseudo */
+  box-shadow: 0 0 12px var(--team-glow);
+}
+.topic .studied-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--team-color);
+  display: none;
+}
+.topic.studied .studied-bar { display: block; }
+
+/* spotlight glow follows cursor */
+.topic .spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--mx) var(--my), var(--purple-tint), transparent 60%);
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 0;
+}
+.topic:hover .spotlight { opacity: 1; }
+
+/* border beam — conic-gradient running around card on hover */
+.topic .beam {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--beam-angle, 0deg), transparent 0deg, var(--red) 60deg, var(--purple) 120deg, var(--blue) 180deg, transparent 240deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 0;
+  pointer-events: none;
+  animation: beamSpin 3.2s linear infinite paused;
+}
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes beamSpin { to { --beam-angle: 360deg; } }
+.topic:hover .beam {
+  opacity: .85;
+  animation-play-state: running;
+}
+
+/* topic interior must sit above spotlight + beam */
+.topic > *:not(.spotlight):not(.beam):not(.studied-bar) { position: relative; z-index: 1; }
+
+/* offset h3 so it doesn't overlap with team marker */
+.topic h3 { padding-top: 12px; }
+
+/* ----- LED-style study toggle ----- */
+.study-toggle {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 700 9.5px var(--mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  z-index: 3;
+}
+.study-toggle::before {
+  content: "";
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--hair-2);
+  transition: background .2s ease, border-color .2s ease, box-shadow .25s ease;
+}
+.study-toggle:hover { color: var(--ink-2); }
+.study-toggle:hover::before { border-color: var(--team-color); }
+.study-toggle.on { color: var(--team-color); }
+.study-toggle.on::before {
+  background: var(--team-color);
+  border-color: var(--team-color);
+  box-shadow: 0 0 10px var(--team-glow), inset 0 0 0 2px #06060c;
+}
+@media (prefers-reduced-motion: reduce) {
+  .topic .beam { animation: none; }
+}
+
+/* ----- Level progress bar — uses team color ----- */
+.level[data-team="red"]    .level-progress .fill { background: linear-gradient(90deg, var(--red),    var(--purple)); }
+.level[data-team="blue"]   .level-progress .fill { background: linear-gradient(90deg, var(--blue),   var(--purple)); }
+.level[data-team="purple"] .level-progress .fill { background: linear-gradient(90deg, var(--purple), var(--purple-bright)); }
+.level-progress .fill { background: linear-gradient(90deg, var(--red), var(--purple), var(--blue)); }
+
+/* ============== STATS HERO + MARQUEE + OPEN-TO-WORK ============== */
+.stats-hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin: 0 0 28px;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+.stat-card {
+  padding: 26px 22px 24px;
+  border-right: 1px solid var(--hair);
+  position: relative;
+}
+.stat-card:last-child { border-right: none; }
+.stat-card .stat-label {
+  font: 600 10px var(--mono);
+  letter-spacing: 2.5px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.stat-card .stat-big {
+  font: italic 400 64px var(--italic);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+.stat-card:nth-child(1) .stat-big { color: var(--ink); }
+.stat-card:nth-child(2) .stat-big { color: var(--red-bright); }
+.stat-card:nth-child(3) .stat-big { color: var(--blue-bright); }
+.stat-card:nth-child(4) .stat-big { color: var(--purple-bright); }
+.stat-card .stat-sub {
+  margin-top: 6px;
+  font: 500 11.5px var(--mono);
+  color: var(--ink-3);
+  letter-spacing: 0.5px;
+}
+@media (max-width: 950px) {
+  .stats-hero { grid-template-columns: repeat(2, 1fr); }
+  .stat-card:nth-child(2) { border-right: none; }
+  .stat-card:nth-child(1), .stat-card:nth-child(2) { border-bottom: 1px solid var(--hair); }
+  .stat-card .stat-big { font-size: 48px; }
+}
+
+.studied-split {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin: 0 0 24px;
+  font: 600 11px var(--mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.studied-split .ss-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 11px;
+  border: 1px solid var(--hair-2);
+  border-radius: 999px;
+  color: var(--ink-3);
+}
+.studied-split .ss-chip::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 8px var(--purple-glow);
+}
+.studied-split .ss-chip[data-team="red"]::before  { background: var(--red);  box-shadow: 0 0 8px var(--red-glow); }
+.studied-split .ss-chip[data-team="blue"]::before { background: var(--blue); box-shadow: 0 0 8px var(--blue-glow); }
+.studied-split .ss-chip[data-team="red"]    { color: var(--red-bright); }
+.studied-split .ss-chip[data-team="blue"]   { color: var(--blue-bright); }
+.studied-split .ss-chip[data-team="purple"] { color: var(--purple-bright); }
+.studied-split .ss-chip b { color: var(--ink); font-weight: 800; margin: 0 2px; }
+
+/* ----- Tool marquee (dual: red ←, blue →) ----- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  margin: 26px 0 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.marquee + .marquee { margin-top: 0; border-top: none; }
+.marquee .marquee-label {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  display: flex; align-items: center;
+  padding: 0 16px;
+  background: linear-gradient(90deg, var(--paper) 60%, transparent);
+  font: 700 9.5px var(--mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.marquee[data-team="red"]  .marquee-label { color: var(--red-bright);  }
+.marquee[data-team="blue"] .marquee-label { color: var(--blue-bright); }
+.marquee-track {
+  display: inline-flex;
+  gap: 10px;
+  white-space: nowrap;
+  padding-left: 130px;
+  animation: marqueeL 38s linear infinite;
+  will-change: transform;
+}
+.marquee[data-team="blue"] .marquee-track { animation-name: marqueeR; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marqueeL { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.tool-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid var(--hair-2);
+  border-radius: 999px;
+  font: 600 11.5px var(--mono);
+  color: var(--ink-2);
+  letter-spacing: 0.5px;
+  background: rgba(255,255,255,0.01);
+}
+.tool-chip::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--purple);
+}
+.marquee[data-team="red"]  .tool-chip::before { background: var(--red);  box-shadow: 0 0 6px var(--red-glow); }
+.marquee[data-team="blue"] .tool-chip::before { background: var(--blue); box-shadow: 0 0 6px var(--blue-glow); }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ----- Open to work card ----- */
+.otw {
+  margin: 28px 0 0;
+  padding: 22px 26px;
+  background: var(--paper-2);
+  border: 1px solid var(--hair-2);
+  border-radius: var(--r);
+  position: relative;
+  overflow: hidden;
+}
+.otw::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(380px 200px at 10% 0%, var(--red-tint), transparent 60%),
+    radial-gradient(380px 200px at 100% 100%, var(--blue-tint), transparent 60%);
+  pointer-events: none;
+}
+.otw > * { position: relative; }
+.otw .otw-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 10px;
+  background: var(--purple-tint);
+  border: 1px solid var(--purple-deep);
+  border-radius: 999px;
+  font: 700 10px var(--mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--purple-bright);
+}
+.otw .otw-status::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--purple-bright);
+  box-shadow: 0 0 8px var(--purple-glow);
+  animation: kickerPulse 2s ease-in-out infinite;
+}
+.otw .otw-pitch {
+  margin: 14px 0 12px;
+  font: 500 17px var(--serif);
+  font-variation-settings: "opsz" 18;
+  color: var(--ink);
+  line-height: 1.5;
+  max-width: 720px;
+}
+.otw .otw-pitch b { color: var(--purple-bright); font-weight: 700; }
+.otw .otw-pitch em {
+  font-family: var(--italic);
+  font-style: italic;
+  color: var(--blue-bright);
+}
+.otw .otw-pitch i {
+  font-family: var(--italic);
+  font-style: italic;
+  color: var(--red-bright);
+}
+.otw .otw-links {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 6px;
+}
+.otw .otw-links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 13px;
+  border: 1px solid var(--hair-2);
+  border-radius: var(--r-sm);
+  background: var(--paper-3);
+  color: var(--ink-2);
+  text-decoration: none;
+  font: 600 11.5px var(--mono);
+  letter-spacing: 0.5px;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.otw .otw-links a:hover {
+  border-color: var(--purple);
+  color: var(--purple-bright);
+  background: var(--purple-tint);
+}
+.otw .otw-links a::before { content: "↗"; color: var(--purple); }
+
 </style>
 </head>
 <body>
 
+<div class="bg-grid" aria-hidden="true"></div>
+
 <div class="topbar">
+  <div class="brandrow">
+    <span class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name">trilha-<b>cyber</b></span>
+      <span class="brand-tag"><b>purple</b> team operator</span>
+    </span>
+    <span class="global-progress" id="globalProgress" aria-label="Progresso global">
+      <span class="gp-split"><span class="red" id="gpRed">● 0</span><span class="blue" id="gpBlue">● 0</span></span>
+      <span><span class="gp-num" id="gpNum">0</span>/<span id="gpTotal">126</span></span>
+      <span class="gp-bar"><span class="gp-fill" id="gpFill"></span></span>
+    </span>
+  </div>
   <div class="searchbar">
     <input id="searchInput" type="search" placeholder="🔎 Buscar conceito (ex: phishing, hash, nmap, ransomware)..." autocomplete="off" spellcheck="false">
     <span id="searchCount" class="search-count"></span>
@@ -1525,54 +2168,100 @@ main {
 
 <header>
   <div class="hero-left">
-    <div class="kicker">cybersec_trilha // v2</div>
-    <h1>Do zero ao <span>hacker ético</span></h1>
-    <p class="lead">
-      Trilha visual em 6 níveis, do mindset aos ataques avançados. Cada conceito traz
-      um resumo rápido + <b>📖 Aprender a fundo</b> com diagramas, exemplos reais e como se defender.
-    </p>
+    <div class="kicker">Purple Team · Operator</div>
+    <h1>
+      <span class="line line-red">Conheço o ataque<span class="dot">.</span></span>
+      <span class="line line-blue">Defendo o sistema<span class="dot">.</span></span>
+    </h1>
+    <p class="lead">trilha PT-BR · <b>126 conceitos</b> · 6 níveis · red + blue team em um só roteiro</p>
     <div class="actions">
       <a class="btn primary" href="#nivel1">▶ Começar do nível 1</a>
-      <a class="btn" href="#gerador">🧰 Gerador</a>
+      <a class="btn" href="#roteiro">▣ Ver roteiro</a>
+      <a class="btn green" href="#gerador">🧰 Gerador</a>
       <a class="btn" href="#quiz">🎮 Quiz</a>
-      <a class="btn" href="#meta">📚 Índice</a>
     </div>
   </div>
-  <div class="hero-term" aria-hidden="true">
-    <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">guest@cybersec: ~/trilha</span></div>
-    <pre class="term-body"><code id="termType"></code><span class="term-cur"></span></pre>
+  <div class="terms-grid" aria-hidden="true">
+    <div class="hero-term term-red">
+      <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">attacker@kali  ~/op</span></div>
+      <pre class="term-body"><code id="termTypeRed"></code><span class="term-cur cur-red"></span></pre>
+    </div>
+    <div class="hero-term term-blue">
+      <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">soc@blue-team  ~/siem</span></div>
+      <pre class="term-body"><code id="termTypeBlue"></code><span class="term-cur cur-blue"></span></pre>
+    </div>
   </div>
 </header>
 
 <main>
 
 <section id="meta" class="meta">
-  <h2>📚 Índice e progresso</h2>
-  <div class="meta-grid">
-    <div class="meta-item">
-      <b>📅 ÚLTIMA ATUALIZAÇÃO</b>
-      <div class="big">26/05/2026</div>
+  <h2>cat ~/sobre.md</h2>
+
+  <div class="stats-hero">
+    <div class="stat-card">
+      <div class="stat-label">Conceitos mapeados</div>
+      <div class="stat-big" data-count="126">0</div>
+      <div class="stat-sub">red + blue + purple</div>
     </div>
-    <div class="meta-item">
-      <b>📊 TOTAL DE CONCEITOS</b>
-      <div class="big">120+</div>
+    <div class="stat-card">
+      <div class="stat-label">Ferramentas offensive</div>
+      <div class="stat-big" data-count="38">0</div>
+      <div class="stat-sub">nmap · burp · metasploit · hydra · ...</div>
     </div>
-    <div class="meta-item">
-      <b>🎯 NÍVEIS DESBLOQUEADOS</b>
-      <div class="big">6 / 6</div>
+    <div class="stat-card">
+      <div class="stat-label">Ferramentas defensive</div>
+      <div class="stat-big" data-count="24">0</div>
+      <div class="stat-sub">wireshark · suricata · zeek · splunk · ...</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Níveis cobertos</div>
+      <div class="stat-big" data-count="6">0</div>
+      <div class="stat-sub">do mindset à forense</div>
     </div>
   </div>
-  <div style="margin-top:22px; background:rgba(99,102,241,.10); border:1px solid rgba(99,102,241,.4); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:#c7d2fe;">
-    <b style="color:var(--purple)">✨ Novidade:</b> <b>todos</b> os conceitos agora têm o botão
-    <b style="color:var(--purple)">📖 Aprender a fundo</b> — clique para abrir a explicação completa,
-    com diagramas, mockups, comandos clicáveis, casos reais e como se defender.
+
+  <div class="studied-split" id="studiedSplit" aria-label="Progresso por team">
+    <span class="ss-chip" data-team="red">RED&nbsp;TEAM <b id="ssRed">0</b>/<span id="ssRedTot">0</span> estudados</span>
+    <span class="ss-chip" data-team="blue">BLUE&nbsp;TEAM <b id="ssBlue">0</b>/<span id="ssBlueTot">0</span> estudados</span>
+    <span class="ss-chip" data-team="purple">PURPLE <b id="ssPurple">0</b>/<span id="ssPurpleTot">0</span> estudados</span>
   </div>
-  <div style="margin-top:24px;">
-    <b style="color:var(--green); letter-spacing:1px; font-size:13px;">📖 FONTES ESTUDADAS</b>
+
+  <div class="marquee" data-team="red" aria-hidden="true">
+    <span class="marquee-label">red&nbsp;team</span>
+    <div class="marquee-track">
+      <span class="tool-chip">Nmap</span><span class="tool-chip">Metasploit</span><span class="tool-chip">Burp Suite</span><span class="tool-chip">Hydra</span><span class="tool-chip">John the Ripper</span><span class="tool-chip">Hashcat</span><span class="tool-chip">SET</span><span class="tool-chip">BeEF</span><span class="tool-chip">BadUSB</span><span class="tool-chip">Sliver</span><span class="tool-chip">Cobalt Strike</span><span class="tool-chip">Meterpreter</span><span class="tool-chip">Responder</span><span class="tool-chip">NetExec</span><span class="tool-chip">Mimikatz</span><span class="tool-chip">Gobuster</span><span class="tool-chip">ffuf</span><span class="tool-chip">sqlmap</span><span class="tool-chip">WPScan</span><span class="tool-chip">theHarvester</span>
+      <span class="tool-chip">Nmap</span><span class="tool-chip">Metasploit</span><span class="tool-chip">Burp Suite</span><span class="tool-chip">Hydra</span><span class="tool-chip">John the Ripper</span><span class="tool-chip">Hashcat</span><span class="tool-chip">SET</span><span class="tool-chip">BeEF</span><span class="tool-chip">BadUSB</span><span class="tool-chip">Sliver</span><span class="tool-chip">Cobalt Strike</span><span class="tool-chip">Meterpreter</span><span class="tool-chip">Responder</span><span class="tool-chip">NetExec</span><span class="tool-chip">Mimikatz</span><span class="tool-chip">Gobuster</span><span class="tool-chip">ffuf</span><span class="tool-chip">sqlmap</span><span class="tool-chip">WPScan</span><span class="tool-chip">theHarvester</span>
+    </div>
+  </div>
+  <div class="marquee" data-team="blue" aria-hidden="true">
+    <span class="marquee-label">blue&nbsp;team</span>
+    <div class="marquee-track">
+      <span class="tool-chip">Wireshark</span><span class="tool-chip">Suricata</span><span class="tool-chip">Snort</span><span class="tool-chip">Zeek</span><span class="tool-chip">Splunk</span><span class="tool-chip">ELK</span><span class="tool-chip">Sysmon</span><span class="tool-chip">Wazuh</span><span class="tool-chip">OSSEC</span><span class="tool-chip">Velociraptor</span><span class="tool-chip">YARA</span><span class="tool-chip">MISP</span><span class="tool-chip">Sigma</span><span class="tool-chip">OSQuery</span><span class="tool-chip">Volatility</span><span class="tool-chip">Autopsy</span><span class="tool-chip">CrowdSec</span><span class="tool-chip">pfSense</span><span class="tool-chip">Fail2ban</span><span class="tool-chip">MITRE&nbsp;ATT&amp;CK</span>
+      <span class="tool-chip">Wireshark</span><span class="tool-chip">Suricata</span><span class="tool-chip">Snort</span><span class="tool-chip">Zeek</span><span class="tool-chip">Splunk</span><span class="tool-chip">ELK</span><span class="tool-chip">Sysmon</span><span class="tool-chip">Wazuh</span><span class="tool-chip">OSSEC</span><span class="tool-chip">Velociraptor</span><span class="tool-chip">YARA</span><span class="tool-chip">MISP</span><span class="tool-chip">Sigma</span><span class="tool-chip">OSQuery</span><span class="tool-chip">Volatility</span><span class="tool-chip">Autopsy</span><span class="tool-chip">CrowdSec</span><span class="tool-chip">pfSense</span><span class="tool-chip">Fail2ban</span><span class="tool-chip">MITRE&nbsp;ATT&amp;CK</span>
+    </div>
+  </div>
+
+  <div class="otw">
+    <span class="otw-status">studying · open to opportunities</span>
+    <p class="otw-pitch">
+      Estudante de cibersegurança em formação contínua. Foco em
+      <em>SOC analyst &amp; blue team</em> com base sólida em <i>red team / pentest</i>
+      &mdash; entender o ataque pra defender melhor.
+    </p>
+    <div class="otw-links">
+      <a href="mailto:victorxxll2023@gmail.com">e-mail</a>
+      <a href="https://github.com/victorxxll2023-glitch" target="_blank" rel="noopener">github</a>
+      <a href="#" data-otw-edit>linkedin (editar)</a>
+    </div>
+  </div>
+
+  <div style="margin-top:30px;">
+    <b style="color:var(--purple-bright); letter-spacing:1.5px; font-size:11px; font-family:var(--mono); text-transform:uppercase;">fontes estudadas</b>
     <ul class="sources-list">
       <li>Dicionário de Cyber Security &amp; Ethical Hacking — Prof. Robson Costa / TI Academy (100 termos)</li>
-      <li>Apostila Imersão Start Hacking — Aula 1 (TI Academy, 2026)</li>
-      <li>Conteúdo prévio do guia (white/black/gray hat, fluxo de ataque, termos base)</li>
+      <li>Apostila Imersão Start Hacking — Aula 1 e 2 (TI Academy, 2026)</li>
+      <li>MITRE ATT&amp;CK, OWASP Top 10, NIST CSF — referências industriais</li>
     </ul>
   </div>
   <div class="totals">
@@ -5276,33 +5965,70 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   onScroll();
 })();
 
-// ===== Efeito de digitação no terminal do hero (decorativo) =====
+// ===== Hero split terminal (red + blue) — typing sincronizado =====
 (function(){
-  var el = document.getElementById('termType');
-  if(!el) return;
-  var lines = [
-    { t: '$ whoami', c: 'g' },
-    { t: 'guest@aprendiz_de_hacker_etico', c: '' },
-    { t: '$ ./trilha --start', c: 'g' },
-    { t: '[+] carregando 6 niveis...', c: 'm' },
-    { t: '[+] 123 conceitos prontos', c: 'm' },
-    { t: '[ok] acesso liberado — bons estudos.', c: 'c' }
+  var elR = document.getElementById('termTypeRed');
+  var elB = document.getElementById('termTypeBlue');
+  if(!elR || !elB) return;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ataques (red) e detecções (blue) com timing relativo (ms desde o início do ciclo)
+  // c = classe css ('prompt'|'ok'|'num'|'alert'|'label'|''), at = quando começa
+  var redLines = [
+    { at:   100, t: '$ nmap -sV 10.0.0.5',                    c: 'prompt' },
+    { at:  1100, t: 'Starting Nmap 7.94 ( https://nmap.org )', c: 'label'  },
+    { at:  1800, t: 'Nmap scan report for 10.0.0.5',           c: ''       },
+    { at:  2400, t: 'Host is up (0.0021s latency).',           c: 'label'  },
+    { at:  3100, t: 'PORT    STATE SERVICE  VERSION',          c: 'label'  },
+    { at:  3700, t: '22/tcp  open  ssh      OpenSSH 8.2p1',    c: 'ok'     },
+    { at:  4400, t: '80/tcp  open  http     nginx 1.18.0',     c: 'ok'     },
+    { at:  5100, t: '443/tcp open  ssl/http nginx 1.18.0',     c: 'ok'     },
+    { at:  6000, t: 'Nmap done: 1 IP, 3 services scanned',     c: 'label'  }
   ];
-  var done = [], li = 0, ci = 0;
+  var blueLines = [
+    { at:   100, t: '$ tail -f /var/log/suricata/fast.log',    c: 'prompt' },
+    { at:  1300, t: '[12:04:11] alert: port scan detected',    c: 'alert'  },
+    { at:  2200, t: 'src 10.0.0.42 → dst 10.0.0.5',            c: ''       },
+    { at:  3000, t: 'sid 2018959  SCAN nmap -sV',              c: 'label'  },
+    { at:  3900, t: '[12:04:12] action: drop',                 c: 'alert'  },
+    { at:  4800, t: '[12:04:12] rule fired: ET SCAN',          c: 'label'  },
+    { at:  5600, t: 'ip 10.0.0.42 blocked at edge firewall',   c: 'ok'     }
+  ];
+  var cycleMs = 9000;
+  var pauseMs = 4500;
+
   function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function wrap(l, txt){ return l.c ? '<span class="'+l.c+'">'+esc(txt)+'</span>' : esc(txt); }
-  function render(partial){
-    var html = done.join('\n');
-    if(partial != null){ html += (done.length ? '\n' : '') + wrap(lines[li], partial); }
-    el.innerHTML = html;
+  function wrap(c, t){ return c ? '<span class="'+c+'">'+esc(t)+'</span>' : esc(t); }
+
+  function runLine(el, line, doneArr, baseDelay){
+    var ci = 0;
+    function tick(){
+      if(ci <= line.t.length){
+        el.innerHTML = doneArr.join('\n') + (doneArr.length ? '\n' : '') + wrap(line.c, line.t.slice(0, ci));
+        ci++;
+        setTimeout(tick, 18 + Math.random()*28);
+      } else {
+        doneArr.push(wrap(line.c, line.t));
+        el.innerHTML = doneArr.join('\n');
+      }
+    }
+    setTimeout(tick, baseDelay);
   }
-  function tick(){
-    if(li >= lines.length) return;
-    var l = lines[li];
-    if(ci <= l.t.length){ render(l.t.slice(0, ci)); ci++; setTimeout(tick, 26 + Math.random()*38); }
-    else { done.push(wrap(l, l.t)); li++; ci = 0; setTimeout(tick, 240); }
+
+  function playOnce(){
+    var redDone = [], blueDone = [];
+    elR.innerHTML = ''; elB.innerHTML = '';
+    redLines.forEach(function(l){ runLine(elR, l, redDone, l.at); });
+    blueLines.forEach(function(l){ runLine(elB, l, blueDone, l.at); });
+    if(reduced){
+      // se reduced motion, mostra tudo de uma vez sem typing
+      elR.innerHTML = redLines.map(function(l){ return wrap(l.c, l.t); }).join('\n');
+      elB.innerHTML = blueLines.map(function(l){ return wrap(l.c, l.t); }).join('\n');
+      return;
+    }
+    setTimeout(playOnce, cycleMs + pauseMs);
   }
-  setTimeout(tick, 350);
+  setTimeout(playOnce, 500);
 })();
 
 // ===== Quiz dinâmico =====
@@ -5738,10 +6464,18 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     empty.style.display = n ? 'none' : 'block';
   }
 
+  // mapa team por aba — sinaliza red/blue/purple no dot do chip
+  var teamMap = {
+    inicio: 'purple', roteiro: 'purple', redes: 'purple',
+    nivel1: 'purple', nivel2: 'red', nivel3: 'red', nivel4: 'red',
+    nivel5: 'blue', nivel6: 'blue',
+    gerador: 'red', bases: 'blue', dossie: 'purple', quiz: 'purple'
+  };
   // monta os chips
   views.forEach(function(v){
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'navchip'; b.textContent = v.label;
+    if(teamMap[v.k]) b.setAttribute('data-team', teamMap[v.k]);
     b.addEventListener('click', function(){ showView(v.k); });
     chips[v.k] = b; nav.appendChild(b);
   });
@@ -5777,7 +6511,129 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   showView('inicio');
 })();
 
-// ===== Progresso: marcar conceito como estudado =====
+// ===== Purple Team: classifica cada .topic em red/blue/purple + injeta beam/spotlight/marker =====
+(function(){
+  var topics = Array.prototype.slice.call(document.querySelectorAll('.topic'));
+  if(!topics.length) return;
+
+  // keywords decisivas — caso ambíguo cai em PURPLE (metodologia/conceito neutro)
+  var RED = ['nmap','metasploit','burp','hydra','john','hashcat','phishing','reverse shell','reverse-shell','meterpreter','exploit','payload','sqlmap','xss','sql injection','sqli','beef','wpscan','gobuster','ffuf','nikto','sublist3r','theharvester','recon','osint','dorks','google dorks','footprinting','enumeration','enumera','badusb','set toolkit','setoolkit','social engineer','engenharia social','keylogger','spyware','ransomware','trojan','rootkit','botnet','sniffer','arp spoof','mitm','man-in-the-middle','responder','netexec','crackmapexec','mimikatz','pivot','escalation','privesc','privilege escalation','sliver','cobalt strike','dirty cow','eternalblue','brute','bruteforce','força bruta','forca bruta','password cracking','quebra de senha','sqlmap','blind sqli','xxe','rce','lfi','rfi','idor','csrf','open redirect','session hijack','clickjacking','dns spoof','wifi cracking','aircrack','wifite','evil twin','rogue ap','exfil','c2','command and control','spear phishing','clone phishing','fileless','dropper','loader','stager','bypass','obfuscation','packer','crypter','hashcat','exploit-db','searchsploit','msfvenom','smbghost','printnightmare','noPac','log4shell','spring4shell','heartbleed','shellshock','dirsearch'];
+  var BLUE = ['wireshark','suricata','snort','zeek','splunk','elk','siem','sysmon','wazuh','ossec','velociraptor','yara','sigma','misp','osquery','volatility','autopsy','crowdsec','pfsense','fail2ban','firewall','ids','ips','edr','xdr','soar','soc','blue team','defesa','defender','antivirus','antivírus','endpoint','hardening','patch','patching','backup','recuperação','recuperacao','disaster recovery','dr ','incident response','resposta a incidentes','forense','forensics','dfir','logs','log analysis','análise de log','analise de log','monitoramento','monitoring','detection','detecção','deteccao','blocklist','allowlist','whitelist','allow list','mfa','2fa','autenticação','autenticacao','autenticação','password manager','gestor de senha','baseline','least privilege','zero trust','segmentation','segmentação','segmentacao','sandbox','honeypot','honeynet','deception','threat intel','threat hunting','threat hunt','iocs','ioc','tlp','hashing seguro','salt','tls','https','vpn','wireguard','openvpn','radius','kerberos','active directory','ldap','sso','iam','dlp','waf','rate limit','captcha','csp','content security policy','sri','hsts','cors','sanitization','sanitiza','prepared statement','parameterized','queries parametrizadas','escape','validation','input validation','siem','dnssec','dmarc','dkim','spf'];
+  var PURPLE_HINTS = ['mitre','att&ck','attack','cyber kill chain','kill chain','triade','cia','threat model','modelagem de ameaças','owasp','nist','iso 27001','lgpd','gdpr','hipaa','compliance','governance','política','politica','cvss','cve','cwe','vulnerability management','risk','risco','asset','ativo','red team','blue team','purple team','tabletop','readiness'];
+
+  function classify(text){
+    var s = (text || '').toLowerCase();
+    function score(arr){ var n = 0; for(var i=0;i<arr.length;i++){ if(s.indexOf(arr[i]) >= 0) n++; } return n; }
+    var p = score(PURPLE_HINTS), r = score(RED), b = score(BLUE);
+    // metodologia (PURPLE explicit) ganha se domina
+    if(p >= 2 && p >= r && p >= b) return 'purple';
+    if(r > b) return 'red';
+    if(b > r) return 'blue';
+    return 'purple';
+  }
+
+  var LABELS = { red: 'red', blue: 'blue', purple: 'purple' };
+
+  topics.forEach(function(t){
+    var h3 = t.querySelector('h3');
+    var txt = (h3 ? h3.textContent : '') + ' ' + (t.textContent || '').slice(0, 600);
+    var team = classify(txt);
+    t.setAttribute('data-team', team);
+    t.setAttribute('data-team-label', LABELS[team]);
+    // injeta camadas visuais (z-index: 0)
+    if(!t.querySelector('.spotlight')){
+      var sp = document.createElement('div'); sp.className = 'spotlight';
+      var bm = document.createElement('div'); bm.className = 'beam';
+      var sb = document.createElement('div'); sb.className = 'studied-bar';
+      t.insertBefore(sb, t.firstChild);
+      t.insertBefore(bm, t.firstChild);
+      t.insertBefore(sp, t.firstChild);
+    }
+  });
+
+  // spotlight: cursor follow via CSS vars
+  document.querySelectorAll('.cards').forEach(function(grid){
+    grid.addEventListener('mousemove', function(ev){
+      var card = ev.target.closest('.topic');
+      if(!card) return;
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (ev.clientX - rect.left) + 'px');
+      card.style.setProperty('--my', (ev.clientY - rect.top)  + 'px');
+    });
+  });
+
+  // calcula team dominante de cada section.level para tintar o progress fill
+  document.querySelectorAll('section.level').forEach(function(l){
+    var tp = l.querySelectorAll('.topic');
+    if(!tp.length) return;
+    var c = { red:0, blue:0, purple:0 };
+    tp.forEach(function(t){ c[t.getAttribute('data-team') || 'purple']++; });
+    var dom = (c.red >= c.blue && c.red >= c.purple) ? 'red'
+            : (c.blue >= c.red && c.blue >= c.purple) ? 'blue'
+            : 'purple';
+    l.setAttribute('data-team', dom);
+  });
+})();
+
+// ===== Section preambles (terminal-style header injetado em cada section.level) =====
+(function(){
+  var sections = [
+    { id:'roteiro', path:'roteiro',     label:'ROTEIRO DE ESTUDO + LABS',    team:'purple' },
+    { id:'redes',   path:'redes',       label:'REDES (BASE)',                team:'purple' },
+    { id:'nivel1',  path:'nivel-1',     label:'NÍVEL 1 — FUNDAMENTOS',       team:'purple' },
+    { id:'nivel2',  path:'nivel-2',     label:'NÍVEL 2 — RECON & OSINT',     team:'red'    },
+    { id:'nivel3',  path:'nivel-3',     label:'NÍVEL 3 — FERRAMENTAS',       team:'red'    },
+    { id:'nivel4',  path:'nivel-4',     label:'NÍVEL 4 — ATAQUES',           team:'red'    },
+    { id:'nivel5',  path:'nivel-5',     label:'NÍVEL 5 — DEFESA',            team:'blue'   },
+    { id:'nivel6',  path:'nivel-6',     label:'NÍVEL 6 — AVANÇADO / DFIR',   team:'blue'   },
+    { id:'gerador', path:'gerador',     label:'GERADOR DE COMANDOS',         team:'red'    },
+    { id:'bases',   path:'bases-uteis', label:'BASES ÚTEIS',                 team:'blue'   },
+    { id:'dossie',  path:'dossie',      label:'DOSSIÊ DO ALVO',              team:'purple' },
+    { id:'quiz',    path:'quiz',        label:'QUIZ',                        team:'purple' }
+  ];
+  sections.forEach(function(s){
+    var sec = document.getElementById(s.id);
+    if(!sec || sec.querySelector(':scope > .section-preamble')) return;
+    var tp = sec.querySelectorAll('.topic');
+    var pre = document.createElement('div');
+    pre.className = 'section-preamble';
+    var teamAttr = sec.getAttribute('data-team') || s.team;
+    var topicCount = tp.length;
+    var teamLabel = teamAttr === 'red' ? 'red dominant' : teamAttr === 'blue' ? 'blue dominant' : 'purple — methodology';
+
+    var cmd = document.createElement('div'); cmd.className = 'pre-cmd';
+    var pp = document.createElement('span'); pp.className = 'pp'; pp.textContent = '$'; cmd.appendChild(pp);
+    var pa = document.createElement('span'); pa.className = 'pa'; pa.textContent = ' cd '; cmd.appendChild(pa);
+    var arg = document.createElement('span'); arg.className = 'arg'; arg.textContent = '~/trilha/' + s.path; cmd.appendChild(arg);
+    var pa2 = document.createElement('span'); pa2.className = 'pa'; pa2.textContent = ' && cat README.md'; cmd.appendChild(pa2);
+    var cur = document.createElement('span'); cur.className = 'cur'; cmd.appendChild(cur);
+
+    var rule = document.createElement('div'); rule.className = 'pre-rule';
+
+    var stats = document.createElement('div'); stats.className = 'pre-stats';
+    if(topicCount){
+      var st1 = document.createElement('span'); st1.className = 'pre-stat';
+      st1.innerHTML = ''; var b1 = document.createElement('b'); b1.textContent = topicCount; st1.append(b1, document.createTextNode(' tópicos'));
+      stats.appendChild(st1);
+      var st2 = document.createElement('span'); st2.className = 'pre-stat pre-stat-studied';
+      var b2 = document.createElement('b'); b2.className = 'pre-studied-n'; b2.textContent = '0';
+      st2.append(b2, document.createTextNode(' estudados'));
+      stats.appendChild(st2);
+    }
+    var st3 = document.createElement('span'); st3.className = 'pre-stat team'; st3.setAttribute('data-team', teamAttr);
+    st3.textContent = teamLabel;
+    stats.appendChild(st3);
+
+    pre.appendChild(cmd); pre.appendChild(rule); pre.appendChild(stats);
+
+    // insere logo depois do .level-header (se existir)
+    var hd = sec.querySelector('.level-header');
+    if(hd){ hd.insertAdjacentElement('afterend', pre); }
+    else { sec.insertBefore(pre, sec.firstChild); }
+  });
+})();
+
+// ===== Progresso: marcar conceito como estudado (+ atualizações globais Purple Team) =====
 (function(){
   var KEY = 'cyber_studied_v1';
   var state; try{ state = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ state = {}; }
@@ -5793,27 +6649,121 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     var pb = l._pb;
     if(!pb){
       pb = document.createElement('div'); pb.className = 'level-progress';
-      pb.innerHTML = '<div class="lbl"></div><div class="bar"><div class="fill"></div></div>';
-      var hd = l.querySelector('.level-header');
-      if(hd && hd.parentNode === l && hd.nextSibling){ l.insertBefore(pb, hd.nextSibling); }
-      else if(hd){ hd.insertAdjacentElement('afterend', pb); }
+      var lbl = document.createElement('div'); lbl.className = 'lbl';
+      var bar = document.createElement('div'); bar.className = 'bar';
+      var fill = document.createElement('div'); fill.className = 'fill';
+      bar.appendChild(fill); pb.appendChild(lbl); pb.appendChild(bar);
+      // insere após o preamble se existir, senão após o header
+      var anchor = l.querySelector(':scope > .section-preamble') || l.querySelector('.level-header');
+      if(anchor){ anchor.insertAdjacentElement('afterend', pb); }
       else { l.insertBefore(pb, l.firstChild); }
       l._pb = pb;
     }
     var pct = Math.round(done / tp.length * 100);
-    pb.querySelector('.lbl').innerHTML = 'Progresso: <b>' + done + '/' + tp.length + '</b> estudados (' + pct + '%)';
+    var lbl = pb.querySelector('.lbl');
+    lbl.textContent = '';
+    var pre = document.createTextNode('Progresso: ');
+    var b = document.createElement('b'); b.textContent = done + '/' + tp.length;
+    var post = document.createTextNode(' estudados (' + pct + '%)');
+    lbl.appendChild(pre); lbl.appendChild(b); lbl.appendChild(post);
     pb.querySelector('.fill').style.width = pct + '%';
+    // atualiza também o pre-stat-studied do preamble se existir
+    var pre2 = l.querySelector(':scope > .section-preamble .pre-studied-n');
+    if(pre2) pre2.textContent = done;
+  }
+
+  // contadores globais (topbar + meta)
+  var gpNum   = document.getElementById('gpNum');
+  var gpTotal = document.getElementById('gpTotal');
+  var gpFill  = document.getElementById('gpFill');
+  var gpRed   = document.getElementById('gpRed');
+  var gpBlue  = document.getElementById('gpBlue');
+  var ssRed   = document.getElementById('ssRed');
+  var ssBlue  = document.getElementById('ssBlue');
+  var ssPurple = document.getElementById('ssPurple');
+  var ssRedTot   = document.getElementById('ssRedTot');
+  var ssBlueTot  = document.getElementById('ssBlueTot');
+  var ssPurpleTot = document.getElementById('ssPurpleTot');
+
+  // totais por team (uma vez)
+  var totals = { red:0, blue:0, purple:0 };
+  topics.forEach(function(t){ totals[t.getAttribute('data-team') || 'purple']++; });
+  if(ssRedTot)    ssRedTot.textContent    = totals.red;
+  if(ssBlueTot)   ssBlueTot.textContent   = totals.blue;
+  if(ssPurpleTot) ssPurpleTot.textContent = totals.purple;
+  if(gpTotal)     gpTotal.textContent     = topics.length;
+
+  function updateGlobal(){
+    var done = { red:0, blue:0, purple:0 }, totalDone = 0;
+    topics.forEach(function(t){
+      if(t.classList.contains('studied')){
+        done[t.getAttribute('data-team') || 'purple']++;
+        totalDone++;
+      }
+    });
+    if(gpNum)  gpNum.textContent  = totalDone;
+    if(gpFill) gpFill.style.width = (topics.length ? (totalDone/topics.length*100) : 0) + '%';
+    if(gpRed)  gpRed.textContent  = '● ' + done.red;
+    if(gpBlue) gpBlue.textContent = '● ' + done.blue;
+    if(ssRed)    ssRed.textContent    = done.red;
+    if(ssBlue)   ssBlue.textContent   = done.blue;
+    if(ssPurple) ssPurple.textContent = done.purple;
   }
 
   topics.forEach(function(t){
     var key = keyOf(t); if(!key) return;
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'study-toggle';
-    function refresh(){ var on = !!state[key]; t.classList.toggle('studied', on); btn.classList.toggle('on', on); btn.textContent = on ? 'Estudado' : 'Marcar como estudado'; }
-    btn.addEventListener('click', function(){ if(state[key]) delete state[key]; else state[key] = 1; save(); refresh(); var l = t.closest('section.level'); if(l) updateBar(l); });
+    btn.setAttribute('aria-label', 'Marcar como estudado');
+    function refresh(){
+      var on = !!state[key];
+      t.classList.toggle('studied', on);
+      btn.classList.toggle('on', on);
+      btn.textContent = on ? 'estudado' : 'estudar';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function(){
+      if(state[key]) delete state[key]; else state[key] = 1;
+      save(); refresh();
+      var l = t.closest('section.level'); if(l) updateBar(l);
+      updateGlobal();
+    });
     var h = t.querySelector('h3'); if(h){ h.insertAdjacentElement('afterend', btn); } else { t.appendChild(btn); }
     refresh();
   });
   levels.forEach(updateBar);
+  updateGlobal();
+})();
+
+// ===== Count-up dos stats grandes (.stat-big[data-count]) =====
+(function(){
+  var els = document.querySelectorAll('.stat-big[data-count]');
+  if(!els.length) return;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animateNumber(el, target){
+    if(reduced){ el.textContent = target; return; }
+    var start = performance.now(), dur = 1200;
+    function step(now){
+      var t = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased);
+      if(t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var el = en.target;
+        var n = parseInt(el.getAttribute('data-count') || '0', 10);
+        animateNumber(el, n);
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -20% 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ animateNumber(el, parseInt(el.getAttribute('data-count') || '0', 10)); });
+  }
 })();
 
 // ===== Dossiê do alvo (salvo no navegador) =====
