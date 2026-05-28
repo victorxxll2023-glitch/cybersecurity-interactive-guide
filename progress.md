@@ -11,4 +11,5 @@
 - Dono confirmou a paleta.
 - **3C/3E/3F CONCLUÍDAS** (commit d6b35ad): preâmbulo terminal → barra de métricas dashboard; cards glass-lite com elevação/faixa de team; botões glass; labels de team em PT (offensive/defensive/core).
 - **3B CONCLUÍDA** (a commitar): set de ícones SVG (Lucide-style) + passe JS que troca emoji do título do card por ícone colorido pelo team, limpa emoji do chrome (nav/pager/headers/botões) e converte badges 🆕/✅ em "novo"/"base". NÃO testado em navegador (sem browser aqui) — pedir verificação ao dono.
-- **Próximo**: 3D (hero-plataforma), 3G/3H (visuais técnicos + animações), 3I/3J (a11y/perf + revisão).
+- **3D/3G CONCLUÍDAS** (a commitar): hero-plataforma — headline + subheadline + 4 tiles de stats (count-up) + CTAs à esquerda; à direita painel glass com VISUALIZAÇÃO DE REDE animada (Ataque→Rede→Firewall/IDS→SOC: pacotes correndo via SMIL, fluxo vermelho/azul com stroke-dashoffset, pulso de detecção, radar girando) + feed de eventos SOC (1 console). Removido o 2º terminal; typing JS ajustado p/ feed único. Removido label flutuante de terminal do hero. NÃO testado em navegador.
+- **Próximo**: verificação do dono (hero viz é complexo) → 3I/3J (a11y/perf + revisão final). Pendências menores: emojis dentro de deep-body (conteúdo), aurora→mesh opcional.

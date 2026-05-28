@@ -2778,6 +2778,112 @@ body.mode-defense .attck-tech:not(.has-b) {
 }
 .topic-ic svg { width: 18px; height: 18px; display: block; }
 
+/* ============================================
+   FASE 3D/3G — hero-plataforma + visualização de rede
+   ============================================ */
+header { padding: 54px 42px 52px; }
+header::before { display: none; }            /* remove label flutuante de terminal */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 48px;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.hero-left { max-width: none; margin: 0; }
+.lead {
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--ink-2);
+  letter-spacing: 0;
+  line-height: 1.6;
+  max-width: 580px;
+}
+.lead::before { content: none; }
+.lead b { color: var(--blue-bright); font-weight: 700; }
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: start;
+  gap: 30px;
+  margin: 28px 0 28px;
+}
+.hstat { display: flex; flex-direction: column; gap: 3px; }
+.hstat-n { font: 700 30px var(--mono); letter-spacing: -0.02em; color: var(--ink); line-height: 1; }
+.hstat:nth-child(1) .hstat-n { color: var(--blue-bright); }
+.hstat:nth-child(3) .hstat-n { color: var(--red-bright); }
+.hstat-l { font: 600 10px var(--mono); letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-mute); }
+
+/* painel da visualização — glass real (poucos elementos, blur OK p/ perf) */
+.hero-viz {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  padding: 14px;
+  overflow: hidden;
+}
+.viz-head {
+  display: flex; align-items: center; gap: 8px;
+  font: 700 10px var(--mono);
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 4px 6px 10px;
+}
+.viz-live {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--blue-bright);
+  box-shadow: 0 0 8px var(--blue-glow);
+  animation: vlive 1.8s ease-in-out infinite;
+}
+@keyframes vlive { 0%,100%{ opacity: 1 } 50%{ opacity: .3 } }
+
+.netmap { width: 100%; height: auto; display: block; }
+.nm-base path { stroke: var(--hair-2); stroke-width: 1.4; fill: none; }
+.nm-flow-r { stroke: var(--red); stroke-width: 1.6; fill: none; stroke-dasharray: 5 9; opacity: .85; animation: nmflow 1.3s linear infinite; }
+.nm-flow-b { stroke: var(--blue); stroke-width: 2; fill: none; stroke-dasharray: 5 9; opacity: .95; animation: nmflow 1.1s linear infinite; }
+@keyframes nmflow { to { stroke-dashoffset: -28; } }
+.nm-pkt-r { fill: var(--red-bright); }
+.nm-pkt-b { fill: var(--blue-bright); }
+.nm-node { fill: var(--paper-3); stroke: var(--hair-2); stroke-width: 1.4; }
+.nm-node-red  { fill: color-mix(in srgb, var(--red) 16%, var(--paper-3));  stroke: var(--red); }
+.nm-node-blue { fill: color-mix(in srgb, var(--blue) 16%, var(--paper-3)); stroke: var(--blue); }
+.nm-ic { stroke: var(--ink-2); stroke-width: 1.5; fill: none; }
+.nm-ic-red  { stroke: var(--red-bright); }
+.nm-ic-blue { stroke: var(--blue-bright); }
+.nm-label { fill: var(--ink-3); font: 700 8.5px var(--mono); letter-spacing: 1px; text-transform: uppercase; }
+.nm-label-red  { fill: var(--red-bright); }
+.nm-label-blue { fill: var(--blue-bright); }
+.nm-pulse { fill: none; stroke: var(--blue); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: nmpulse 2.4s ease-out infinite; }
+@keyframes nmpulse { 0%{ transform: scale(.4); opacity: .7 } 100%{ transform: scale(2.6); opacity: 0 } }
+.nm-radar-ring { fill: none; stroke: color-mix(in srgb, var(--blue) 38%, transparent); stroke-width: 1; stroke-dasharray: 2 4; }
+.nm-radar-arm  { stroke: var(--blue-bright); stroke-width: 1.5; opacity: .8; }
+
+.viz-feed {
+  margin-top: 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: rgba(6,10,16,.55);
+}
+.viz-feed .term-body { min-height: 116px; padding: 12px 14px 14px; font-size: 11.5px; }
+.viz-feed .term-body .prompt { color: var(--blue-bright); font-weight: 600; }
+.viz-feed .term-body .ok { color: var(--blue-bright); }
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  header { padding: 40px 18px 40px; }
+  .hero-stats { gap: 20px; }
+  .hstat-n { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nm-flow-r, .nm-flow-b, .nm-pulse, .viz-live { animation: none; }
+}
+
 </style>
 </head>
 <body>
@@ -2811,28 +2917,75 @@ body.mode-defense .attck-tech:not(.has-b) {
 <div id="searchEmpty" class="search-empty" style="display:none;">Nenhum conceito encontrado. Tente outro termo.</div>
 
 <header>
-  <div class="hero-left">
-    <div class="kicker">Purple Team · Operator</div>
-    <h1>
-      <span class="line line-red">Conheço o ataque<span class="dot">.</span></span>
-      <span class="line line-blue">Defendo o sistema<span class="dot">.</span></span>
-    </h1>
-    <p class="lead">trilha PT-BR · <b>126 conceitos</b> · 6 níveis · red + blue team em um só roteiro</p>
-    <div class="actions">
-      <a class="btn primary" href="#nivel1">▶ Começar do nível 1</a>
-      <a class="btn" href="#roteiro">▣ Ver roteiro</a>
-      <a class="btn green" href="#gerador">🧰 Gerador</a>
-      <a class="btn" href="#quiz">🎮 Quiz</a>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="kicker">Plataforma interativa · Blue Team × Red Team</div>
+      <h1>
+        <span class="line line-red">Conheço o ataque<span class="dot">.</span></span>
+        <span class="line line-blue">Defendo o sistema<span class="dot">.</span></span>
+      </h1>
+      <p class="lead">Trilha de cibersegurança ponta a ponta — do fundamento à resposta a incidentes. Conceitos, matriz <b>MITRE ATT&amp;CK</b>, laboratórios e gerador de comandos, com a perspectiva ofensiva <b>e</b> defensiva.</p>
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-n" data-count="130">0</span><span class="hstat-l">conceitos</span></div>
+        <div class="hstat"><span class="hstat-n" data-count="14">0</span><span class="hstat-l">táticas ATT&amp;CK</span></div>
+        <div class="hstat"><span class="hstat-n" data-count="60">0</span><span class="hstat-l">ferramentas</span></div>
+        <div class="hstat"><span class="hstat-n" data-count="6">0</span><span class="hstat-l">níveis</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="#nivel1">Começar do nível 1</a>
+        <a class="btn" href="#attack">Matriz ATT&amp;CK</a>
+        <a class="btn" href="#roteiro">Ver roteiro</a>
+      </div>
     </div>
-  </div>
-  <div class="terms-grid" aria-hidden="true">
-    <div class="hero-term term-red">
-      <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">attacker@kali  ~/op</span></div>
-      <pre class="term-body"><code id="termTypeRed"></code><span class="term-cur cur-red"></span></pre>
-    </div>
-    <div class="hero-term term-blue">
-      <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">soc@blue-team  ~/siem</span></div>
-      <pre class="term-body"><code id="termTypeBlue"></code><span class="term-cur cur-blue"></span></pre>
+
+    <div class="hero-viz" aria-hidden="true">
+      <div class="viz-head"><span class="viz-live"></span> network defense · live</div>
+      <svg class="netmap" viewBox="0 0 460 300" preserveAspectRatio="xMidYMid meet" role="img">
+        <!-- conexões base -->
+        <g class="nm-base">
+          <path d="M58 150 L190 80"/><path d="M58 150 L190 150"/><path d="M58 150 L190 220"/>
+          <path d="M190 80 L310 150"/><path d="M190 220 L310 150"/>
+          <path d="M310 150 L420 150"/>
+        </g>
+        <!-- fluxo ofensivo (vermelho) entrando -->
+        <path class="nm-flow-r" d="M58 150 L190 150 L310 150"/>
+        <!-- fluxo de telemetria/defesa (azul) pro SOC -->
+        <path class="nm-flow-b" d="M310 150 L420 150"/>
+        <!-- pacotes -->
+        <circle class="nm-pkt-r" cy="150" r="3.2"><animate attributeName="cx" values="58;310" dur="2.1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.1s" repeatCount="indefinite"/></circle>
+        <circle class="nm-pkt-r" cy="150" r="3.2"><animate attributeName="cx" values="58;310" dur="2.1s" begin="1.05s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.1s" begin="1.05s" repeatCount="indefinite"/></circle>
+        <circle class="nm-pkt-b" cy="150" r="3.2"><animate attributeName="cx" values="310;420" dur="1.4s" repeatCount="indefinite"/></circle>
+        <!-- pulso de detecção no firewall -->
+        <circle cx="310" cy="150" r="10" class="nm-pulse"/>
+        <!-- nós -->
+        <g class="nm-node-g">
+          <circle cx="58"  cy="150" r="22" class="nm-node nm-node-red"/>
+          <path class="nm-ic nm-ic-red" d="M58 140v-4 M58 164v-4 M48 150h-4 M72 150h-4 M58 156a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+          <text x="58" y="186" class="nm-label nm-label-red" text-anchor="middle">ataque</text>
+
+          <circle cx="190" cy="80"  r="9" class="nm-node"/><text x="190" y="62" class="nm-label" text-anchor="middle">host</text>
+          <circle cx="190" cy="150" r="13" class="nm-node"/><text x="190" y="178" class="nm-label" text-anchor="middle">rede</text>
+          <circle cx="190" cy="220" r="9" class="nm-node"/><text x="190" y="240" class="nm-label" text-anchor="middle">host</text>
+
+          <rect x="296" y="136" width="28" height="28" rx="6" class="nm-node nm-node-blue"/>
+          <path class="nm-ic nm-ic-blue" d="M304 144h12 M304 150h12 M304 156h12"/>
+          <text x="310" y="184" class="nm-label nm-label-blue" text-anchor="middle">firewall · ids</text>
+
+          <circle cx="420" cy="150" r="22" class="nm-node nm-node-blue"/>
+          <path class="nm-ic nm-ic-blue" d="M420 139l8 3v4c0 4-3 6.5-8 8-5-1.5-8-4-8-8v-4z"/>
+          <text x="420" y="186" class="nm-label nm-label-blue" text-anchor="middle">soc</text>
+          <!-- radar sweep no SOC -->
+          <g class="nm-radar">
+            <circle cx="420" cy="150" r="30" class="nm-radar-ring"/>
+            <line x1="420" y1="150" x2="450" y2="150" class="nm-radar-arm"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 420 150" to="360 420 150" dur="6s" repeatCount="indefinite"/>
+          </g>
+        </g>
+      </svg>
+      <div class="viz-feed">
+        <div class="term-bar"><i class="d r"></i><i class="d y"></i><i class="d g"></i><span class="tt">soc@blue-team — fast.log</span></div>
+        <pre class="term-body"><code id="termTypeBlue"></code><span class="term-cur cur-blue"></span></pre>
+      </div>
     </div>
   </div>
 </header>
@@ -6644,9 +6797,8 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
 
 // ===== Hero split terminal (red + blue) — typing sincronizado =====
 (function(){
-  var elR = document.getElementById('termTypeRed');
   var elB = document.getElementById('termTypeBlue');
-  if(!elR || !elB) return;
+  if(!elB) return;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ataques (red) e detecções (blue) com timing relativo (ms desde o início do ciclo)
@@ -6693,16 +6845,13 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   }
 
   function playOnce(){
-    var redDone = [], blueDone = [];
-    elR.innerHTML = ''; elB.innerHTML = '';
-    redLines.forEach(function(l){ runLine(elR, l, redDone, l.at); });
-    blueLines.forEach(function(l){ runLine(elB, l, blueDone, l.at); });
+    var blueDone = [];
+    elB.innerHTML = '';
     if(reduced){
-      // se reduced motion, mostra tudo de uma vez sem typing
-      elR.innerHTML = redLines.map(function(l){ return wrap(l.c, l.t); }).join('\n');
       elB.innerHTML = blueLines.map(function(l){ return wrap(l.c, l.t); }).join('\n');
       return;
     }
+    blueLines.forEach(function(l){ runLine(elB, l, blueDone, l.at); });
     setTimeout(playOnce, cycleMs + pauseMs);
   }
   setTimeout(playOnce, 500);
@@ -7408,7 +7557,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
 
 // ===== Count-up dos stats grandes (.stat-big[data-count]) =====
 (function(){
-  var els = document.querySelectorAll('.stat-big[data-count]');
+  var els = document.querySelectorAll('.stat-big[data-count], .hstat-n[data-count]');
   if(!els.length) return;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function animateNumber(el, target){
