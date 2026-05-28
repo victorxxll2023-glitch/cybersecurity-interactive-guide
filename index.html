@@ -2758,6 +2758,26 @@ body.mode-defense .attck-tech:not(.has-b) {
 }
 .btn.pink:hover { background: color-mix(in srgb, var(--red) 16%, transparent); border-color: var(--red-bright); }
 
+/* ----- 3B: ícone SVG no título do card (tile colorido pelo team) ----- */
+.topic h3 { align-items: center; }
+.topic-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  color: var(--team-color);
+  background: color-mix(in srgb, var(--team-color) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--team-color) 32%, var(--glass-border));
+  transition: background .2s, border-color .2s;
+}
+.topic:hover .topic-ic {
+  background: color-mix(in srgb, var(--team-color) 22%, transparent);
+  border-color: color-mix(in srgb, var(--team-color) 55%, var(--glass-border));
+}
+.topic-ic svg { width: 18px; height: 18px; display: block; }
+
 </style>
 </head>
 <body>
@@ -7681,6 +7701,88 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   var saved = 'all';
   try{ saved = localStorage.getItem(KEY) || 'all'; }catch(e){}
   apply(classes[saved] ? saved : 'all');
+})();
+
+// ===== FASE 3B — sistema de ícones SVG (substitui emojis) =====
+(function(){
+  // Lucide-style stroke icons (24x24). Cada ícone = array de path 'd'.
+  var ICONS = {
+    shield:    ['M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z'],
+    'shield-x':['M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z','M9.5 9.5l5 5','M14.5 9.5l-5 5'],
+    search:    ['M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14z','M21 21l-5-5'],
+    tool:      ['M14.7 6.3a4 4 0 0 0-5.5 5.2L3 17.8V21h3.2l6.3-6.2a4 4 0 0 0 5.2-5.5l-2.7 2.7-2-2 2.7-2.7z'],
+    target:    ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z','M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z','M12 12h.01'],
+    lock:      ['M5 11h14v10H5z','M8 11V7a4 4 0 0 1 8 0v4'],
+    monitor:   ['M3 4h18v12H3z','M8 21h8','M12 17v4'],
+    globe:     ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z','M3 12h18','M12 3c2.5 3 2.5 15 0 18','M12 3c-2.5 3-2.5 15 0 18'],
+    activity:  ['M22 12h-4l-3 8-6-16-3 8H2'],
+    mail:      ['M3 5h18v14H3z','M3 6l9 7 9-7'],
+    clipboard: ['M8 4h8v3H8z','M6 5H4v16h16V5h-2','M8 12h8','M8 16h5'],
+    bug:       ['M9 7V5a3 3 0 0 1 6 0v2','M6 10h12v4a6 6 0 0 1-12 0z','M4 12H2','M22 12h-2','M5 7L3 5','M19 7l2-2','M5 17l-2 2','M19 17l2 2'],
+    folder:    ['M3 7h6l2 2h10v11H3z'],
+    database:  ['M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3z','M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6'],
+    eye:       ['M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z','M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'],
+    wifi:      ['M2 8.8a15 15 0 0 1 20 0','M5 12.3a10 10 0 0 1 14 0','M8.5 15.8a5 5 0 0 1 7 0','M12 19.5h.01'],
+    flag:      ['M5 22V3','M5 3h13l-2.5 4.5L18 12H5'],
+    radar:     ['M19.07 4.93A10 10 0 1 0 22 12','M12 12l7-7','M12 12a4 4 0 1 0 4 4']
+  };
+
+  function svg(name){
+    var paths = ICONS[name] || ICONS.shield;
+    var p = paths.map(function(d){ return '<path d="'+d+'"/>'; }).join('');
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+         + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+  }
+
+  // mapa emoji -> ícone
+  var MAP = {
+    '🧠':'activity','🔍':'search','🔎':'search','🛠':'tool','🧰':'tool','⚙':'tool',
+    '⚔':'target','🗡':'target','🛡':'shield','🔐':'lock','🔒':'lock','🔑':'lock',
+    '🚩':'flag','📡':'wifi','💻':'monitor','🖥':'monitor','🌐':'globe','📊':'activity',
+    '📈':'activity','🏢':'monitor','💊':'shield','🎣':'mail','🗺':'clipboard','📋':'clipboard',
+    '📝':'clipboard','📜':'clipboard','🎮':'target','🎯':'target','🐛':'bug','🦠':'bug',
+    '📧':'mail','✉':'mail','📁':'folder','📂':'folder','📥':'folder','💾':'database',
+    '📦':'database','⚡':'activity','🔥':'activity','👁':'eye','🕵':'eye','🔗':'globe',
+    '☁':'globe','📶':'wifi','🧪':'search','🔬':'search','🚪':'lock','🔌':'activity','📉':'activity'
+  };
+
+  // regex de emoji — cobre pictográficos + dingbats + flags; NÃO inclui setas (←→↗) nem formas (▶▣)
+  var EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}️\u{200D}\u{20E3}]/gu;
+
+  function firstEmojiBase(s){
+    var m = s.match(/[\u{1F300}-\u{1FAFF}\u{1F000}-\u{1F0FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}]/u);
+    return m ? m[0] : null;
+  }
+
+  // remove emojis de nós de texto diretos de um elemento (sem tocar em filhos como <span>)
+  function stripEmojiText(el){
+    el.childNodes.forEach(function(n){
+      if(n.nodeType === 3){ n.nodeValue = n.nodeValue.replace(EMOJI, '').replace(/\s{2,}/g,' '); }
+    });
+  }
+
+  // 1) Cards: troca o emoji do título por ícone SVG colorido pelo team
+  document.querySelectorAll('.topic h3').forEach(function(h3){
+    var base = firstEmojiBase(h3.textContent);
+    var iconName = (base && MAP[base]) ? MAP[base] : 'shield';
+    stripEmojiText(h3);
+    // remove espaço inicial sobrando
+    if(h3.firstChild && h3.firstChild.nodeType === 3){ h3.firstChild.nodeValue = h3.firstChild.nodeValue.replace(/^\s+/,''); }
+    var ic = document.createElement('span');
+    ic.className = 'topic-ic';
+    ic.innerHTML = svg(iconName);
+    h3.insertBefore(ic, h3.firstChild);
+  });
+
+  // 2) Chrome: limpa emojis de navegação, pager, headers, botões
+  var chromeSel = '.navchip, .pager-btn .pg-name, .btn, .level-header h2, .level-header .sub, '
+    + '.roadstep h3, .roadstep .tag, .dbgroup > h3, .gen-label, .gen-tab, .quiz h3, '
+    + '.meta > h2, .total-pill, .otw-status, .marquee-label';
+  document.querySelectorAll(chromeSel).forEach(stripEmojiText);
+
+  // 3) Badges: emoji vira texto curto (não fica pílula vazia)
+  document.querySelectorAll('.badge.new').forEach(function(b){ b.textContent = 'novo'; });
+  document.querySelectorAll('.badge.old').forEach(function(b){ b.textContent = 'base'; });
 })();
 </script>
 </body>
