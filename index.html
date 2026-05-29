@@ -1015,7 +1015,9 @@ main {
   max-width: 100%;
   border-radius: var(--r);
   border: 1px solid var(--hair-2);
-  filter: saturate(0.9);
+  background: #eef2f7;            /* mat claro: garante leitura de diagramas com fundo branco/transparente */
+  padding: 10px;
+  box-shadow: var(--shadow-sm);
 }
 .deep-fig figcaption {
   color: var(--ink-3);
@@ -3288,6 +3290,10 @@ summary:focus-visible,
           <tr><td>Confiável: confirma a entrega (handshake)</td><td>Rápido: não confirma, pode perder pacote</td></tr>
           <tr><td>Web, e-mail, download</td><td>Streaming, jogos, chamadas, DNS</td></tr>
         </table>
+        <figure class="deep-fig">
+          <img src="img/tcp-handshake.png" alt="Diagrama do handshake TCP de três vias: SYN, SYN-ACK, ACK" loading="lazy">
+          <figcaption>Handshake TCP de 3 vias (SYN · SYN-ACK · ACK) — a confirmação de entrega que o TCP faz e o UDP não. Imagem: Fleshgrinder, <a href="https://commons.wikimedia.org/wiki/File:TCP_Three-Way_Handshake.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · Domínio público</figcaption>
+        </figure>
         <div class="callout tip">TCP é o "carta registrada" (com recibo); UDP é o "panfleto jogado" (rápido, sem garantia).</div>
       </div></details>
     </div>
@@ -3835,6 +3841,10 @@ summary:focus-visible,
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p>A <b>dark web</b> é a parte da internet acessível só por redes especiais como o <b>Tor</b> (endereços <code>.onion</code>). O tráfego passa por várias camadas de criptografia para dar anonimato. Abriga desde fóruns legítimos de privacidade até mercados ilegais.</p>
+          <figure class="deep-fig">
+            <img src="img/tor-onion.png" alt="Diagrama de um serviço onion do Tor, com circuito anônimo em camadas" loading="lazy">
+            <figcaption>Como o Tor monta um circuito anônimo em camadas até um serviço <code>.onion</code>. Imagem: Tga.D, <a href="https://commons.wikimedia.org/wiki/File:Tor_Onion_Service_Diagram.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · CC BY-SA 4.0</figcaption>
+          </figure>
           <h4>Por que o Blue Team monitora</h4>
           <ul class="bullets">
             <li>Vazamentos e credenciais da empresa costumam ser vendidos lá.</li>
@@ -4086,6 +4096,10 @@ Service detection performed. Nmap done.</pre>
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Burp Suite</b> é um <b>proxy de interceptação</b>: ele se coloca entre o seu navegador e o site, deixando você <b>ver, pausar e modificar</b> cada requisição HTTP antes de ela chegar ao servidor. É a ferramenta nº 1 para testar segurança de aplicações web, porque expõe e permite manipular tudo que o site envia/recebe "por baixo dos panos".</p>
+          <figure class="deep-fig">
+            <img src="img/burpsuite.png" alt="Interface do Burp Suite interceptando uma requisição HTTP" loading="lazy">
+            <figcaption>Burp Suite interceptando e permitindo modificar requisições HTTP entre navegador e servidor. Imagem: Mvb71, <a href="https://commons.wikimedia.org/wiki/File:Thumbnail_BurpSuite.png" target="_blank" rel="noopener">Wikimedia Commons</a> · CC BY-SA 4.0</figcaption>
+          </figure>
           <h4>Os módulos que importam</h4>
           <ul class="bullets">
             <li><b>Proxy:</b> intercepta o tráfego. O coração da ferramenta.</li>
@@ -4398,6 +4412,10 @@ Service detection performed. Nmap done.</pre>
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Phishing</b> (do inglês <em>fishing</em>, "pescar") é um ataque de <b>engenharia social</b>: o criminoso se passa por uma entidade confiável — banco, Correios, Netflix, Receita Federal, ou até o RH da sua empresa — para te induzir a entregar dados (senha, cartão, código do app) ou clicar num link malicioso. Não existe "hack técnico" aqui: a vulnerabilidade explorada é o <em>ser humano</em> — pressa, medo, curiosidade e respeito à autoridade.</p>
+          <figure class="deep-fig">
+            <img src="img/phishing-email.png" alt="Exemplo real de e-mail de phishing imitando um banco" loading="lazy">
+            <figcaption>Exemplo de e-mail de phishing imitando um banco (remetente falso, link enganoso, senso de urgência). Imagem: User:Belbury, <a href="https://commons.wikimedia.org/wiki/File:Example_bank_phishing_email.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · CC BY 4.0</figcaption>
+          </figure>
 
           <h4>Como funciona na prática</h4>
           <figure class="deep-fig">
@@ -5039,6 +5057,10 @@ SELECT * FROM users WHERE user='joao' AND pass='<span class="p">' OR '1'='1</spa
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Man-in-the-Middle (MITM)</b> = "homem no meio". O atacante se posiciona <b>secretamente entre você e o servidor</b> com quem você acha que está falando. Tudo que você envia passa por ele primeiro — ele pode <b>ler, gravar e até alterar</b> as mensagens antes de repassá-las. As duas pontas continuam achando que falam direto uma com a outra.</p>
+          <figure class="deep-fig">
+            <img src="img/mitm.png" alt="Diagrama de ataque Man-in-the-Middle entre duas partes" loading="lazy">
+            <figcaption>O atacante se posiciona entre as duas partes e intercepta toda a comunicação. Imagem: Miraceti, <a href="https://commons.wikimedia.org/wiki/File:Man_in_the_middle_attack.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · CC BY-SA 3.0</figcaption>
+          </figure>
 
           <h4>Como funciona na prática</h4>
           <figure class="deep-fig">
@@ -5356,6 +5378,10 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p>Um <b>firewall</b> ("parede de fogo") é o <b>porteiro da rede</b>: ele inspeciona todo o tráfego que entra e sai e decide, com base em <b>regras</b>, o que passa e o que é bloqueado. É a primeira linha de defesa do perímetro — separa a sua rede confiável da internet hostil.</p>
+          <figure class="deep-fig">
+            <img src="img/firewall-dmz.png" alt="Diagrama de rede com firewall separando internet, DMZ e rede interna" loading="lazy">
+            <figcaption>Topologia clássica: o firewall separa a internet da <b>DMZ</b> (serviços públicos) e da rede interna confiável. Imagem: User:Pbroks13, <a href="https://commons.wikimedia.org/wiki/File:DMZ_network_diagram_1_firewall.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · Domínio público</figcaption>
+          </figure>
           <figure class="deep-fig">
             <svg viewBox="0 0 560 150" role="img" aria-label="Firewall filtrando tráfego">
               <defs><marker id="arrFw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/></marker><marker id="arrFwX" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f43f5e"/></marker></defs>
@@ -5710,6 +5736,10 @@ https://site.com/fatura?id=<span class="p">1025</span>  <span class="y">→ fatu
         <div class="deep-body">
           <h4>Explicação completa</h4>
           <p><b>Criptografia</b> embaralha dados com um algoritmo + uma <b>chave</b>, de forma que só quem tem a chave certa consegue ler. É o que garante a <em>confidencialidade</em> da tríade CIA. Existem duas grandes famílias:</p>
+          <figure class="deep-fig">
+            <img src="img/publickey.png" alt="Diagrama de criptografia de chave pública: cifrar com a pública, decifrar com a privada" loading="lazy">
+            <figcaption>Criptografia assimétrica: cifra-se com a <b>chave pública</b> do destinatário; só a <b>chave privada</b> dele decifra. Imagem: Chggr, <a href="https://commons.wikimedia.org/wiki/File:Public_Key_Cryptography_-_Confodentiality.png" target="_blank" rel="noopener">Wikimedia Commons</a> · CC BY-SA 3.0</figcaption>
+          </figure>
           <h4>Simétrica × Assimétrica</h4>
           <figure class="deep-fig">
             <svg viewBox="0 0 560 210" role="img" aria-label="Criptografia simétrica e assimétrica">
