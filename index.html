@@ -2886,6 +2886,70 @@ header::before { display: none; }            /* remove label flutuante de termin
   .nm-flow-r, .nm-flow-b, .nm-pulse, .viz-live { animation: none; }
 }
 
+/* ----- "Meus valores": placeholders preenchíveis nos comandos ----- */
+.cmd .ph-filled { color: var(--blue-bright); font-weight: 700; }
+.cmd .ph-empty  { color: var(--red-bright); border-bottom: 1px dashed color-mix(in srgb, var(--red) 60%, transparent); }
+
+.vals-fab {
+  position: fixed; left: 20px; bottom: 20px; z-index: 70;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 15px;
+  background: var(--glass-bg-2);
+  border: 1px solid color-mix(in srgb, var(--purple) 50%, var(--glass-border));
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border-radius: 999px;
+  color: var(--ink);
+  font: 700 12px var(--mono); letter-spacing: .5px;
+  cursor: pointer; box-shadow: var(--shadow-soft);
+  transition: border-color .15s, transform .1s;
+}
+.vals-fab svg { width: 16px; height: 16px; color: var(--purple-bright); }
+.vals-fab:hover { border-color: var(--purple); transform: translateY(-1px); }
+.vals-fab.on { border-color: var(--purple-bright); }
+.vals-panel {
+  position: fixed; left: 20px; bottom: 72px; z-index: 71;
+  width: min(340px, calc(100vw - 40px));
+  max-height: min(64vh, 540px); overflow-y: auto;
+  background: var(--glass-bg-2);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border-radius: var(--r-lg); box-shadow: var(--glass-shadow);
+  padding: 16px 16px 14px;
+}
+.vals-head b { display: block; font: 700 13px var(--mono); color: var(--ink); letter-spacing: .5px; }
+.vals-head span { display: block; font: 400 11.5px var(--sans); color: var(--ink-3); margin: 4px 0 14px; line-height: 1.4; }
+.vals-field { display: block; margin-bottom: 12px; }
+.vals-field .vf-top { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+.vals-field .vf-label { font: 700 10px var(--mono); letter-spacing: 1px; text-transform: uppercase; color: var(--ink-2); }
+.vals-field .vf-tok { font: 600 9.5px var(--mono); color: var(--ink-mute); }
+.vals-field input {
+  width: 100%; margin-top: 6px;
+  background: var(--paper); border: 1px solid var(--hair-2); border-radius: var(--r-sm);
+  color: var(--blue-bright); font: 600 13px var(--mono); padding: 9px 11px;
+}
+.vals-field input::placeholder { color: var(--ink-mute); font-weight: 400; }
+.vals-field input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 2px var(--purple-tint); }
+.vals-foot { margin-top: 4px; }
+.vals-clear {
+  background: transparent; border: 1px solid var(--hair-2); color: var(--ink-3);
+  font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: 1px;
+  padding: 7px 11px; border-radius: var(--r-sm); cursor: pointer;
+}
+.vals-clear:hover { border-color: var(--red); color: var(--red-bright); }
+.mock-term .bar .mock-copy {
+  margin-left: auto;
+  background: color-mix(in srgb, var(--blue) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--blue) 45%, var(--glass-border));
+  color: var(--blue-bright);
+  font: 700 10.5px var(--mono); letter-spacing: .5px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px; cursor: pointer;
+}
+.mock-term .bar .mock-copy:hover { background: color-mix(in srgb, var(--blue) 24%, transparent); }
+@media (max-width: 600px) {
+  .vals-fab { left: 14px; bottom: 14px; padding: 10px 13px; font-size: 11px; }
+  .vals-panel { left: 14px; bottom: 64px; }
+}
+
 /* ----- 3I: acessibilidade — foco visível consistente ----- */
 a:focus-visible,
 button:focus-visible,
@@ -7702,21 +7766,55 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     '<FAIXA_DE_REDE>':'sua faixa de rede (ex: 192.168.0.0/24)'
   };
 
+  var KEY = 'cyber_vals_v1';
+  var vals; try{ vals = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ vals = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(vals)); }catch(e){} }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var keys = Object.keys(PH).sort(function(a,b){ return b.length - a.length; }); // maiores primeiro
+
+  function resolve(tpl){
+    var out = tpl;
+    keys.forEach(function(k){ if(vals[k]){ out = out.split(k).join(vals[k]); } });
+    return out;
+  }
+
   function copyText(txt, ok){
     if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok, function(){}); }
     else { var t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); ok(); }
   }
 
-  function showHint(after, cmd){
+  var cmdEls = Array.prototype.slice.call(document.querySelectorAll('code.cmd'));
+  var used = {};
+  cmdEls.forEach(function(c){
+    if(!c.dataset.tpl) c.dataset.tpl = c.textContent;
+    keys.forEach(function(k){ if(c.dataset.tpl.indexOf(k) >= 0) used[k] = true; });
+  });
+
+  function renderCmd(c){
+    var html = esc(c.dataset.tpl);
+    keys.forEach(function(k){
+      var token = esc(k);
+      var rep = vals[k]
+        ? '<span class="ph-filled">' + esc(vals[k]) + '</span>'
+        : '<span class="ph-empty">' + token + '</span>';
+      html = html.split(token).join(rep);
+    });
+    c.innerHTML = html;
+  }
+  function renderAll(){ cmdEls.forEach(renderCmd); }
+
+  function showHint(after, tpl){
     var prev = after.parentNode.querySelector(':scope > .cmd-hint');
     if(prev) prev.parentNode.removeChild(prev);
-    var found = [];
-    for(var k in PH){ if(cmd.indexOf(k) >= 0) found.push(k); }
+    var miss = [], filled = [];
+    keys.forEach(function(k){ if(tpl.indexOf(k) >= 0){ (vals[k] ? filled : miss).push(k); } });
     var h = document.createElement('div'); h.className = 'cmd-hint';
-    if(found.length){
-      var html = '✅ <b>Copiado!</b> Cole no Kali e edite antes de rodar:';
-      found.forEach(function(k){ html += '<br><span class="ph">' + k.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</span> = ' + PH[k]; });
+    if(miss.length){
+      var html = '✅ <b>Copiado!</b> Faltou preencher em <b>Meus valores</b>:';
+      miss.forEach(function(k){ html += '<br><span class="ph">' + esc(k) + '</span> = ' + PH[k]; });
       h.innerHTML = html;
+    } else if(filled.length){
+      h.innerHTML = '✅ <b>Copiado com seus valores!</b> É só colar (em alvo autorizado).';
     } else {
       h.innerHTML = '✅ <b>Copiado!</b> Comando completo — é só colar e rodar (em alvo autorizado).';
     }
@@ -7725,18 +7823,71 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     after._t = setTimeout(function(){ if(h.parentNode) h.parentNode.removeChild(h); }, 7000);
   }
 
-  document.querySelectorAll('code.cmd').forEach(function(c){
+  cmdEls.forEach(function(c){
     c.setAttribute('title', 'Clique para copiar');
     c.setAttribute('role', 'button');
+    renderCmd(c);
     c.addEventListener('click', function(){
-      var cmd = c.textContent;
-      copyText(cmd, function(){
+      copyText(resolve(c.dataset.tpl), function(){
         c.classList.add('copied');
-        showHint(c, cmd);
+        showHint(c, c.dataset.tpl);
         setTimeout(function(){ c.classList.remove('copied'); }, 1800);
       });
     });
   });
+
+  // ---- painel flutuante "Meus valores" (preenche uma vez, vale em todas as abas) ----
+  var usedKeys = keys.filter(function(k){ return used[k]; });
+  if(usedKeys.length){
+    function niceLabel(k){ return k.replace(/[<>]/g,'').replace(/_/g,' ').toLowerCase(); }
+    function exemplo(d){ var m = /ex:\s*([^)]+)\)?/i.exec(d); return m ? ('ex: ' + m[1].trim().replace(/\)\s*$/,'')) : ''; }
+
+    var fab = document.createElement('button');
+    fab.type = 'button'; fab.className = 'vals-fab'; fab.setAttribute('aria-expanded','false');
+    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></svg> Meus valores';
+
+    var panel = document.createElement('div'); panel.className = 'vals-panel'; panel.hidden = true;
+    var head = document.createElement('div'); head.className = 'vals-head';
+    var hb = document.createElement('b'); hb.textContent = 'Meus valores';
+    var hs = document.createElement('span'); hs.textContent = 'preenche uma vez — todo comando do site copia com seus dados.';
+    head.appendChild(hb); head.appendChild(hs); panel.appendChild(head);
+
+    var body = document.createElement('div'); body.className = 'vals-body';
+    usedKeys.forEach(function(k){
+      var field = document.createElement('label'); field.className = 'vals-field';
+      var top = document.createElement('div'); top.className = 'vf-top';
+      var lab = document.createElement('span'); lab.className = 'vf-label'; lab.textContent = niceLabel(k);
+      var tok = document.createElement('code'); tok.className = 'vf-tok'; tok.textContent = k;
+      top.appendChild(lab); top.appendChild(tok);
+      var inp = document.createElement('input'); inp.type = 'text'; inp.spellcheck = false; inp.autocomplete = 'off';
+      inp.value = vals[k] || ''; inp.placeholder = exemplo(PH[k]) || PH[k];
+      inp.addEventListener('input', function(){
+        var v = inp.value.trim();
+        if(v) vals[k] = v; else delete vals[k];
+        save(); renderAll();
+      });
+      field.appendChild(top); field.appendChild(inp); body.appendChild(field);
+    });
+    panel.appendChild(body);
+
+    var foot = document.createElement('div'); foot.className = 'vals-foot';
+    var clr = document.createElement('button'); clr.type = 'button'; clr.className = 'vals-clear'; clr.textContent = 'limpar tudo';
+    clr.addEventListener('click', function(){
+      vals = {}; save(); renderAll();
+      Array.prototype.slice.call(body.querySelectorAll('input')).forEach(function(i){ i.value = ''; });
+    });
+    foot.appendChild(clr); panel.appendChild(foot);
+
+    fab.addEventListener('click', function(){
+      var open = panel.hidden;
+      panel.hidden = !open;
+      fab.classList.toggle('on', open);
+      fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    document.body.appendChild(panel);
+    document.body.appendChild(fab);
+  }
 
   // botão de copiar nos mockups de terminal que têm linha de comando ($)
   document.querySelectorAll('.mock-term').forEach(function(m){
@@ -7745,10 +7896,9 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     var cmds = pre.textContent.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return /^\$\s+\S/.test(l); }).map(function(l){ return l.replace(/^\$\s+/, ''); });
     if(!cmds.length) return;
     var cmd = cmds.join('\n').replace(/scanme\.nmap\.org/g, '<ALVO>');
-    var btn = document.createElement('button'); btn.type = 'button';
-    btn.style.cssText = 'margin-left:auto;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.4);color:var(--green);font-weight:800;font-size:11px;padding:4px 9px;border-radius:7px;cursor:pointer;';
-    btn.textContent = '📋 copiar';
-    btn.addEventListener('click', function(){ copyText(cmd, function(){ btn.textContent='✅ copiado'; setTimeout(function(){ btn.textContent='📋 copiar'; }, 1500); }); });
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'mock-copy';
+    btn.textContent = 'copiar';
+    btn.addEventListener('click', function(){ copyText(resolve(cmd), function(){ btn.textContent='copiado'; setTimeout(function(){ btn.textContent='copiar'; }, 1500); }); });
     bar.appendChild(btn);
   });
 })();
