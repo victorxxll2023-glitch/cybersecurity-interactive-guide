@@ -65,12 +65,13 @@ Relatorio: {report}
   [11] sqlmap (teste de SQLi em URL com parametro)
 
   Credenciais (USE APENAS EM LAB / SISTEMA PROPRIO)
-  [12] hydra SSH (forca bruta)
+  [12] hydra SSH         (lento ~ 2-15/s, depende do alvo)
+  [13] hydra HTTP form   (rapido ~ 50-500/s)
 
   Combos
-  [13] Pipeline recon completo (rodar 2 -> 6 em sequencia)
+  [14] Pipeline recon completo (rodar 2 -> 6 em sequencia)
 
-  [14] Ver relatorio acumulado
+  [15] Ver relatorio acumulado
   [0]  Sair
 ==================================================================
 """
@@ -155,6 +156,32 @@ def need_wordlist(path):
     print("    Tente: /usr/share/wordlists/dirb/common.txt")
     print("    Ou:    /usr/share/wordlists/rockyou.txt (pacote wordlists)")
     return False
+
+
+def pick_speed(service):
+    """Pergunta a velocidade e retorna o numero de threads para o hydra."""
+    if service == "ssh":
+        opts = [
+            ("Lenta      (-t 4, padrao SSH; ~2/s, baixa chance de bloqueio)", 4),
+            ("Rapida     (-t 16; ~5-15/s, sshd pode reclamar)", 16),
+            ("Agressiva  (-t 32; conexoes podem ser cortadas/bloqueadas)", 32),
+        ]
+    else:  # http
+        opts = [
+            ("Normal       (-t 16; ~20-50/s)", 16),
+            ("Rapida       (-t 32; ~50-150/s)", 32),
+            ("Muito rapida (-t 64; ~100-500/s, mais visivel pro alvo)", 64),
+        ]
+    print("\nVelocidade:")
+    for i, (label, _) in enumerate(opts, 1):
+        print(f"  [{i}] {label}")
+    while True:
+        choice = ask("Escolha", "1")
+        if choice in ("1", "2", "3"):
+            threads = opts[int(choice) - 1][1]
+            print(f"[+] Usando -t {threads}")
+            return threads
+        print("Opcao invalida (1-3).")
 
 
 # ---------- Ferramentas ----------
@@ -281,11 +308,62 @@ def tool_hydra_ssh():
     wordlist = ask("Wordlist de senhas", "/usr/share/wordlists/rockyou.txt")
     if not need_wordlist(wordlist):
         return
-    user_flag = ["-L", user] if pathlib.Path(user).exists() else ["-l", user]
     port = ask("Porta SSH", "22")
-    cmd = ["hydra", "-t", "4"] + user_flag + ["-P", wordlist, "-s", port,
-                                              f"ssh://{STATE['target']}"]
-    run_and_log(cmd, f"hydra ssh {STATE['target']}", timeout=1800)
+    threads = pick_speed("ssh")
+    user_flag = ["-L", user] if pathlib.Path(user).exists() else ["-l", user]
+    cmd = (
+        ["hydra", "-t", str(threads), "-f"]
+        + user_flag
+        + ["-P", wordlist, "-s", port, f"ssh://{STATE['target']}"]
+    )
+    run_and_log(cmd, f"hydra ssh {STATE['target']} (-t {threads})", timeout=1800)
+
+
+def tool_hydra_http_form():
+    if not need_target():
+        return
+    print("\nAVISO: hydra http-post-form testa login web por forca bruta.")
+    print("       Use APENAS em alvo com autorizacao por escrito.")
+    print()
+    print("Voce precisa saber 3 coisas do form de login:")
+    print("  1. O caminho da URL          (ex: /login.php)")
+    print("  2. Os nomes dos campos       (ex: username e password)")
+    print("  3. Um texto que aparece SO   (ex: 'invalid' ou 'incorrect')")
+    print("     quando o login FALHA")
+    print()
+    scheme = ask("Esquema (http/https)", "http")
+    path = ask("Caminho do form (ex: /login.php)")
+    if not path:
+        return
+    if not path.startswith("/"):
+        path = "/" + path
+    user_field = ask("Nome do campo de usuario no form", "username")
+    pass_field = ask("Nome do campo de senha no form", "password")
+    fail_marker = ask(
+        "Texto que aparece ao FALHAR login (ex: invalid, incorrect, error)"
+    )
+    if not fail_marker:
+        return
+    user = ask("Usuario unico OU caminho para lista de usuarios")
+    if not user:
+        return
+    wordlist = ask("Wordlist de senhas", "/usr/share/wordlists/rockyou.txt")
+    if not need_wordlist(wordlist):
+        return
+    port = ask(f"Porta (vazio para padrao do {scheme})", "")
+    threads = pick_speed("http")
+    user_flag = ["-L", user] if pathlib.Path(user).exists() else ["-l", user]
+    service_module = f"{scheme}-post-form"
+    form_spec = f"{path}:{user_field}=^USER^&{pass_field}=^PASS^:F={fail_marker}"
+    cmd = ["hydra", "-t", str(threads), "-f"] + user_flag + ["-P", wordlist]
+    if port:
+        cmd += ["-s", port]
+    cmd += [STATE["target"], service_module, form_spec]
+    run_and_log(
+        cmd,
+        f"hydra {service_module} {STATE['target']} (-t {threads})",
+        timeout=1800,
+    )
 
 
 def tool_pipeline():
@@ -317,8 +395,9 @@ ACTIONS = {
     "10": tool_gobuster,
     "11": tool_sqlmap,
     "12": tool_hydra_ssh,
-    "13": tool_pipeline,
-    "14": view_report,
+    "13": tool_hydra_http_form,
+    "14": tool_pipeline,
+    "15": view_report,
 }
 
 
